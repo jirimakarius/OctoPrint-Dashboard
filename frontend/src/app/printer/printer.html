@@ -1,16 +1,9 @@
-<md-list-item class="md-2-line" ng-class="{blue: $ctrl.data.checked}">
-    <div class="md-list-item-text">
-      <h3>{{ $ctrl.data.name }}</h3>
-    </div>
-  <md-checkbox ng-model="$ctrl.data.checked"></md-checkbox>
-</md-list-item>
-<md-list-item class="md-3-line" ng-show="$ctrl.data.checked">
-  <div class="md-list-item-text">
-    <md-content layout="row">
-      <p flex="50">Tool: {{ $ctrl.data.temperature.tool }}</p>
-      <p flex>Bed: {{ $ctrl.data.temperature.bed }}</p>
-    </md-content>
-
-  </div>
-
-</md-list-item>
+<h3>{{ $ctrl.data.name }}</h3>
+<md-content layout="row">
+  <p flex="50">Tool: {{ $ctrl.data.temperature.tool }}</p>
+  <p flex>Bed: {{ $ctrl.data.temperature.bed }}</p>
+</md-content>
+<md-content layout="row">
+  <md-button class="md-raised" sv-handle>Drag</md-button>
+  <md-checkbox ng-model="$ctrl.data.checked" aria-label="Checked"></md-checkbox>
+</md-content>
