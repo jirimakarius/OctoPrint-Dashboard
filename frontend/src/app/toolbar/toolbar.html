@@ -1,0 +1,14 @@
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <div ng-if="!$ctrl.isAuthenticated()">
+      <md-button class="md-raised" aria-label="Login" ng-click="$ctrl.login()">
+        Login
+      </md-button>
+    </div>
+    <div ng-if="$ctrl.isAuthenticated()">
+      <md-button class="md-raised" aria-label="Logout" ng-click="$ctrl.logout()">
+        Logout
+      </md-button>
+    </div>
+  </div>
+</md-toolbar>
