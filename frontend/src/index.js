@@ -15,6 +15,7 @@ import 'angular-material/angular-material.css';
 import 'angular-resource';
 import 'angular-sortable-view';
 import 'satellizer';
+import 'ng-file-upload';
 import routesConfig from './routes';
 
 import './index.css';
@@ -22,7 +23,7 @@ import './index.css';
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view'])
+  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload'])
   .config(routesConfig)
   .component('main', main)
   .component('toolbar', toolbar)

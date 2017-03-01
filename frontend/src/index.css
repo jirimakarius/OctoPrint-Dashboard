@@ -1,5 +1,5 @@
 control {
-  padding: 24px;
+  /*padding: 24px;*/
 }
 
 sidebar {
@@ -18,6 +18,10 @@ printer {
   border: 1px solid #e3e3e3;
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+
+.temperature-input{
+  width: 4em;
 }
 
 .blue {

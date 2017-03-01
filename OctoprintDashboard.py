@@ -21,5 +21,12 @@ def auth():
     return 'parek',200
 
 
+@app.route('/api/upload', methods=['PUT'])
+def upload():
+    print(request.data)
+    for i in request.files.keys():
+        print(i)
+    return 'parek',201
+
 if __name__ == '__main__':
     app.run(port=3000)

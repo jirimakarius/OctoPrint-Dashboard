@@ -12,4 +12,31 @@ angular.module('restServices', [])
       return printerStatus.get({printerId}).$promise;
     }
   };
+})
+/** @ngInject */
+.factory('Files', $resource => {
+  return {
+    uploadFile: (file, printerId) => {
+      const data = new FormData();
+      data.append('file', file);
+
+      return $resource('api/upload', {printerId: '@id'}, {
+        update: {
+          method: 'PUT',
+          headers: {'Content-Type': undefined}
+        }
+      }).update({printerId}, data).$promise;
+    },
+    printFile: (file, printerId) => {
+      const data = new FormData();
+      data.append('file', file);
+
+      return $resource('api/uploadPrint', {printerId: '@id'}, {
+        update: {
+          method: 'PUT',
+          headers: {'Content-Type': undefined}
+        }
+      }).update({printerId}, data).$promise;
+    }
+  };
 });

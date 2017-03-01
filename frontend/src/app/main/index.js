@@ -1,5 +1,5 @@
 function MainController() {
-  this.printers = {};
+  this.printers = [];
 }
 
 export const main = {
