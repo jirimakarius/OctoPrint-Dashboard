@@ -12,3 +12,13 @@
     </div>
   </div>
 </md-toolbar>
+<md-content>
+  <md-nav-bar>
+    <md-nav-item md-nav-sref="main" name="main">
+      Home
+    </md-nav-item>
+    <md-nav-item md-nav-sref="admin" name="admin" ng-if="$ctrl.isAuthenticated()">
+      Settings
+    </md-nav-item>
+  </md-nav-bar>
+</md-content>

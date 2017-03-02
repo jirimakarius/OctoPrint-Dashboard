@@ -14,13 +14,19 @@ function ControlController(Files) {
   };
 
   this.uploadPrint = function (file) {
-    Files.printFile(file, getCheckedPrinterId()).then(response => {
-      console.dir(response);
-    });
+    Files.printFile(file, getCheckedPrinterId());
   };
 
   this.upload = function (file) {
     Files.uploadFile(file, getCheckedPrinterId());
+  };
+
+  this.setToolTemperature = function () {
+
+  };
+
+  this.setBedTemperature = function () {
+
   };
 }
 

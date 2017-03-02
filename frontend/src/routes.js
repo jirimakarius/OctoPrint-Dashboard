@@ -9,6 +9,13 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
     .state('main', {
       url: '/',
       template: '<main layout="column" flex></main>'
+    })
+    .state('admin', {
+      url: '/admin',
+      template: '<h1>Nic</h1>',
+      data: {
+        security: true
+      }
     });
 
   $authProvider.oauth2({

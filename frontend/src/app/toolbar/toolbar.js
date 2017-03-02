@@ -1,5 +1,5 @@
 /* @ngInject */
-function ToolbarController($auth) {
+function ToolbarController($auth, $state) {
   this.login = function () {
     // console.dir($auth);
     // $auth.logout();
@@ -18,6 +18,7 @@ function ToolbarController($auth) {
   };
   this.logout = function () {
     $auth.logout();
+    $state.reload();
   };
   this.isAuthenticated = function () {
     return $auth.isAuthenticated();

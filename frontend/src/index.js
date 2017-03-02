@@ -29,4 +29,13 @@ angular
   .component('toolbar', toolbar)
   .component('printer', printer)
   .component('control', control)
-  .component('printerGrid', printerGrid);
+  .component('printerGrid', printerGrid)
+  .run(['$transitions', $transitions => {
+    $transitions.onStart({to: state => angular.isDefined(state.data) && state.data.security === true}, trans => {
+      const $auth = trans.injector().get('$auth');
+
+      if (!$auth.isAuthenticated()) {
+        return trans.router.stateService.target('main');
+      }
+    });
+  }]);

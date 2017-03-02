@@ -1,19 +1,22 @@
-  <md-content>
+<md-content layout="column">
+  <md-content layout-align="center center">
     <md-input-container class="temperature-input">
       <label>Tool</label>
       <input ng-model="$ctrl.tool" type="text">
     </md-input-container>
-    <md-button class="md-raised md-warn">Set</md-button>
+    <md-button class="md-raised md-warn" ng-click="$ctrl.setToolTemperature()">Set</md-button>
   </md-content>
+  <md-content layout-align="center center">
     <md-input-container class="temperature-input">
       <label>Bed</label>
       <input ng-model="$ctrl.bed" type="text">
     </md-input-container>
-    <md-button class="md-raised md-warn">Set</md-button>
+    <md-button class="md-raised md-warn" ng-click="$ctrl.setBedTemperature()">Set</md-button>
   </md-content>
-  <md-button class='md-raised md-primary' ngf-select='$ctrl.uploadPrint($file)'>
+  <md-button class='md-raised md-primary' ngf-select='$ctrl.uploadPrint($file)' flex>
     Print from file
   </md-button>
-  <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)'>
+  <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)' flex>
     Upload file
   </md-button>
+</md-content>
