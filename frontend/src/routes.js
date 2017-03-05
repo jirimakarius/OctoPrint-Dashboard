@@ -12,7 +12,7 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
     })
     .state('admin', {
       url: '/admin',
-      template: '<h1>Nic</h1>',
+      template: '<admin layout="column" flex></admin>',
       data: {
         security: true
       }

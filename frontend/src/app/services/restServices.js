@@ -1,8 +1,8 @@
 angular.module('restServices', [])
 /** @ngInject */
 .factory('Printer', $resource => {
-  const printers = $resource('app/printers.json');
-  const printerStatus = $resource('app/printerStatus.json', {printerId: '@id'});
+  const printers = $resource('app/services/printers.json');
+  const printerStatus = $resource('app/services/printerStatus.json', {printerId: '@id'});
 
   return {
     getPrinters: () => {

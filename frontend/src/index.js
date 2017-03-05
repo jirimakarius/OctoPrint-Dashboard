@@ -5,7 +5,8 @@ import {toolbar} from './app/toolbar/toolbar';
 import {printer} from './app/printer/printer';
 import {control} from './app/control/control';
 import {printerGrid} from './app/printerGrid/printerGrid';
-import './app/restServices';
+import {admin} from './app/admin/admin';
+import './app/services/restServices';
 import 'angular-ui-router';
 import 'angular-animate';
 import 'angular-aria';
@@ -17,6 +18,7 @@ import 'angular-sortable-view';
 import 'satellizer';
 import 'ng-file-upload';
 import routesConfig from './routes';
+import eventListeners from './app/services/eventListeners';
 
 import './index.css';
 
@@ -30,12 +32,5 @@ angular
   .component('printer', printer)
   .component('control', control)
   .component('printerGrid', printerGrid)
-  .run(['$transitions', $transitions => {
-    $transitions.onStart({to: state => angular.isDefined(state.data) && state.data.security === true}, trans => {
-      const $auth = trans.injector().get('$auth');
-
-      if (!$auth.isAuthenticated()) {
-        return trans.router.stateService.target('main');
-      }
-    });
-  }]);
+  .component('admin', admin)
+  .run(eventListeners);

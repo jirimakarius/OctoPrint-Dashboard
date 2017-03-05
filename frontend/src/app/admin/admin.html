@@ -1,0 +1,8 @@
+<md-content layout="row" flex layout-padding>
+  <md-list flex="33" class="border-classic">
+    <md-list-item ng-repeat="printer in $ctrl.printers">
+      <span>{{ printer.name }}</span>
+      <md-checkbox class="md-secondary" ng-model="printer.checked"></md-checkbox>
+    </md-list-item>
+  </md-list>
+</md-content>

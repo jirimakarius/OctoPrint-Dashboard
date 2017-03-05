@@ -1,10 +1,12 @@
-<h3>{{ $ctrl.data.name }}</h3>
-<p>Status: {{ $ctrl.data.status }} </p>
-<md-content layout="row">
-  <p flex="50">Tool: {{ $ctrl.data.temperature.tool }}</p>
-  <p flex>Bed: {{ $ctrl.data.temperature.bed }}</p>
-</md-content>
-<md-content layout="row" layout-align="end center">
-  <md-checkbox ng-model="$ctrl.data.checked" aria-label="Checked"></md-checkbox>
-  <md-button class="md-raised" sv-handle>Drag</md-button>
+<md-content class="printer border-classic">
+  <h3>{{ $ctrl.data.name }}</h3>
+  <p>Status: {{ $ctrl.data.status }} </p>
+  <md-content layout="row">
+    <p flex="50">Tool: {{ $ctrl.data.temperature.tool }}</p>
+    <p flex>Bed: {{ $ctrl.data.temperature.bed }}</p>
+  </md-content>
+  <md-content layout="row" layout-align="end center">
+    <md-checkbox ng-model="$ctrl.data.checked" aria-label="Checked"></md-checkbox>
+    <md-button class="md-raised" sv-handle>Drag</md-button>
+  </md-content>
 </md-content>

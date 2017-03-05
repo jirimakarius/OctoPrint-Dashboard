@@ -9,9 +9,9 @@ function ToolbarController($auth, $state) {
     // console.dir($auth.getPayload());
     // $auth.authenticate('CVUT').then(response => {
     //   console.dir(response);
-    //   // $log.log($auth.isAuthenticated());
-    //   // console.dir($auth.getToken());
-    //   // console.dir($auth.getPayload());
+      // $log.log($auth.isAuthenticated());
+      // console.dir($auth.getToken());
+      // console.dir($auth.getPayload());
     // }).catch(response => {
     //   console.dir(response);
     // });
