@@ -1,10 +1,15 @@
 /** @ngInject */
-function AdminController(Printer) {
+function AdminController(Printer, Group) {
   this.printers = [];
 
   Printer.getPrinters()
     .then(response => {
       this.printers = response.data;
+    });
+
+  Group.getGroups()
+    .then(response => {
+      this.groups = response.data;
     });
 }
 

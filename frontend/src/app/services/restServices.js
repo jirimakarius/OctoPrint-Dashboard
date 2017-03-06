@@ -39,4 +39,15 @@ angular.module('restServices', [])
       }).update({printerId}, data).$promise;
     }
   };
+})
+
+/** @ngInject */
+.factory('Group', $resource => {
+  const groups = $resource('app/services/groups.json');
+
+  return {
+    getGroups: () => {
+      return groups.get().$promise;
+    }
+  };
 });

@@ -1,8 +1,29 @@
 <md-content layout="row" flex layout-padding>
-  <md-list flex="33" class="border-classic">
-    <md-list-item ng-repeat="printer in $ctrl.printers">
-      <span>{{ printer.name }}</span>
-      <md-checkbox class="md-secondary" ng-model="printer.checked"></md-checkbox>
-    </md-list-item>
-  </md-list>
+  <md-content layout="column" flex="33">
+    <md-content layout="row" layout-align="space-between center">
+      <md-button flex="33">
+        Add printer
+      </md-button>
+      <md-button flex="33">
+        Remove printers
+      </md-button>
+      <md-button flex>
+        Settings
+      </md-button>
+    </md-content>
+    <md-list class="border-classic" ng-if="$ctrl.printers">
+      <md-list-item ng-repeat="printer in $ctrl.printers">
+        <span>{{ printer.name }}</span>
+        <md-checkbox class="md-secondary" ng-model="printer.checked"></md-checkbox>
+      </md-list-item>
+    </md-list>
+  </md-content>
+  <md-content layout="column" flex="50">
+    <md-button>
+      Add group
+    </md-button>
+    <md-list class="border-classic" ng-if="$ctrl.groups">
+      <group ng-repeat="group in $ctrl.groups" group="group"></group>
+    </md-list>
+  </md-content>
 </md-content>
