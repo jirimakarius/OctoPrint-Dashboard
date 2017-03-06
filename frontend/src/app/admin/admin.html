@@ -1,13 +1,13 @@
 <md-content layout="row" flex layout-padding>
-  <md-content layout="column" flex="33">
+  <md-content layout="column" flex="50">
     <md-content layout="row" layout-align="space-between center">
-      <md-button flex="33">
+      <md-button flex="33" class="md-raised md-primary" ng-click="$ctrl.addPrinter()" ng-disabled="true">
         Add printer
       </md-button>
-      <md-button flex="33">
+      <md-button flex="33" class="md-raised md-primary" ng-click="$ctrl.removePrinters()">
         Remove printers
       </md-button>
-      <md-button flex>
+      <md-button flex class="md-raised md-primary" ng-click="$ctrl.showSettings()">
         Settings
       </md-button>
     </md-content>
@@ -19,9 +19,11 @@
     </md-list>
   </md-content>
   <md-content layout="column" flex="50">
-    <md-button>
-      Add group
-    </md-button>
+    <md-content layout="row" layout-align="end center">
+      <md-button flex="33" class="md-primary md-raised" ng-click="$ctrl.addGroup()">
+        Add group
+      </md-button>
+    </md-content>
     <md-list class="border-classic" ng-if="$ctrl.groups">
       <group ng-repeat="group in $ctrl.groups" group="group"></group>
     </md-list>
