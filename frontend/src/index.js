@@ -7,6 +7,10 @@ import {control} from './app/control/control';
 import {printerGrid} from './app/printerGrid/printerGrid';
 import {admin} from './app/admin/admin';
 import {group} from './app/group/group';
+import {addPrinter} from './app/admin/addPrinter/addPrinter';
+import {addGroup} from './app/admin/addGroup/addGroup';
+import {groupSettings} from './app/group/groupSettings/groupSettings';
+
 import './app/services/restServices';
 import 'angular-ui-router';
 import 'angular-animate';
@@ -35,4 +39,7 @@ angular
   .component('printerGrid', printerGrid)
   .component('admin', admin)
   .component('group', group)
+  .component('addPrinter', addPrinter)
+  .component('addGroup', addGroup)
+  .component('groupSettings', groupSettings)
   .run(eventListeners);

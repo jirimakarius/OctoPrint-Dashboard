@@ -10,10 +10,19 @@
   background-color: white;
 }
 
+body > .md-dialog-container {
+  height: 100vh !important;
+}
+
+
 .border-classic {
   border: 1px solid #e3e3e3;
   border-radius: 4px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+}
+
+.button {
+  width: 33%;
 }
 
 .temperature-input{

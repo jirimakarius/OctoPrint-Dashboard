@@ -1,26 +1,26 @@
 <md-content layout="row" flex layout-padding>
   <md-content layout="column" flex="50">
     <md-content layout="row" layout-align="space-between center">
-      <md-button flex="33" class="md-raised md-primary" ng-click="$ctrl.addPrinter()" ng-disabled="true">
+      <md-button class="button md-raised md-primary" ng-click="$ctrl.addPrinter($event)" ng-disabled="false">
         Add printer
       </md-button>
-      <md-button flex="33" class="md-raised md-primary" ng-click="$ctrl.removePrinters()">
+      <md-button class="button md-raised md-primary" ng-click="$ctrl.removePrinters()" ng-disabled="!($ctrl.printers | filter: {checked: true}).length">
         Remove printers
       </md-button>
-      <md-button flex class="md-raised md-primary" ng-click="$ctrl.showSettings()">
+      <md-button class="button md-raised md-primary" ng-click="$ctrl.showSettings()" ng-disabled="!($ctrl.printers | filter: {checked: true}).length">
         Settings
       </md-button>
     </md-content>
     <md-list class="border-classic" ng-if="$ctrl.printers">
       <md-list-item ng-repeat="printer in $ctrl.printers">
         <span>{{ printer.name }}</span>
-        <md-checkbox class="md-secondary" ng-model="printer.checked"></md-checkbox>
+        <md-checkbox class="md-secondary" ng-model="printer.checked" aria-label="Checked {{ printer.name }}"></md-checkbox>
       </md-list-item>
     </md-list>
   </md-content>
   <md-content layout="column" flex="50">
     <md-content layout="row" layout-align="end center">
-      <md-button flex="33" class="md-primary md-raised" ng-click="$ctrl.addGroup()">
+      <md-button class="button md-primary md-raised" ng-click="$ctrl.addGroup($event)" ng-disabled="false">
         Add group
       </md-button>
     </md-content>
