@@ -2,23 +2,22 @@
 function AdminController(Printer, Group, $mdDialog, $document) {
   this.addPrinter = function ($event) {
     $mdDialog.show({
-      template: '<add-printer></add-printer>',
+      template: '<md-dialog><add-printer></add-printer></md-dialog>',
       parent: angular.element($document.body),
       targetEvent: $event,
-      // scope: $scope,
-      // preserveScope: true,
+      preserveScope: true,
       clickOutsideToClose: true,
-      fullscreen: true
+      fullscreen: true,
+      autoWrap: false
     });
   };
 
   this.addGroup = function ($event) {
     $mdDialog.show({
-      template: '<add-group></add-group>',
+      template: '<md-dialog><add-group></add-group></md-dialog>',
       parent: angular.element($document.body),
       targetEvent: $event,
-      // scope: $scope,
-      // preserveScope: true,
+      preserveScope: true,
       clickOutsideToClose: true,
       fullscreen: true
     });

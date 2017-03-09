@@ -10,10 +10,10 @@
   background-color: white;
 }
 
-/*body > .md-dialog-container {*/
-  /*height: 100vh !important;*/
-/*}*/
-
+.user-list{
+  height: 10em;
+  overflow-y: scroll
+}
 
 .border-classic {
   border: 1px solid #e3e3e3;

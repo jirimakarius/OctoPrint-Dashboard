@@ -4,7 +4,7 @@ function GroupController($mdDialog, $document) {
 
   this.showSettings = function ($event) {
     $mdDialog.show({
-      template: '<group-settings group="$ctrl.group" printers="$ctrl.printers"></group-settings>',
+      template: '<md-dialog flex="50" style="max-height: 90%"><group-settings group="$ctrl.group" printers="$ctrl.printers" layout="column"></group-settings></md-dialog>',
       parent: angular.element($document.body),
       controller() {
         this.group = $ctrl.group;
@@ -13,7 +13,8 @@ function GroupController($mdDialog, $document) {
       controllerAs: '$ctrl',
       targetEvent: $event,
       clickOutsideToClose: true,
-      fullscreen: true
+      fullscreen: true,
+      autoWrap: false
     });
   };
 }

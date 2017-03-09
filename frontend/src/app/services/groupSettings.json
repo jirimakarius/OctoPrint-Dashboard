@@ -15,5 +15,16 @@
       "name": "Printer 245"
     }
   ],
-  "users": []
+  "users": [
+    {
+      "id": 2,
+      "username": "Párek",
+      "role": "user"
+    },
+    {
+      "id": 4,
+      "username": "jshdhadj",
+      "role": "admin"
+    }
+  ]
 }

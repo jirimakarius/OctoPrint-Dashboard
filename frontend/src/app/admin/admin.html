@@ -1,6 +1,6 @@
 <md-content layout="row" flex layout-padding>
   <md-content layout="column" flex="50">
-    <md-content layout="row" layout-align="space-between center">
+    <section layout="row" layout-align="space-between center">
       <md-button class="button md-raised md-primary" ng-click="$ctrl.addPrinter($event)" ng-disabled="false">
         Add printer
       </md-button>
@@ -10,22 +10,26 @@
       <md-button class="button md-raised md-primary" ng-click="$ctrl.showSettings()" ng-disabled="!($ctrl.printers | filter: {checked: true}).length">
         Settings
       </md-button>
+    </section>
+    <md-content flex>
+      <md-list class="border-classic" ng-if="$ctrl.printers">
+        <md-list-item ng-repeat="printer in $ctrl.printers">
+          <span>{{ printer.name }}</span>
+          <md-checkbox class="md-secondary" ng-model="printer.checked" aria-label="Checked {{ printer.name }}"></md-checkbox>
+        </md-list-item>
+      </md-list>
     </md-content>
-    <md-list class="border-classic" ng-if="$ctrl.printers">
-      <md-list-item ng-repeat="printer in $ctrl.printers">
-        <span>{{ printer.name }}</span>
-        <md-checkbox class="md-secondary" ng-model="printer.checked" aria-label="Checked {{ printer.name }}"></md-checkbox>
-      </md-list-item>
-    </md-list>
   </md-content>
   <md-content layout="column" flex="50">
-    <md-content layout="row" layout-align="end center">
+    <section layout="row" layout-align="end center">
       <md-button class="button md-primary md-raised" ng-click="$ctrl.addGroup($event)" ng-disabled="false">
         Add group
       </md-button>
+    </section>
+    <md-content flex>
+      <md-list class="border-classic" ng-if="$ctrl.groups">
+        <group ng-repeat="group in $ctrl.groups" group="group" printers="$ctrl.printers"></group>
+      </md-list>
     </md-content>
-    <md-list class="border-classic" ng-if="$ctrl.groups">
-      <group ng-repeat="group in $ctrl.groups" group="group" printers="$ctrl.printers"></group>
-    </md-list>
   </md-content>
 </md-content>

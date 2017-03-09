@@ -27,24 +27,28 @@
         <span>{{$chip.name}}</span>
     </md-chip-template>
   </md-chips>
-  <md-list flex>
-    <md-list-item class="parek" ng-repeat="user in $ctrl.group.users">
-      <p class="md-caption" flex>{{ user.username }}</p>
-      <md-select ng-model="user.role" class="md-no-underline">
-        <md-option value="admin">Admin</md-option>
-        <md-option value="user">User</md-option>
-      </md-select>
-      <md-button class="md-icon-button" ng-click="$ctrl.removeUser($index)">
-        <md-icon aria-label="Remove user">close</md-icon>
-      </md-button>
-    </md-list-item>
-    <form id="addUser" autocomplete="off" ng-submit="$ctrl.addUser()">
-      <md-input-container>
-        <label>Ad user</label>
-        <input id="username" name="username" type="text" ng-model="$ctrl.username" autofocus />
-      </md-input-container>
-    </form>
-  </md-list>
+  <md-content class="user-list" layout="column">
+    <md-list layout="column">
+      <md-list-item class="parek" ng-repeat="user in $ctrl.group.users">
+        <p class="md-caption" flex>{{ user.username }}</p>
+        <md-select ng-model="user.role" class="md-no-underline">
+          <md-option value="admin">Admin</md-option>
+          <md-option value="user">User</md-option>
+        </md-select>
+        <md-button class="md-icon-button" ng-click="$ctrl.removeUser($index)">
+          <md-icon aria-label="Remove user">close</md-icon>
+        </md-button>
+      </md-list-item>
+    </md-list>
+  </md-content>
+
+  <form id="addUser" autocomplete="off" ng-submit="$ctrl.addUser()">
+    <md-input-container>
+      <label>Add username</label>
+      <input id="username" name="username" type="text" ng-model="$ctrl.username" autofocus />
+    </md-input-container>
+  </form>
+  <div flex></div>
 </div>
 <md-dialog-actions layout="row">
   <span flex></span>
