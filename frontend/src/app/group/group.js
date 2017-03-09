@@ -4,10 +4,11 @@ function GroupController($mdDialog, $document) {
 
   this.showSettings = function ($event) {
     $mdDialog.show({
-      template: '<group-settings group="$ctrl.group"></group-settings>',
+      template: '<group-settings group="$ctrl.group" printers="$ctrl.printers"></group-settings>',
       parent: angular.element($document.body),
       controller() {
         this.group = $ctrl.group;
+        this.printers = $ctrl.printers;
       },
       controllerAs: '$ctrl',
       targetEvent: $event,
@@ -21,6 +22,7 @@ export const group = {
   template: require('./group.html'),
   controller: GroupController,
   bindings: {
-    group: '='
+    group: '=',
+    printers: '='
   }
 };

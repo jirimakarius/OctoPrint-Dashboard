@@ -1,0 +1,19 @@
+{
+  "id": 1,
+  "name": "Group 1",
+  "printers": [
+    {
+      "id": 1,
+      "name": "Printer 1"
+    },
+    {
+      "id": 5,
+      "name": "Printer 2"
+    },
+    {
+      "id": 2,
+      "name": "Printer 245"
+    }
+  ],
+  "users": []
+}

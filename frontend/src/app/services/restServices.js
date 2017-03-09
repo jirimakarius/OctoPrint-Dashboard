@@ -44,10 +44,14 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('Group', $resource => {
   const groups = $resource('app/services/groups.json');
+  const groupSettings = $resource('app/services/groupSettings.json', {groupId: '@id'});
 
   return {
     getGroups: () => {
       return groups.get().$promise;
+    },
+    getGroupSettings: groupId => {
+      return groupSettings.get({groupId}).$promise;
     }
   };
 });

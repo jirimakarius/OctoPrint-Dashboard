@@ -12,15 +12,43 @@
     <label>Name</label>
     <input ng-model="$ctrl.name">
   </md-input-container>
-  <md-input-container>
-    <label>Api key</label>
-    <input ng-model="$ctrl.apikey">
-  </md-input-container>
+  <md-chips ng-model="$ctrl.group.printers" md-autocomplete-snap
+            md-transform-chip="$ctrl.transformChip($chip)"
+            md-require-match="true">
+    <md-autocomplete
+      md-selected-item="$ctrl.selectedItem"
+      md-search-text="$ctrl.searchText"
+      md-items="printer in $ctrl.querySearch($ctrl.searchText)"
+      md-item-text="printer.name"
+      placeholder="Search for a printer">
+      <span md-highlight-text="$ctrl.searchText">{{printer.name}}</span>
+    </md-autocomplete>
+    <md-chip-template>
+        <span>{{$chip.name}}</span>
+    </md-chip-template>
+  </md-chips>
+  <md-list flex>
+    <md-list-item class="parek" ng-repeat="user in $ctrl.group.users">
+      <p class="md-caption" flex>{{ user.username }}</p>
+      <md-select ng-model="user.role" class="md-no-underline">
+        <md-option value="admin">Admin</md-option>
+        <md-option value="user">User</md-option>
+      </md-select>
+      <md-button class="md-icon-button" ng-click="$ctrl.removeUser($index)">
+        <md-icon aria-label="Remove user">close</md-icon>
+      </md-button>
+    </md-list-item>
+    <form id="addUser" autocomplete="off" ng-submit="$ctrl.addUser()">
+      <md-input-container>
+        <label>Ad user</label>
+        <input id="username" name="username" type="text" ng-model="$ctrl.username" autofocus />
+      </md-input-container>
+    </form>
+  </md-list>
 </div>
-
 <md-dialog-actions layout="row">
   <span flex></span>
-  <md-button ng-click="$ctrl.submit()">
+  <md-button class="md-primary md-raised" ng-click="$ctrl.submit()">
     Submit
   </md-button>
 </md-dialog-actions>

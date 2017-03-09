@@ -10,9 +10,9 @@
   background-color: white;
 }
 
-body > .md-dialog-container {
-  height: 100vh !important;
-}
+/*body > .md-dialog-container {*/
+  /*height: 100vh !important;*/
+/*}*/
 
 
 .border-classic {
@@ -29,27 +29,7 @@ body > .md-dialog-container {
   width: 4em;
 }
 
-.blue {
-  background-color: dodgerblue;
-}
-
-.box3, .box2, .box1 {
-  display:flex;
-  box-sizing: border-box;
-  min-width:100%;
-}
-
-.box1 {
-  max-height:70%;
-  flex:1 1 70%;
-}
-
-.box2 {
-  height:20px;
-}
-
-.box3 {
-  height:30%;
-  max-height:30%;
-  flex:1 1 30%;
+.parek {
+  min-height: 20px;
+  height: 25px;
 }

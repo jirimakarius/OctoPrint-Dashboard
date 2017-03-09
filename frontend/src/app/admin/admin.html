@@ -25,7 +25,7 @@
       </md-button>
     </md-content>
     <md-list class="border-classic" ng-if="$ctrl.groups">
-      <group ng-repeat="group in $ctrl.groups" group="group"></group>
+      <group ng-repeat="group in $ctrl.groups" group="group" printers="$ctrl.printers"></group>
     </md-list>
   </md-content>
 </md-content>

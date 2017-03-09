@@ -1,8 +1,5 @@
 /** @ngInject */
 function AdminController(Printer, Group, $mdDialog, $document) {
-  this.printers = [];
-  // const $ctrl=this;
-
   this.addPrinter = function ($event) {
     $mdDialog.show({
       template: '<add-printer></add-printer>',
