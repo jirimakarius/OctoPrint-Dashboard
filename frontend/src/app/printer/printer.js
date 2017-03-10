@@ -4,7 +4,7 @@ function PrinterController(Printer, $interval) {
   this.$onInit = function () {
     $interval(() => {
       if ($ctrl.data.checked) {
-        Printer.getPrinterStatus($ctrl.data.name)
+        Printer.getPrinterStatus($ctrl.data.id)
           .then(response => {
             angular.extend($ctrl.data, response);
           });

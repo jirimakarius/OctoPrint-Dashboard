@@ -1,0 +1,15 @@
+{
+  "mock": {
+    "ENV": {
+      "api": "https://private-b4bd6-octoprintdashboardapi.apiary-mock.com"
+    }
+  },
+  "local": {
+    "ENV": {
+      "api": "https://localhost:5000"
+    }
+  },
+  "production": {
+    "ENV": {}
+  }
+}

@@ -1,7 +1,16 @@
 /** @ngInject */
-function Controller($mdDialog) {
+function Controller($mdDialog, Group) {
+  const $ctrl = this;
+
   this.cancel = function () {
     $mdDialog.cancel();
+  };
+
+  this.submit = function () {
+    Group.addGroup($ctrl.name)
+      .then(() => {
+        $mdDialog.hide();
+      });
   };
 }
 

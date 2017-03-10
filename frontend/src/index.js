@@ -12,6 +12,7 @@ import {addGroup} from './app/admin/addGroup/addGroup';
 import {groupSettings} from './app/group/groupSettings/groupSettings';
 
 import './app/services/restServices';
+import './config';
 import 'angular-ui-router';
 import 'angular-animate';
 import 'angular-aria';
@@ -30,7 +31,7 @@ import './index.css';
 export const app = 'app';
 
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload'])
+  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config'])
   .config(routesConfig)
   .component('main', main)
   .component('toolbar', toolbar)

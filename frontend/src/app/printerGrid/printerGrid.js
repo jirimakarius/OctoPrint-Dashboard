@@ -3,7 +3,7 @@ function PrinterGridController(Printer) {
   const $ctrl = this;
 
   Printer.getPrinters().then(response => {
-    $ctrl.printers = response.data;
+    $ctrl.printers = response;
   });
 }
 
