@@ -18,7 +18,7 @@ exports.ngModule = 'app';
  */
 exports.paths = {
   src: 'src',
-  dist: '../dist',
+  dist: '../octoprint_dashboard/dist',
   tmp: '.tmp',
   e2e: 'e2e',
   tasks: 'gulp_tasks',
