@@ -6,3 +6,5 @@ frontend/dist/
 frontend/node_modules/
 config.js
 __pycache__
+env
+*.egg-info
