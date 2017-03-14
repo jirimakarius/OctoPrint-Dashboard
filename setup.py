@@ -10,6 +10,6 @@ setup(
     zip_safe=False,
     url='',
     install_requires=[
-        'Flask', 'requests', 'jwt'
+        'Flask', 'requests', 'jwt', 'Flask-SQLAlchemy'
     ]
 )

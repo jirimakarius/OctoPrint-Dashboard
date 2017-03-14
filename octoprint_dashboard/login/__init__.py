@@ -1,2 +1,2 @@
-from .Neco import Neco
+from .loginService import LoginService
 from .decorators import login_required

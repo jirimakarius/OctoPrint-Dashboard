@@ -8,3 +8,4 @@ config.js
 __pycache__
 env
 *.egg-info
+*.db
