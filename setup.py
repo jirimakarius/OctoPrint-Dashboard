@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='octoprint_dashboard',
@@ -10,6 +10,6 @@ setup(
     zip_safe=False,
     url='',
     install_requires=[
-        'Flask', 'requests', 'jwt', 'Flask-SQLAlchemy'
+        'flask', 'requests', 'jwt', 'flask-sqlalchemy', 'flask-restful'
     ]
 )

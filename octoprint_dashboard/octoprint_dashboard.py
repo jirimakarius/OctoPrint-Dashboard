@@ -38,4 +38,3 @@ def upload():
     for i in request.files.keys():
         print(i)
     return 'parek', 201
-
