@@ -1,14 +1,15 @@
-from flask import session, request
+from flask import request, g
 
 from octoprint_dashboard import app
-from octoprint_dashboard.login import LoginService
+from octoprint_dashboard.login import login_required
+from octoprint_dashboard.services import LoginService
+from octoprint_dashboard.model import User
 import requests
 
 
 @app.route('/auth', methods=['POST'])
 def auth():
     data = request.json
-    print(data)
     if "code" not in data:
         return "", 400
 
@@ -18,8 +19,16 @@ def auth():
 
     except requests.RequestException:
         return "", 400
-    session["user"] = access_response.get("access_token")
-    print(access_response)
-    print(check_response)
-    token = LoginService.create_token(check_response.get("user_name"))
+    User.upsert(check_response.get("user_name"), access_response.get("access_token"), access_response.get("refresh_token"))
+
+    token = LoginService.create_api_token(check_response.get("user_name"))
+    print(token)
+    return token, 200
+
+
+@app.route('/auth/refresh', methods=['GET'])
+@login_required
+def auth_refresh():
+    token = LoginService.create_api_token(g.user.username)
+
     return token, 200

@@ -15,7 +15,7 @@ class LoginService:
         'utf-8')
 
     @staticmethod
-    def create_token(username):
+    def create_api_token(username):
         payload = {
             'sub': username,
             'iat': datetime.utcnow(),
@@ -23,6 +23,11 @@ class LoginService:
         }
         token = jwt.encode(payload, app.config["SECRET_KEY"], algorithm="HS256")
         return token.decode('unicode_escape')
+
+    @staticmethod
+    def parse_api_token(request):
+        token = request.headers.get('Authorization').split()[1]
+        return jwt.decode(token, app.config['SECRET_KEY'])
 
     @staticmethod
     def get_access_code(code):
