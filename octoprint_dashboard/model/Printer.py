@@ -1,4 +1,5 @@
 from octoprint_dashboard import db
+from octoprint_dashboard.model import Group
 
 printer_group = db.Table('printer_group',
                          db.Column('printer_id', db.Integer, db.ForeignKey('printer.id')),
@@ -10,8 +11,8 @@ class Printer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     apikey = db.Column(db.String(80))
-    groups = db.relationship('Group', secondary=printer_group,
-                             backref=db.backref('printers', lazy='dynamic'))
+    group = db.relationship(Group, secondary=printer_group,
+                             backref=db.backref('printer', lazy='dynamic'), lazy="dynamic")
 
     def __init__(self, name, apikey):
         self.name = name

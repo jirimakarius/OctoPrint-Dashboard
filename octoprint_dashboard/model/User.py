@@ -1,6 +1,5 @@
 from octoprint_dashboard import db
 from sqlalchemy.ext.associationproxy import association_proxy
-from octoprint_dashboard.model import Group, GroupUser
 
 
 class User(db.Model):
@@ -22,11 +21,13 @@ class User(db.Model):
 
     @staticmethod
     def upsert(username, access_token, refresh_token):
+        from octoprint_dashboard.model import Group, GroupUser
+
         user = User.query.filter_by(username=username).scalar()
         if user is None:
             user = User(username, access_token, refresh_token)
-            user["group_user"].append(GroupUser(Group("default"), user))
-            db.session.add()
+            user.group_user.append(GroupUser(group=Group("default"), user=user))
+            db.session.add(user)
         else:
             user.access_token = access_token
             user.refresh_token = refresh_token

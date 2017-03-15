@@ -1,6 +1,5 @@
 from octoprint_dashboard import db
-from .User import User
-from .Group import Group
+from octoprint_dashboard.model import User, Group
 
 
 class GroupUser(db.Model):
@@ -10,8 +9,8 @@ class GroupUser(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
     role = db.Column(db.String(80), nullable=False, default="user")
 
-    group = db.relationship(Group, backref="group_user")
-    user = db.relationship(User, backref="group_user")
+    group = db.relationship("Group", backref=db.backref("group_user", lazy="dynamic"))
+    user = db.relationship("User", backref=db.backref("group_user", lazy="dynamic"))
 
     def __init__(self, group=None, user=None, role="user"):
         self.group = group
