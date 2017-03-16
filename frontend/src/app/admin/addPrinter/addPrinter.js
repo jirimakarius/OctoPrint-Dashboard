@@ -7,7 +7,7 @@ function Controller($mdDialog, Printer) {
   };
 
   this.submit = function () {
-    Printer.addPrinter({name: $ctrl.name, apikey: $ctrl.apikey})
+    Printer.addPrinter({name: $ctrl.name, apikey: $ctrl.apikey, ip: $ctrl.ip})
       .then(() => {
         $mdDialog.hide();
       });

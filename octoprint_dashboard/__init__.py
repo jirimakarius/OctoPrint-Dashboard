@@ -18,9 +18,8 @@ import octoprint_dashboard.api
 
 
 @app.route('/')
+@app.route('/admin')
 def frontend():
-    # return "Hello"
-    # return render_template('index.html')
     return send_from_directory('dist', 'index.html')
 
 
@@ -29,10 +28,7 @@ def neco(text):
     return send_from_directory('dist', text + ".js")
 
 
-
-
-
-@app.route('/api/upload', methods=['PUT'])
+@app.route('/uploadtest', methods=['POST'])
 def upload():
     print(request.data)
     for i in request.files.keys():

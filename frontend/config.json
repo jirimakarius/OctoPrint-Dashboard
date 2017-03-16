@@ -6,7 +6,7 @@
   },
   "local": {
     "ENV": {
-      "api": "https://localhost:5000"
+      "api": "http://localhost:3000"
     }
   },
   "production": {
