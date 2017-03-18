@@ -37,7 +37,7 @@ angular.module('restServices', [])
       const data = new FormData();
       data.append('file', file);
 
-      return $resource(`${ENV.api}/uploadprint`, {printerId: '@id'}, {
+      return $resource(`${ENV.api}/upload`, {printerId: '@id', print: true}, {
         upload: {
           method: 'POST',
           headers: {'Content-Type': undefined}
