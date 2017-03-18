@@ -10,6 +10,6 @@ setup(
     zip_safe=False,
     url='',
     install_requires=[
-        'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful'
+        'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful', 'apscheduler'
     ]
 )

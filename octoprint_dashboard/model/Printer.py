@@ -15,6 +15,8 @@ class Printer(db.Model):
     group = db.relationship(Group, secondary=printer_group,
                              backref=db.backref('printer', lazy='dynamic'), lazy="dynamic")
 
+    states={}
+
     def __init__(self, name, apikey, ip):
         self.name = name
         self.apikey = apikey
