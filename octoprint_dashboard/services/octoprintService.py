@@ -43,13 +43,22 @@ class OctoprintService:
 
     @staticmethod
     def inject_printer_state(printer: Printer):
-        # response = OctoprintService.get_printer_state(printer)
-        # Printer.states[printer.id] = response.json()
-        Printer.states[printer.id] = {
-            "temperature": {
-                "tool": random.randint(0, 500),
-                "bed": random.randint(0, 300)
-            },
-            "state": "Operational"
-        }
-        # print(printer.id)
+        try:
+            response = OctoprintService.get_printer_state(printer)
+            # print(response.text)
+            if response.status_code == 401:
+                Printer.states[printer.id] = {"state": {"text": "Invalid API key"}}
+            elif response.status_code == 409:
+                Printer.states[printer.id] = {"state": {"text": "Offline"}}
+            else:
+                Printer.states[printer.id] = response.json()
+        except requests.exceptions.ConnectionError:
+            Printer.states[printer.id] = {"state": {"text": "Offline/Unreachable"}}
+            # Printer.states[printer.id] = {
+            #     "temperature": {
+            #         "tool": random.randint(0, 500),
+            #         "bed": random.randint(0, 300)
+            #     },
+            #     "state": "Operational"
+            # }
+            # print(printer.id)

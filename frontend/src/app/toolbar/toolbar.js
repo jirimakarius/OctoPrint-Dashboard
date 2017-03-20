@@ -8,7 +8,7 @@ function ToolbarController($auth, $state) {
     // console.dir($auth.getToken());
     // console.dir($auth.getPayload());
     $auth.authenticate('CVUT').then(response => {
-      console.dir(response);
+    //   console.dir(response);
       $auth.setToken(response.data);
       // $log.log($auth.isAuthenticated());
       console.dir($auth.getPayload());

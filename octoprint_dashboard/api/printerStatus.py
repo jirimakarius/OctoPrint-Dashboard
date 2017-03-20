@@ -11,22 +11,30 @@ parser.add_argument('apikey', type=str, required=True, help='Apikey can\'t be co
 parser.add_argument('ip', type=str, required=True, help='ip can\'t be converted')
 
 
-class PrinterStatusApi(Resource):
-    # @login_required
+class PrinterStatusIdApi(Resource):
+    @login_required
     @marshal_with({
         'temperature': fields.Nested({
-            'bed': fields.Integer,
-            'tool': fields.Integer
+            'bed': fields.Integer(attribute="bed.actual"),
+            'tool': fields.Integer(attribute="tool0.actual")
         }),
-        'state': fields.String
+        'state': fields.String(attribute="state.text")
     })
     def get(self, printer_id):
-        # printer = Printer.query.get(printer_id)
         state = Printer.states.get(printer_id)
-        print(state)
-        # state = Printer.states[printer_id]
-        # response = OctoprintService.get_printer_state(printer)
-        # print(response.text)
-        # print(response.status_code)
         return state, 200
 
+
+class PrinterStatusApi(Resource):
+    @login_required
+    @marshal_with({
+        'temperature': fields.Nested({
+            'bed': fields.Integer(attribute="bed.actual"),
+            'tool': fields.Integer(attribute="tool0.actual")
+        }),
+        'state': fields.String(attribute="state.text")
+    })
+    def get(self):
+        printers = g.user.get_accessible_printers()
+        states = [Printer.states.get(x.id) for x in printers]
+        return states, 200
