@@ -1,16 +1,7 @@
 /* @ngInject */
-function PrinterController(Printer, $interval) {
-  const $ctrl = this;
-  this.$onInit = function () {
-    $interval(() => {
-      if ($ctrl.data.checked) {
-        Printer.getPrinterStatus($ctrl.data.id)
-          .then(response => {
-            angular.extend($ctrl.data, response);
-          });
-      }
-    }, 5000);
-  };
+function PrinterController() {
+  // const $ctrl = this;
+
 }
 
 export const printer = {

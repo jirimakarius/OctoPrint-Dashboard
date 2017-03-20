@@ -1,9 +1,9 @@
 <md-content class="printer border-classic">
   <h3>{{ $ctrl.data.name }}</h3>
-  <p>State: {{ $ctrl.data.state }} </p>
+  <p>State: {{ $ctrl.data.state.state }} </p>
   <md-content layout="row">
-    <p flex="50">Tool: {{ $ctrl.data.temperature.tool }}</p>
-    <p flex>Bed: {{ $ctrl.data.temperature.bed }}</p>
+    <p flex="50">Tool: {{ $ctrl.data.state.temperature.tool }}</p>
+    <p flex>Bed: {{ $ctrl.data.state.temperature.bed }}</p>
   </md-content>
   <md-content layout="row" layout-align="end center">
     <md-checkbox ng-model="$ctrl.data.checked" aria-label="Checked"></md-checkbox>

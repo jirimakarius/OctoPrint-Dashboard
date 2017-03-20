@@ -1,31 +1,37 @@
 import requests
 from octoprint_dashboard.model import Printer
+from octoclient import OctoClient
 import random
 
 
 class OctoprintService:
     @staticmethod
-    def get_version(apikey, ip):
-        return requests.get('http://{0}/api/version'.format(ip), headers={
-            'X-Api-Key': apikey
-        })
+    def auth(apikey, url):
+        try:
+            OctoClient(url=url, apikey=apikey)
+        except RuntimeError as e:
+            return e.args[0]
+        except requests.ConnectionError:
+            return "Invalid ip address"
+        return None
 
     @staticmethod
     def get_connection(printer: Printer):
-        return requests.get('http://{0}/api/connection'.format(printer.ip), headers={
-            'X-Api-Key': printer.apikey
-        })
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.connection_info()
+        # return requests.get('http://{0}/api/connection'.format(printer.ip), headers={
+        #     'X-Api-Key': printer.apikey
+        # })
 
     @staticmethod
-    def send_file(printer: Printer, file):
-        # 'http://{0}/api/files/local'.format(printer.ip)
-        # , 'select': "true", 'print': "true"
-        # 'https://private-b4bd6-octoprintdashboardapi.apiary-mock.com/upload'
-        return requests.post('http://{0}/api/files/local'.format(printer.ip),
-                             files={'file': (file.filename, file.read(), 'application/octet-stream')},
-                             headers={
-                                 'X-Api-Key': printer.apikey
-                             })
+    def send_file(printer: Printer, file, print: bool):
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.upload((file.filename, file.read()), print=print)
+        # return requests.post('http://{0}/api/files/local'.format(printer.ip),
+        #                      files={'file': (file.filename, file.read(), 'application/octet-stream')},
+        #                      headers={
+        #                          'X-Api-Key': printer.apikey
+        #                      })
 
     @staticmethod
     def send_file_print(printer: Printer, file):
@@ -37,28 +43,38 @@ class OctoprintService:
 
     @staticmethod
     def get_printer_state(printer: Printer):
-        return requests.get('http://{0}/api/printer'.format(printer.ip), headers={
-            'X-Api-Key': printer.apikey
-        })
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        status = client.printer()
+        if status["state"]["text"]=="Printing":
+            job_info = client.job_info()
+            status["job"]=job_info["job"]
+            status["progress"]= job_info["progress"]
+        return status
+        # return requests.get('http://{0}/api/printer'.format(printer.ip), headers={
+        #     'X-Api-Key': printer.apikey
+        # })
 
     @staticmethod
     def inject_printer_state(printer: Printer):
         try:
             response = OctoprintService.get_printer_state(printer)
-            # print(response.text)
-            if response.status_code == 401:
-                Printer.states[printer.id] = {"state": {"text": "Invalid API key"}}
-            elif response.status_code == 409:
-                Printer.states[printer.id] = {"state": {"text": "Offline"}}
-            else:
-                Printer.states[printer.id] = response.json()
-        except requests.exceptions.ConnectionError:
+            Printer.states[printer.id] = response
+        except requests.ConnectionError:
             Printer.states[printer.id] = {"state": {"text": "Offline/Unreachable"}}
-            # Printer.states[printer.id] = {
-            #     "temperature": {
-            #         "tool": random.randint(0, 500),
-            #         "bed": random.randint(0, 300)
-            #     },
-            #     "state": "Operational"
-            # }
-            # print(printer.id)
+        except RuntimeError:
+            Printer.states[printer.id] = {"state": {"text": "Offline"}}
+
+    @staticmethod
+    def set_tool_temperature(printer: Printer, temperature):
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.tool_target(temperature)
+
+    @staticmethod
+    def set_bed_temperature(printer: Printer, temperature):
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.bed_target(temperature)
+
+    @staticmethod
+    def get_job_info(printer: Printer):
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.job_info()

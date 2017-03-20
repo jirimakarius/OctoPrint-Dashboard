@@ -1,10 +1,28 @@
 /* @ngInject */
-function PrinterGridController(Printer) {
+function PrinterGridController(Printer, $interval, $filter) {
   const $ctrl = this;
 
-  Printer.getPrinters().then(response => {
-    $ctrl.printers = response;
-  });
+  Printer.getPrinterStatus()
+    .then(response => {
+      $ctrl.printers = response;
+    });
+
+  this.$onInit = function () {
+    $interval(() => {
+      Printer.getPrinterStatus()
+        .then(response => {
+          response.forEach(printer => {
+            const oldPrinter = $filter('filter')($ctrl.printers, data => {
+              return printer.id === data.id;
+            });
+            console.dir(oldPrinter);
+            printer.checked = oldPrinter[0].checked;
+          });
+
+          $ctrl.printers = response;
+        });
+    }, 5000);
+  };
 }
 
 export const printerGrid = {

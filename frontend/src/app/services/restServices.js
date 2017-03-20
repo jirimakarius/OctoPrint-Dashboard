@@ -2,7 +2,8 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('Printer', ($resource, ENV) => {
   const printers = $resource(`${ENV.api}/printer`);
-  const printerStatus = $resource(`${ENV.api}/printerStatus/:printerId`, {printerId: '@id'});
+  const printerIdStatus = $resource(`${ENV.api}/printerStatus/:printerId`, {printerId: '@id'});
+  const printerStatus = $resource(`${ENV.api}/printerStatus`);
 
   return {
     getPrinters: () => {
@@ -14,8 +15,11 @@ angular.module('restServices', [])
     removePrinters: printerArray => {
       return printers.save(getCheckedPrinterId(printerArray)).$promise;
     },
-    getPrinterStatus: printerId => {
-      return printerStatus.get({printerId}).$promise;
+    getPrinterIdStatus: printerId => {
+      return printerIdStatus.get({printerId}).$promise;
+    },
+    getPrinterStatus: () => {
+      return printerStatus.query().$promise;
     }
   };
 })

@@ -3,10 +3,16 @@ from octoprint_dashboard import app, db
 from octoprint_dashboard.model import User
 
 
+# @app.cli.command()
+# def initdb():
+#     db.create_all()
+#     click.echo('Init the db')
+
+
 @app.cli.command()
-def initdb():
-    db.create_all()
-    click.echo('Init the db')
+def dropdb():
+    db.drop_all()
+    click.echo('Dropping the db')
 
 
 @app.cli.command()

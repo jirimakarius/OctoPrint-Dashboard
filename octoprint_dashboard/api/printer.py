@@ -29,15 +29,12 @@ class PrinterApi(Resource):
     # @superadmin_required
     def post(self):
         args = parser.parse_args()
+        url = "http://{0}".format(args['ip'])
+        auth = OctoprintService.auth(args['apikey'], url)
+        if auth is not None:
+            return auth, 400
 
-        try:
-            response = OctoprintService.get_version(args['apikey'], args['ip'])
-        except requests.exceptions.ConnectionError:
-            return "Bad IP given, expected format: [localhost:3200]", 400
-        if response.status_code==401:
-            return "Unaccessible printer", 400
-
-        printer = Printer(args["name"], args["apikey"], args['ip'])
+        printer = Printer(args["name"], args["apikey"], url)
         db.session.add(printer)
         db.session.commit()
         return None, 201, {'Location': "https://localhost:3000/printer/{0}".format(printer.id)}
