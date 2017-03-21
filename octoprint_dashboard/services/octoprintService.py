@@ -45,10 +45,10 @@ class OctoprintService:
     def get_printer_state(printer: Printer):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         status = client.printer()
-        if status["state"]["text"]=="Printing":
+        if status["state"]["text"] == "Printing":
             job_info = client.job_info()
-            status["job"]=job_info["job"]
-            status["progress"]= job_info["progress"]
+            status["job"] = job_info["job"]
+            status["job"]["progress"] = job_info["progress"]
         return status
         # return requests.get('http://{0}/api/printer'.format(printer.ip), headers={
         #     'X-Api-Key': printer.apikey

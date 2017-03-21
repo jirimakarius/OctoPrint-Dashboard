@@ -15,9 +15,10 @@ class LoginService:
         'utf-8')
 
     @staticmethod
-    def create_api_token(username):
+    def create_api_token(username, role):
         payload = {
-            'sub': username,
+            'username': username,
+            'role': role,
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(days=14)
         }

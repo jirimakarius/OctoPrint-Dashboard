@@ -17,7 +17,7 @@
     <md-nav-item md-nav-sref="main" name="main">
       Home
     </md-nav-item>
-    <md-nav-item md-nav-sref="admin" name="admin" ng-if="$ctrl.isAuthenticated()">
+    <md-nav-item md-nav-sref="admin" name="admin" ng-if="$ctrl.isAuthenticated() && $ctrl.isAdmin()">
       Settings
     </md-nav-item>
   </md-nav-bar>

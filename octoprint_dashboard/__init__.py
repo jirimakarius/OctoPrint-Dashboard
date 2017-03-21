@@ -1,23 +1,24 @@
 from flask import Flask, send_from_directory, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "something"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
+CORS(app)
 db = SQLAlchemy(app)
 import octoprint_dashboard.model
 db.create_all()
+
+from octoprint_dashboard.scheduler import Scheduler
+
+scheduler = Scheduler()
 
 import octoprint_dashboard.cli_commands
 
 import octoprint_dashboard.login.routes
 import octoprint_dashboard.api
-
-from octoprint_dashboard.scheduler import Scheduler
-
-scheduler = Scheduler()
 
 
 @app.route('/')

@@ -32,6 +32,7 @@ class User(db.Model):
             user.access_token = access_token
             user.refresh_token = refresh_token
         db.session.commit()
+        return user
 
     @staticmethod
     def upsert_superadmin(username):
@@ -45,11 +46,11 @@ class User(db.Model):
         db.session.commit()
 
     def get_accessible_printers(self):
-        from octoprint_dashboard.model import Printer, Group
+        from octoprint_dashboard.model import Printer, Group, GroupUser
         if self.superadmin:
             printers = Printer.query.all()
         else:
-            printers = Printer.query.join(Printer.group).join(Group.group_user).filter(User.id == self.id).all()
+            printers = Printer.query.join(Printer.group).join(Group.group_user).filter(User.id == self.id, GroupUser.role == "admin").all()
 
         return printers
 

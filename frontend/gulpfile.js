@@ -21,6 +21,15 @@ gulp.task('config-mock', function () {
     .pipe(gulp.dest('./src'))
 });
 
+gulp.task('config-dev', function () {
+  return gulp.src('config.json')
+    .pipe(gulpNgConfig('app.config', {
+      wrap: '/* eslint-disable */\n<%= module %>/* eslint-enable */\n',
+      environment: 'development'
+    }))
+    .pipe(gulp.dest('./src'))
+});
+
 gulp.task('config-local', function () {
   return gulp.src('config.json')
     .pipe(gulpNgConfig('app.config', {
@@ -34,7 +43,7 @@ gulp.task('build:mock', gulp.series('config-mock', gulp.parallel('other', 'webpa
 gulp.task('build', gulp.series('config-local', gulp.parallel('other', 'webpack:dist')));
 gulp.task('test', gulp.series('karma:single-run'));
 gulp.task('test:auto', gulp.series('karma:auto-run'));
-gulp.task('serve', gulp.series('config-mock', 'webpack:watch', 'watch', 'browsersync'));
+gulp.task('serve', gulp.series('config-dev', 'webpack:watch', 'watch', 'browsersync'));
 gulp.task('serve:dist', gulp.series('default', 'browsersync:dist'));
 gulp.task('default', gulp.series('clean', 'build'));
 gulp.task('watch', watch);

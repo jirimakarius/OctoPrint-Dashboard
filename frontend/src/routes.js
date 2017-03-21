@@ -1,7 +1,7 @@
 export default routesConfig;
 
 /** @ngInject */
-function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $authProvider) {
+function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $authProvider, $mdThemingProvider) {
   $locationProvider.html5Mode(true).hashPrefix('!');
   $urlRouterProvider.otherwise('/');
 
@@ -36,4 +36,14 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
     redirectUri: 'http://147.32.113.72:3000',
     authorizationEndpoint: 'http://oauth-ng-server.herokuapp.com'
   });
+
+  $mdThemingProvider.theme('default')
+  // .dark();
+    .primaryPalette('green', {
+      default: '800'
+    })
+    .accentPalette('blue')
+    .warnPalette('red')
+    .dark();
+  // .backgroundPalette('deep-orange');
 }

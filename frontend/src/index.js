@@ -13,6 +13,7 @@ import {groupSettings} from './app/group/groupSettings/groupSettings';
 
 import './app/services/restServices';
 import './config';
+import './app/services/filters';
 import 'angular-ui-router';
 import 'angular-animate';
 import 'angular-aria';
@@ -29,9 +30,9 @@ import eventListeners from './app/services/eventListeners';
 import './index.css';
 
 export const app = 'app';
-
+/** @ngInject */
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config'])
+  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule'])
   .config(routesConfig)
   .component('main', main)
   .component('toolbar', toolbar)
@@ -44,3 +45,4 @@ angular
   .component('addGroup', addGroup)
   .component('groupSettings', groupSettings)
   .run(eventListeners);
+

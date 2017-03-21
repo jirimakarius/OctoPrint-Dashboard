@@ -5,9 +5,8 @@
 
 .printer {
   padding: 8px 19px;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  background-color: white;
+  margin: 5px;
+  /*margin-right: 5px;*/
 }
 
 .user-list{
@@ -32,4 +31,13 @@
 .parek {
   min-height: 20px;
   height: 25px;
+}
+
+md-checkbox.md-checkbox-large > div > .md-icon{
+  margin-top: 0.4em;
+  transform: scale(1.5);
+}
+
+.inputbutton{
+  margin-top: 1.2em !important;
 }

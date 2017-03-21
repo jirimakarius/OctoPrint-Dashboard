@@ -2,7 +2,7 @@ from flask import g
 from flask_restful import Resource, marshal_with, fields, reqparse
 import requests
 
-from octoprint_dashboard import db
+from octoprint_dashboard import db, scheduler
 from octoprint_dashboard.login import login_required, superadmin_required
 from octoprint_dashboard.model import Printer
 from octoprint_dashboard.services import OctoprintService
@@ -37,4 +37,8 @@ class PrinterApi(Resource):
         printer = Printer(args["name"], args["apikey"], url)
         db.session.add(printer)
         db.session.commit()
+        scheduler.add_printer_status_job(printer, 5)
         return None, 201, {'Location': "https://localhost:3000/printer/{0}".format(printer.id)}
+
+    def delete(self):
+        return 200

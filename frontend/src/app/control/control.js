@@ -1,32 +1,21 @@
 /** @ngInject */
-function ControlController(Files) {
+function ControlController(Files, Printer) {
   const $ctrl = this;
 
-  const getCheckedPrinterId = function () {
-    const id = [];
-    $ctrl.printers.forEach(printer => {
-      if (printer.checked) {
-        id.push(printer.id);
-      }
-    });
-
-    return id;
-  };
-
   this.uploadPrint = function (file) {
-    Files.printFile(file, getCheckedPrinterId());
+    Files.printFile(file, $ctrl.printers);
   };
 
   this.upload = function (file) {
-    Files.uploadFile(file, getCheckedPrinterId());
+    Files.uploadFile(file, $ctrl.printers);
   };
 
-  this.setToolTemperature = function () {
-
+  this.setToolTemperature = function (temp) {
+    Printer.setToolTemperature($ctrl.printers, temp);
   };
 
-  this.setBedTemperature = function () {
-
+  this.setBedTemperature = function (temp) {
+    Printer.setBedTemperature($ctrl.printers, temp);
   };
 }
 

@@ -2,8 +2,8 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('Printer', ($resource, ENV) => {
   const printers = $resource(`${ENV.api}/printer`);
-  const printerIdStatus = $resource(`${ENV.api}/printerStatus/:printerId`, {printerId: '@id'});
-  const printerStatus = $resource(`${ENV.api}/printerStatus`);
+  const printerIdStatus = $resource(`${ENV.api}/printer/status/:printerId`, {printerId: '@id'});
+  const printerStatus = $resource(`${ENV.api}/printer/status`, {printerId: '@id'});
 
   return {
     getPrinters: () => {
@@ -13,40 +13,48 @@ angular.module('restServices', [])
       return printers.save(printer).$promise;
     },
     removePrinters: printerArray => {
-      return printers.save(getCheckedPrinterId(printerArray)).$promise;
+      return printers.remove(getCheckedPrinterId(printerArray)).$promise;
     },
     getPrinterIdStatus: printerId => {
       return printerIdStatus.get({printerId}).$promise;
     },
     getPrinterStatus: () => {
       return printerStatus.query().$promise;
+    },
+    setToolTemperature: (printerArray, temperature) => {
+      return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {tool: temperature}).$promise;
+    },
+    setBedTemperature: (printerArray, temperature) => {
+      console.dir(printerArray);
+      console.dir(getCheckedPrinterId(printerArray));
+      return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {bed: temperature}).$promise;
     }
   };
 })
 /** @ngInject */
 .factory('Files', ($resource, ENV) => {
   return {
-    uploadFile: (file, printerId) => {
+    uploadFile: (file, printerArray) => {
       const data = new FormData();
       data.append('file', file);
 
-      return $resource(`${ENV.api}/upload`, {printerId: '@id'}, {
+      return $resource(`${ENV.api}/printer/upload`, {printerId: '@id'}, {
         upload: {
           method: 'POST',
           headers: {'Content-Type': undefined}
         }
-      }).upload({printerId}, data).$promise;
+      }).upload({printerId: getCheckedPrinterId(printerArray)}, data).$promise;
     },
-    printFile: (file, printerId) => {
+    printFile: (file, printerArray) => {
       const data = new FormData();
       data.append('file', file);
 
-      return $resource(`${ENV.api}/upload`, {printerId: '@id', print: true}, {
+      return $resource(`${ENV.api}/printer/upload`, {printerId: '@id', print: true}, {
         upload: {
           method: 'POST',
           headers: {'Content-Type': undefined}
         }
-      }).upload({printerId}, data).$promise;
+      }).upload({printerId: getCheckedPrinterId(printerArray)}, data).$promise;
     }
   };
 })
@@ -54,7 +62,7 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('Group', ($resource, ENV) => {
   const groups = $resource(`${ENV.api}/group`);
-  const groupSettings = $resource(`${ENV.api}/groupSettings/:groupId`, {groupId: '@id'});
+  const groupSettings = $resource(`${ENV.api}/group/settings/:groupId`, {groupId: '@id'});
 
   return {
     getGroups: () => {
@@ -65,6 +73,17 @@ angular.module('restServices', [])
     },
     getGroupSettings: groupId => {
       return groupSettings.get({groupId}).$promise;
+    }
+  };
+})
+
+/** @ngInject */
+.factory('User', ($resource, ENV) => {
+  const users = $resource(`${ENV.api}/user`);
+
+  return {
+    getUsers: () => {
+      return users.query().$promise;
     }
   };
 });

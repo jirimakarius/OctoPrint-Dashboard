@@ -1,3 +1,4 @@
+import requests
 from flask import g
 from flask_restful import Resource, marshal_with, fields, reqparse
 
@@ -34,12 +35,19 @@ class PrinterStatusApi(Resource):
     @marshal_with({
         'state': fields.Nested({
             'temperature': fields.Nested({
-                'bed': fields.Integer(attribute="bed.actual"),
-                'tool': fields.Integer(attribute="tool0.actual")
+                'bed': fields.Nested({
+                    'actual': fields.Integer,
+                    'target': fields.Integer
+                }),
+                'tool': fields.Nested({
+                    'actual': fields.Integer,
+                    'target': fields.Integer
+                }, attribute="tool0")
             }),
             'state': fields.String(attribute="state.text"),
             'job': fields.Nested({
-                'printTime': fields.Integer(attribute='lastPrintTime'),
+                'printTimeLeft': fields.Integer(attribute='progress.printTimeLeft'),
+                'completion': fields.Float(attribute='progress.completion'),
                 'fileName': fields.String(attribute='file.name')
             })
         }),
@@ -57,9 +65,11 @@ class PrinterStatusApi(Resource):
         printers = Printer.query.filter(Printer.id.in_(args["printerId"])).all()
 
         for printer in printers:
-            if args["bed"]:
-                OctoprintService.set_bed_temperature(printer, args["bed"])
-            if args["tool"]:
-                OctoprintService.set_tool_temperature(printer, args["tool"])
-
+            try:
+                if args["bed"] is not None:
+                    OctoprintService.set_bed_temperature(printer, args["bed"])
+                if args["tool"] is not None:
+                    OctoprintService.set_tool_temperature(printer, args["tool"])
+            except requests.ConnectionError:
+                pass
         return None, 200

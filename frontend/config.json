@@ -4,6 +4,11 @@
       "api": "https://private-b4bd6-octoprintdashboardapi.apiary-mock.com"
     }
   },
+  "development": {
+    "ENV": {
+      "api": "http://localhost:3100"
+    }
+  },
   "local": {
     "ENV": {
       "api": "http://localhost:3000"

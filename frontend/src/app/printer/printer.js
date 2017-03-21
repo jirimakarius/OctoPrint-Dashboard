@@ -1,4 +1,4 @@
-/* @ngInject */
+/** @ngInject */
 function PrinterController() {
   // const $ctrl = this;
 

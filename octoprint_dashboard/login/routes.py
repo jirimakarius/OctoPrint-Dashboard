@@ -19,9 +19,15 @@ def auth():
 
     except requests.RequestException:
         return "", 400
-    User.upsert(check_response.get("user_name"), access_response.get("access_token"), access_response.get("refresh_token"))
+    user = User.upsert(check_response.get("user_name"), access_response.get("access_token"), access_response.get("refresh_token"))
 
-    token = LoginService.create_api_token(check_response.get("user_name"))
+    if user.superadmin:
+        role = "superadmin"
+    elif user.get_accessible_printers() or user.get_editable_groups():
+        role = "admin"
+    else:
+        role = "user"
+    token = LoginService.create_api_token(check_response.get("user_name"), role)
     print(token)
     return token, 200
 

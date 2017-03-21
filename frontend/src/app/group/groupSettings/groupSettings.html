@@ -10,9 +10,9 @@
 <div class="md-dialog-content" layout="column">
   <md-input-container>
     <label>Name</label>
-    <input ng-model="$ctrl.name">
+    <input ng-model="$ctrl.groupsettings.name">
   </md-input-container>
-  <md-chips ng-model="$ctrl.group.printers" md-autocomplete-snap
+  <md-chips ng-model="$ctrl.groupsettings.printers" md-autocomplete-snap
             md-transform-chip="$ctrl.transformChip($chip)"
             md-require-match="true">
     <md-autocomplete
@@ -29,9 +29,9 @@
   </md-chips>
   <md-content class="user-list" layout="column">
     <md-list layout="column">
-      <md-list-item class="parek" ng-repeat="user in $ctrl.group.users">
+      <md-list-item class="parek" ng-repeat="user in $ctrl.groupsettings.users">
         <p class="md-caption" flex>{{ user.username }}</p>
-        <md-select ng-model="user.role" class="md-no-underline">
+        <md-select ng-model="user.role" class="md-no-underline" aria-label="Role for {{user.name}}">
           <md-option value="admin">Admin</md-option>
           <md-option value="user">User</md-option>
         </md-select>
@@ -41,13 +41,29 @@
       </md-list-item>
     </md-list>
   </md-content>
-
-  <form id="addUser" autocomplete="off" ng-submit="$ctrl.addUser()">
-    <md-input-container>
-      <label>Add username</label>
-      <input id="username" name="username" type="text" ng-model="$ctrl.username" autofocus />
-    </md-input-container>
+  <form name="addUser" ng-submit="$ctrl.addUser()">
+    <md-autocomplete
+      md-selected-item="$ctrl.selectedUser"
+      md-search-text="$ctrl.searchTextUser"
+      md-items="user in $ctrl.userSearch($ctrl.searchTextUser)"
+      md-item-text="user.username"
+      md-min-length="0"
+      placeholder="Add username">
+      <md-item-template>
+        <span md-highlight-text="$ctrl.searchTextUser" md-highlight-flags="^i">{{user.username}}</span>
+      </md-item-template>
+      <!--<md-not-found>-->
+      <!--No states matching "{{$ctrl.searchTextUser}}" were found.-->
+      <!--</md-not-found>-->
+    </md-autocomplete>
   </form>
+
+  <!--<form id="addUser" autocomplete="off" ng-submit="$ctrl.addUser()">-->
+    <!--<md-input-container>-->
+      <!--<label>Add username</label>-->
+      <!--<input id="username" name="username" type="text" ng-model="$ctrl.username" autofocus />-->
+    <!--</md-input-container>-->
+  <!--</form>-->
   <div flex></div>
 </div>
 <md-dialog-actions layout="row">

@@ -1,4 +1,4 @@
-/* @ngInject */
+/** @ngInject */
 function ToolbarController($auth, $state) {
   this.login = function () {
     // console.dir($auth);
@@ -10,10 +10,9 @@ function ToolbarController($auth, $state) {
     $auth.authenticate('CVUT').then(response => {
     //   console.dir(response);
       $auth.setToken(response.data);
+      $state.reload();
       // $log.log($auth.isAuthenticated());
-      console.dir($auth.getPayload());
-    }).catch(response => {
-      console.dir(response);
+      // console.dir($auth.getPayload());
     });
   };
   this.logout = function () {
@@ -22,6 +21,9 @@ function ToolbarController($auth, $state) {
   };
   this.isAuthenticated = function () {
     return $auth.isAuthenticated();
+  };
+  this.isAdmin = function () {
+    return $auth.getPayload().role !== "user";
   };
 }
 
