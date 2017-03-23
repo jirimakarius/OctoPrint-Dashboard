@@ -13,7 +13,7 @@ angular.module('restServices', [])
       return printers.save(printer).$promise;
     },
     removePrinters: printerArray => {
-      return printers.remove(getCheckedPrinterId(printerArray)).$promise;
+      return printers.remove({printerId: getCheckedPrinterId(printerArray)}).$promise;
     },
     getPrinterIdStatus: printerId => {
       return printerIdStatus.get({printerId}).$promise;

@@ -7,8 +7,8 @@
   <md-progress-linear class="md-accent" md-mode="determinate" value="{{ $ctrl.data.state.job.completion }}"></md-progress-linear>
 
   <md-content layout="row">
-    <p flex="50">Tool: {{ $ctrl.data.state.temperature.tool.actual }}<span class="md-hue-3">({{ $ctrl.data.state.temperature.tool.target}})</span></p>
-    <p flex>Bed: {{ $ctrl.data.state.temperature.bed.actual }}<span class="md-hue-3">({{ $ctrl.data.state.temperature.bed.target}})</span></p>
+    <p flex="50">Tool: {{ $ctrl.data.state.temperature.tool.actual }} &#8451; <span md-colors="{color: 'grey-800'}">({{ $ctrl.data.state.temperature.tool.target}} &#8451;)</span></p>
+    <p flex>Bed: {{ $ctrl.data.state.temperature.bed.actual }} &#8451; <span md-colors="{color: 'grey-800'}">({{ $ctrl.data.state.temperature.bed.target}} &#8451;)</span></p>
   </md-content>
   <md-content layout="row" layout-align="end center">
     <md-checkbox md-diameter=50px" class="md-primary md-checkbox-large" ng-model="$ctrl.data.checked" aria-label="Checked"></md-checkbox>
