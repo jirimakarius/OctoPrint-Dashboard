@@ -12,6 +12,9 @@ parser.add_argument('name', type=str, required=True, help='Name can\'t be conver
 parser.add_argument('apikey', type=str, required=True, help='Apikey can\'t be converted')
 parser.add_argument('ip', type=str, required=True, help='ip can\'t be converted')
 
+printer_id_parser = reqparse.RequestParser()
+printer_id_parser.add_argument('printerId', type=int, required=True, help='Name can\'t be converted', action='append')
+
 
 class PrinterApi(Resource):
     @login_required
@@ -26,7 +29,7 @@ class PrinterApi(Resource):
             printers = g.user.get_accessible_printers()
             return printers
 
-    # @superadmin_required
+    @superadmin_required
     def post(self):
         args = parser.parse_args()
         url = "http://{0}".format(args['ip'])
@@ -40,5 +43,10 @@ class PrinterApi(Resource):
         scheduler.add_printer_status_job(printer, 5)
         return None, 201, {'Location': "https://localhost:3000/printer/{0}".format(printer.id)}
 
+    @superadmin_required
     def delete(self):
-        return 200
+        args = printer_id_parser.parse_args()
+        Printer.query.filter(Printer.id.in_(args["printerId"])).delete('fetch')
+        db.session.commit()
+        scheduler.remove_printer_status_job(args["printerId"])
+        return None, 204

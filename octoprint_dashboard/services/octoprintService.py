@@ -1,7 +1,9 @@
+from json import JSONDecodeError
+
 import requests
-from octoprint_dashboard.model import Printer
 from octoclient import OctoClient
-import random
+
+from octoprint_dashboard.model import Printer
 
 
 class OctoprintService:
@@ -12,6 +14,10 @@ class OctoprintService:
         except RuntimeError as e:
             return e.args[0]
         except requests.ConnectionError:
+            return "Invalid ip address"
+        except JSONDecodeError:
+            return "Invalid ip address"
+        except requests.Timeout:
             return "Invalid ip address"
         return None
 

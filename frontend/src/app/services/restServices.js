@@ -5,6 +5,29 @@ angular.module('restServices', [])
   const printerIdStatus = $resource(`${ENV.api}/printer/status/:printerId`, {printerId: '@id'});
   const printerStatus = $resource(`${ENV.api}/printer/status`, {printerId: '@id'});
 
+  function getCheckedPrinterId(printers) {
+    const id = [];
+    printers.forEach(printer => {
+      if (printer.checked) {
+        id.push(printer.id);
+      }
+    });
+
+    return id;
+  }
+
+  function operational(printers) {
+    let result = true;
+
+    printers.forEach(printer => {
+      if (printer.checked && printer.state.state !== "Operational") {
+        result = false;
+      }
+    });
+
+    return result;
+  }
+
   return {
     getPrinters: () => {
       return printers.query().$promise;
@@ -25,14 +48,14 @@ angular.module('restServices', [])
       return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {tool: temperature}).$promise;
     },
     setBedTemperature: (printerArray, temperature) => {
-      console.dir(printerArray);
-      console.dir(getCheckedPrinterId(printerArray));
       return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {bed: temperature}).$promise;
-    }
+    },
+    getCheckedPrinterId,
+    operational
   };
 })
 /** @ngInject */
-.factory('Files', ($resource, ENV) => {
+.factory('Files', ($resource, ENV, Printer) => {
   return {
     uploadFile: (file, printerArray) => {
       const data = new FormData();
@@ -43,7 +66,7 @@ angular.module('restServices', [])
           method: 'POST',
           headers: {'Content-Type': undefined}
         }
-      }).upload({printerId: getCheckedPrinterId(printerArray)}, data).$promise;
+      }).upload({printerId: Printer.getCheckedPrinterId(printerArray)}, data).$promise;
     },
     printFile: (file, printerArray) => {
       const data = new FormData();
@@ -54,7 +77,7 @@ angular.module('restServices', [])
           method: 'POST',
           headers: {'Content-Type': undefined}
         }
-      }).upload({printerId: getCheckedPrinterId(printerArray)}, data).$promise;
+      }).upload({printerId: Printer.getCheckedPrinterId(printerArray)}, data).$promise;
     }
   };
 })
@@ -87,14 +110,3 @@ angular.module('restServices', [])
     }
   };
 });
-
-function getCheckedPrinterId(printers) {
-  const id = [];
-  printers.forEach(printer => {
-    if (printer.checked) {
-      id.push(printer.id);
-    }
-  });
-
-  return id;
-}

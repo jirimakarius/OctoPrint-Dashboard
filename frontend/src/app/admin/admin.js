@@ -11,6 +11,11 @@ function AdminController(Printer, Group, $mdDialog, $document) {
       clickOutsideToClose: true,
       fullscreen: true,
       autoWrap: false
+    }).then(() => {
+      Printer.getPrinters()
+        .then(response => {
+          $ctrl.printers = response;
+        });
     });
   };
 
@@ -23,7 +28,12 @@ function AdminController(Printer, Group, $mdDialog, $document) {
       .cancel('Nope, I changed my mind');
     $mdDialog.show(confirm)
       .then(() => {
-        Printer.removePrinters($ctrl.printers);
+        Printer.removePrinters($ctrl.printers).then(() => {
+          Printer.getPrinters()
+            .then(response => {
+              $ctrl.printers = response;
+            });
+        });
       }).catch(() => {});
   };
 
@@ -35,17 +45,22 @@ function AdminController(Printer, Group, $mdDialog, $document) {
       preserveScope: true,
       clickOutsideToClose: true,
       fullscreen: true
+    }).then(() => {
+      Group.getGroups()
+        .then(response => {
+          $ctrl.groups = response;
+        });
     });
   };
 
   Printer.getPrinters()
     .then(response => {
-      this.printers = response;
+      $ctrl.printers = response;
     });
 
   Group.getGroups()
     .then(response => {
-      this.groups = response;
+      $ctrl.groups = response;
     });
 }
 

@@ -1,3 +1,4 @@
+import requests
 from flask import Flask, send_from_directory, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
@@ -38,4 +39,3 @@ def upload():
     for i in request.files.keys():
         print(i)
     return 'parek', 201
-

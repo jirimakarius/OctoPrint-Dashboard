@@ -26,7 +26,7 @@ function ToolbarController($auth, $state) {
     return $auth.getPayload().role !== "user";
   };
 
-  this.username = $auth.getPayload().username;
+  this.username = this.isAuthenticated() ? $auth.getPayload().username : "";
 }
 
 export const toolbar = {

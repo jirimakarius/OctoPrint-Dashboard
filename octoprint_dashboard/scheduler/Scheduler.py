@@ -17,3 +17,7 @@ class Scheduler:
                                args=[printer],
                                id=str(printer.id),
                                seconds=seconds)
+
+    def remove_printer_status_job(self, printer_ids):
+        for printer in printer_ids:
+            self.scheduler.remove_job(str(printer))
