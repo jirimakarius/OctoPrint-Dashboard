@@ -28,7 +28,7 @@
 }
 
 .user-list{
-  height: 10em;
+  height: 6em;
   overflow-y: scroll
 }
 
@@ -46,9 +46,9 @@
   /*width: 10em;*/
 }
 
-.parek {
-  min-height: 20px;
-  height: 25px;
+.useritem {
+  min-height: 1em;
+  height: 1.5em;
 }
 
 md-checkbox.md-checkbox-large > div > .md-icon{

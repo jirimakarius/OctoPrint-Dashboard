@@ -53,6 +53,12 @@ function AdminController(Printer, Group, $mdDialog, $document) {
     });
   };
 
+  this.deleteGroup = function (group) {
+    const index = $ctrl.groups.indexOf(group);
+    console.dir(index);
+    $ctrl.groups.splice(index, 1);
+  };
+
   Printer.getPrinters()
     .then(response => {
       $ctrl.printers = response;

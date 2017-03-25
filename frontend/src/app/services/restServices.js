@@ -96,6 +96,9 @@ angular.module('restServices', [])
     },
     getGroupSettings: groupId => {
       return groupSettings.get({groupId}).$promise;
+    },
+    deleteGroup: group => {
+      return groups.remove({groupId: group.id}).$promise;
     }
   };
 })

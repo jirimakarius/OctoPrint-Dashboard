@@ -6,8 +6,8 @@ function GroupSettingsController($mdDialog, Group, User) {
     $mdDialog.cancel();
   };
 
-  this.addUser = function () {
-    const resource = $ctrl.searchTextUser.split(" ");
+  this.addUser = function (text) {
+    const resource = text.split(" ");
     resource.forEach(username => {
       if (findByUsername(username).length) {
       } else {
@@ -36,7 +36,9 @@ function GroupSettingsController($mdDialog, Group, User) {
   };
 
   this.querySearch = query => {
-    return query ? $ctrl.printers.filter(createFilterForPrinter(query)) : [];
+    const p = query ? $ctrl.printers.filter(createFilterForPrinter(query)) : $ctrl.printers;
+    console.dir(p);
+    return p;
   };
   this.transformChip = chip => {
     if (angular.isObject(chip)) {
