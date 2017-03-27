@@ -6,6 +6,11 @@ function GroupSettingsController($mdDialog, Group, User) {
     $mdDialog.cancel();
   };
 
+  this.submit = function () {
+    Group.setGroupSettings($ctrl.groupsettings);
+    // $mdDialog.hide();
+  };
+
   this.addUser = function (text) {
     const resource = text.split(" ");
     resource.forEach(username => {

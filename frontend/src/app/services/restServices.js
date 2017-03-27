@@ -85,7 +85,10 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('Group', ($resource, ENV) => {
   const groups = $resource(`${ENV.api}/group`);
-  const groupSettings = $resource(`${ENV.api}/group/settings/:groupId`, {groupId: '@id'});
+  const groupSettings = $resource(`${ENV.api}/group/settings/:groupId`, {groupId: '@id'},
+    {
+      put: {method: 'PUT'}
+    });
 
   return {
     getGroups: () => {
@@ -96,6 +99,11 @@ angular.module('restServices', [])
     },
     getGroupSettings: groupId => {
       return groupSettings.get({groupId}).$promise;
+    },
+    setGroupSettings: groupSettings => {
+      console.dir(groupSettings);
+
+      return groupSettings.$put({groupId: groupSettings.id}, groupSettings).$promise;
     },
     deleteGroup: group => {
       return groups.remove({groupId: group.id}).$promise;
