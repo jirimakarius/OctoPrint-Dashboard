@@ -1,11 +1,13 @@
 <md-toolbar>
-  <div class="md-toolbar-tools">
+  <div class="md-toolbar-tools" layout-align="space-between center">
+    <h1>OctoPrint Dashboard</h1>
     <div ng-if="!$ctrl.isAuthenticated()">
-      <md-button class="md-raised" aria-label="Login" ng-click="$ctrl.login()">
+      <md-button class="md-raised md-warn" aria-label="Login" ng-click="$ctrl.login()">
         Login
       </md-button>
     </div>
     <div ng-if="$ctrl.isAuthenticated()">
+      <span style="font-size: 70%">Logged as {{ $ctrl.username }}</span>
       <md-button class="md-raised" aria-label="Logout" ng-click="$ctrl.logout()">
         Logout
       </md-button>
@@ -13,7 +15,7 @@
   </div>
 </md-toolbar>
 <md-content>
-  <md-nav-bar aria-label="menu" md-selected-nav-item="currentNavItem">
+  <md-nav-bar aria-label="menu" md-selected-nav-item="$ctrl.currentNavItem">
     <md-nav-item md-nav-sref="main" name="main">
       Home
     </md-nav-item>

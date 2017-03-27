@@ -6,11 +6,29 @@
 .printer {
   padding: 8px 19px;
   margin: 5px;
+  border: 1px solid transparent;
   /*margin-right: 5px;*/
 }
 
+.printer > span {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+.printer:focus {
+  outline: none;
+}
+
+.printer-progress {
+  margin: 0.6em 0 !important;
+}
+
+.printer-drag {
+  margin-right: -0.75em !important;
+}
+
 .user-list{
-  height: 10em;
+  height: 6em;
   overflow-y: scroll
 }
 
@@ -25,12 +43,12 @@
 }
 
 .temperature-input{
-  width: 4em;
+  /*width: 10em;*/
 }
 
-.parek {
-  min-height: 20px;
-  height: 25px;
+.useritem {
+  min-height: 1em;
+  height: 1.5em;
 }
 
 md-checkbox.md-checkbox-large > div > .md-icon{
@@ -40,4 +58,9 @@ md-checkbox.md-checkbox-large > div > .md-icon{
 
 .inputbutton{
   margin-top: 1.2em !important;
+  min-width: 0;
+}
+
+.selected-printer {
+  border: 1px solid green;
 }

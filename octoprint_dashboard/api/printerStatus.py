@@ -71,5 +71,5 @@ class PrinterStatusApi(Resource):
                 if args["tool"] is not None:
                     OctoprintService.set_tool_temperature(printer, args["tool"])
             except requests.ConnectionError:
-                pass
+                return None, 400
         return None, 200

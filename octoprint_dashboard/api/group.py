@@ -7,6 +7,9 @@ from octoprint_dashboard import db
 parser = reqparse.RequestParser()
 parser.add_argument('name', type=str, required=True, help='Name can\'t be converted')
 
+group_id_parser = reqparse.RequestParser()
+group_id_parser.add_argument('groupId', type=int, required=True, help='Group ID can\'t be converted', action='append')
+
 
 class GroupApi(Resource):
     @login_required
@@ -28,3 +31,9 @@ class GroupApi(Resource):
         db.session.add(group)
         db.session.commit()
         return None, 201, {'Location': "https://localhost:3000/group/{0}".format(group.id)}
+
+    def delete(self):
+        args = group_id_parser.parse_args()
+        Group.query.filter(Group.id.in_(args["groupId"])).delete('fetch')
+        db.session.commit()
+        return None, 204

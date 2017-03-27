@@ -25,6 +25,8 @@ function ToolbarController($auth, $state) {
   this.isAdmin = function () {
     return $auth.getPayload().role !== "user";
   };
+
+  this.username = this.isAuthenticated() ? $auth.getPayload().username : "";
 }
 
 export const toolbar = {

@@ -1,6 +1,7 @@
 /** @ngInject */
 function PrinterGridController(Printer, $interval, $filter, $auth) {
   const $ctrl = this;
+  let interval = "";
 
   this.$onInit = function () {
     if ($auth.isAuthenticated()) {
@@ -9,7 +10,7 @@ function PrinterGridController(Printer, $interval, $filter, $auth) {
           $ctrl.printers = response;
         });
 
-      $interval(() => {
+      interval = $interval(() => {
         Printer.getPrinterStatus()
           .then(response => {
             const foundPrinters = new Array($ctrl.printers.length);
@@ -35,6 +36,10 @@ function PrinterGridController(Printer, $interval, $filter, $auth) {
           });
       }, 5000);
     }
+  };
+
+  this.$onDestroy = function () {
+    $interval.cancel(interval);
   };
 }
 
