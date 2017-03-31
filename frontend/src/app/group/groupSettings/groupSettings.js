@@ -8,7 +8,7 @@ function GroupSettingsController($mdDialog, Group, User) {
 
   this.submit = function () {
     Group.setGroupSettings($ctrl.groupsettings);
-    // $mdDialog.hide();
+    $mdDialog.hide();
   };
 
   this.addUser = function (text) {

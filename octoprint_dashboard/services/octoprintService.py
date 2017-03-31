@@ -51,7 +51,7 @@ class OctoprintService:
     def get_printer_state(printer: Printer):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         status = client.printer()
-        if status["state"]["text"] == "Printing":
+        if status["state"]["text"] == "Printing" or status["state"]["text"] == "Paused":
             job_info = client.job_info()
             status["job"] = job_info["job"]
             status["job"]["progress"] = job_info["progress"]
@@ -84,3 +84,13 @@ class OctoprintService:
     def get_job_info(printer: Printer):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.job_info()
+
+    @staticmethod
+    def pause(printer: Printer):
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.pause()
+
+    @staticmethod
+    def cancel(printer: Printer):
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.cancel()

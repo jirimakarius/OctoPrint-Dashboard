@@ -47,6 +47,18 @@ angular.module('restServices', [])
     setToolTemperature: (printerArray, temperature) => {
       return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {tool: temperature}).$promise;
     },
+    pause: printerArray => {
+      return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {pause: true}).$promise;
+    },
+    pausePrinter: printerId => {
+      return printerStatus.save({printerId}, {pause: true}).$promise;
+    },
+    cancel: printerArray => {
+      return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {cancel: true}).$promise;
+    },
+    cancelPrinter: printerId => {
+      return printerStatus.save({printerId}, {cancel: true}).$promise;
+    },
     setBedTemperature: (printerArray, temperature) => {
       return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {bed: temperature}).$promise;
     },
@@ -114,10 +126,14 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('User', ($resource, ENV) => {
   const users = $resource(`${ENV.api}/user`);
+  const superadmin = $resource(`${ENV.api}/superadmin`, {username: '@string'});
 
   return {
     getUsers: () => {
       return users.query().$promise;
+    },
+    superAdminize: username => {
+      return superadmin.save({username}).$promise;
     }
   };
 });

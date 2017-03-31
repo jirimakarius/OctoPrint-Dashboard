@@ -1,5 +1,5 @@
 /** @ngInject */
-function AdminController(Printer, Group, $mdDialog, $document) {
+function AdminController(Printer, Group, $mdDialog, $document, $auth) {
   const $ctrl = this;
 
   this.addPrinter = function ($event) {
@@ -57,6 +57,22 @@ function AdminController(Printer, Group, $mdDialog, $document) {
     const index = $ctrl.groups.indexOf(group);
     console.dir(index);
     $ctrl.groups.splice(index, 1);
+  };
+
+  this.isSuperAdmin = function () {
+    return $auth.getPayload().role === "superadmin";
+  };
+
+  this.addSuperAdmin = function ($event) {
+    $mdDialog.show({
+      template: '<md-dialog><add-super-admin></add-super-admin></md-dialog>',
+      parent: angular.element($document.body),
+      targetEvent: $event,
+      preserveScope: true,
+      clickOutsideToClose: true,
+      fullscreen: true,
+      autoWrap: false
+    });
   };
 
   Printer.getPrinters()

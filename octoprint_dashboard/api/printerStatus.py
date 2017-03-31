@@ -10,6 +10,8 @@ parser = reqparse.RequestParser()
 parser.add_argument('printerId', type=int, required=True, help='Name can\'t be converted', action='append')
 parser.add_argument('bed', type=int, help='Bed temperature can\'t be converted')
 parser.add_argument('tool', type=int, help='Tool temperature can\'t be converted')
+parser.add_argument('pause', type=bool, help='Pause can\'t be converted')
+parser.add_argument('cancel', type=bool, help='Cancel can\'t be converted')
 
 
 class PrinterStatusIdApi(Resource):
@@ -70,6 +72,10 @@ class PrinterStatusApi(Resource):
                     OctoprintService.set_bed_temperature(printer, args["bed"])
                 if args["tool"] is not None:
                     OctoprintService.set_tool_temperature(printer, args["tool"])
+                if args["pause"] is not None:
+                    OctoprintService.pause(printer)
+                if args["cancel"] is not None:
+                    OctoprintService.cancel(printer)
             except requests.ConnectionError:
                 return None, 400
         return None, 200

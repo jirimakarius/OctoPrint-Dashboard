@@ -1,10 +1,10 @@
 <md-content layout="row" flex layout-padding>
-  <md-content layout="column" flex="50">
+  <md-content layout="column" flex="40">
     <section layout="row" layout-align="space-between center">
-      <md-button class="button md-raised md-primary" ng-click="$ctrl.addPrinter($event)" ng-disabled="false">
+      <md-button class="button md-raised md-primary" ng-click="$ctrl.addPrinter($event)" ng-disabled="!$ctrl.isSuperAdmin()">
         Add printer
       </md-button>
-      <md-button class="button md-raised md-primary" ng-click="$ctrl.removePrinters($event)" ng-disabled="!($ctrl.printers | filter: {checked: true}).length">
+      <md-button class="button md-raised md-primary" ng-click="$ctrl.removePrinters($event)" ng-disabled="!($ctrl.printers | filter: {checked: true}).length || !$ctrl.isSuperAdmin()">
         Remove printers
       </md-button>
       <md-button class="button md-raised md-primary" ng-click="$ctrl.showSettings($event)" ng-disabled="!($ctrl.printers | filter: {checked: true}).length">
@@ -20,9 +20,9 @@
       </md-list>
     </md-content>
   </md-content>
-  <md-content layout="column" flex="50">
+  <md-content layout="column" flex="40">
     <section layout="row" layout-align="end center">
-      <md-button class="button md-primary md-raised" ng-click="$ctrl.addGroup($event)" ng-disabled="false">
+      <md-button class="button md-primary md-raised" ng-click="$ctrl.addGroup($event)" ng-disabled="!$ctrl.isSuperAdmin()">
         Add group
       </md-button>
     </section>
@@ -31,5 +31,11 @@
         <group ng-repeat="group in $ctrl.groups" group="group" printers="$ctrl.printers"></group>
       </md-list>
     </md-content>
+  </md-content>
+  <md-content layout="column" layout-align="start end" flex ng-if="$ctrl.isSuperAdmin()">
+    <md-button class="md-primary md-raised" ng-click="$ctrl.addSuperAdmin($event)">
+      Add superadmin
+    </md-button>
+
   </md-content>
 </md-content>

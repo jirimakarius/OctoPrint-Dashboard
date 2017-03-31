@@ -9,6 +9,7 @@ import {admin} from './app/admin/admin';
 import {group} from './app/group/group';
 import {addPrinter} from './app/admin/addPrinter/addPrinter';
 import {addGroup} from './app/admin/addGroup/addGroup';
+import {addSuperAdmin} from './app/admin/addSuperAdmin/addSuperAdmin';
 import {groupSettings} from './app/group/groupSettings/groupSettings';
 
 import './app/services/restServices';
@@ -43,6 +44,7 @@ angular
   .component('group', group)
   .component('addPrinter', addPrinter)
   .component('addGroup', addGroup)
+  .component('addSuperAdmin', addSuperAdmin)
   .component('groupSettings', groupSettings)
   .run(eventListeners);
 
