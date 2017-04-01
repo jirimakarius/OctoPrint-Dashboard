@@ -1,6 +1,5 @@
 <md-content layout="column">
-  <h2>Printer control</h2>
-  <md-content layout-align="center start" layout="row">
+  <div layout-align="center start" layout="row">
     <form ng-submit="$ctrl.setToolTemperature($ctrl.tool)">
       <md-input-container class="temperature-input">
         <label>Set tool temperature</label>
@@ -14,8 +13,8 @@
       <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
       <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>
     </md-button>
-  </md-content>
-  <md-content layout-align="center start" layout="row">
+  </div>
+  <div layout-align="center start" layout="row">
     <form ng-submit="$ctrl.setBedTemperature($ctrl.bed)">
       <md-input-container class="temperature-input">
         <label>Set bed temperature</label>
@@ -29,14 +28,34 @@
       <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
       <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>
     </md-button>
-  </md-content>
-  <md-button class='md-raised md-primary' ngf-select='$ctrl.uploadPrint($file)' ngf-accept="'.gcode,.gco,.g'" flex ng-disabled="!$ctrl.checked() || !$ctrl.operational()">
+  </div>
+  <md-button class='md-raised md-primary' ngf-select='$ctrl.uploadPrint($file)' ngf-accept="'.gcode,.gco,.g'" ng-disabled="!$ctrl.checked() || !$ctrl.operational()">
     Print from file
     <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
     <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>
   </md-button>
-  <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)' ngf-accept="'.stl,.gcode,.gco,.g'" flex ng-disabled="!$ctrl.checked()">
+  <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)' ngf-accept="'.stl,.gcode,.gco,.g'" ng-disabled="!$ctrl.checked()">
     Upload file
     <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
   </md-button>
+  <md-content flex ng-if="$ctrl.checked()==1" ng-init="$ctrl.files = [];$ctrl.getFiles()">
+    <span>Files:</span>
+    <md-list class="antipadding">
+      <md-list-item class="" ng-repeat="file in $ctrl.files">
+        <p class="md-caption">{{ file.name }}</p>
+        <md-icon ng-click="$ctrl.printFile(file)" ng-if="$ctrl.operational()">
+          print
+          <md-tooltip md-direction="left">Print file</md-tooltip>
+        </md-icon>
+        <md-icon ng-click="$ctrl.sendFile(file)">
+          send
+          <md-tooltip md-direction="left">Send file to other printers</md-tooltip>
+        </md-icon>
+        <md-icon ng-click="$ctrl.deleteFile(file)" ng-if="$ctrl.deleteAction(file)">
+          delete
+          <md-tooltip md-direction="left">Delete file</md-tooltip>
+        </md-icon>
+      </md-list-item>
+    </md-list>
+  </md-content>
 </md-content>

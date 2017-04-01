@@ -62,6 +62,7 @@ class PrinterStatusApi(Resource):
         # print(states)
         return states, 200
 
+    @login_required
     def post(self):
         args = parser.parse_args()
         printers = Printer.query.filter(Printer.id.in_(args["printerId"])).all()

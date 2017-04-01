@@ -34,10 +34,13 @@ class GroupSettingsApi(Resource):
 
         return "Missing right for group", 403
 
+    @login_required
     def put(self, group_id):
         group = Group.query.get(group_id)
+        if not group.editable(g.user):
+            return "Missing right for group", 403
+
         args = request.json
-        # print(args)
         group.name = args["name"]
         printer_ids = [x["id"] for x in args["printers"]]
         printers = Printer.query.filter(Printer.id.in_(printer_ids)) if printer_ids else []
@@ -54,8 +57,6 @@ class GroupSettingsApi(Resource):
             if found is None:
                 found = User(input["username"])
             group.group_user.append(GroupUser(group, found, input["role"]))
-
-        # group.user = users
 
         db.session.commit()
 

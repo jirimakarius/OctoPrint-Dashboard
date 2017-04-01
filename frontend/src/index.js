@@ -11,6 +11,7 @@ import {addPrinter} from './app/admin/addPrinter/addPrinter';
 import {addGroup} from './app/admin/addGroup/addGroup';
 import {addSuperAdmin} from './app/admin/addSuperAdmin/addSuperAdmin';
 import {groupSettings} from './app/group/groupSettings/groupSettings';
+import {adminSettings} from './app/admin/adminSettings/adminSettings';
 
 import './app/services/restServices';
 import './config';
@@ -33,7 +34,7 @@ import './index.css';
 export const app = 'app';
 /** @ngInject */
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule'])
+  .module(app, ['ui.router', 'ngMessages', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule'])
   .config(routesConfig)
   .component('main', main)
   .component('toolbar', toolbar)
@@ -46,5 +47,6 @@ angular
   .component('addGroup', addGroup)
   .component('addSuperAdmin', addSuperAdmin)
   .component('groupSettings', groupSettings)
+  .component('adminSettings', adminSettings)
   .run(eventListeners);
 

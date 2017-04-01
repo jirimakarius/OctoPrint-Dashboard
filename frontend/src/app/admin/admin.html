@@ -32,10 +32,12 @@
       </md-list>
     </md-content>
   </md-content>
-  <md-content layout="column" layout-align="start end" flex ng-if="$ctrl.isSuperAdmin()">
-    <md-button class="md-primary md-raised" ng-click="$ctrl.addSuperAdmin($event)">
+  <md-content layout="column" flex ng-if="$ctrl.isSuperAdmin()">
+    <section layout="row" layout-align="end center">
+      <md-button class="md-primary md-raised" ng-click="$ctrl.addSuperAdmin($event)">
       Add superadmin
-    </md-button>
-
+      </md-button>
+    </section>
+    <admin-settings flex class="border-classic"></admin-settings>
   </md-content>
 </md-content>

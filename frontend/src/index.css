@@ -15,7 +15,7 @@
   padding-bottom: 0.2em;
 }
 
-.printer:focus {
+.printer:focus, md-icon {
   outline: none;
 }
 
@@ -67,4 +67,8 @@ md-checkbox.md-checkbox-large > div > .md-icon{
 
 .antimargin {
   margin: 0 !important;
+}
+
+.antipadding {
+  padding: 0 !important;
 }

@@ -10,6 +10,10 @@ function Controller($mdDialog, Printer) {
     Printer.addPrinter({name: $ctrl.name, apikey: $ctrl.apikey, ip: $ctrl.ip})
       .then(() => {
         $mdDialog.hide();
+      })
+      .catch(response => {
+        $ctrl.addprinter.$setSubmitted();
+        $ctrl.addprinter.$error.message = response.data.message;
       });
   };
 }

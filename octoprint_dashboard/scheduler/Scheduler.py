@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from octoprint_dashboard.services import OctoprintService
-from octoprint_dashboard.model import Printer
+from octoprint_dashboard.model import Printer, Config
 
 
 class Scheduler:
@@ -9,7 +9,8 @@ class Scheduler:
         self.scheduler.start()
         printers = Printer.query.all()
         for printer in printers:
-            self.add_printer_status_job(printer, 5)
+            Printer.states[printer.id] = {}
+            self.add_printer_status_job(printer, Config.get_config().server_refresh)
 
     def add_printer_status_job(self, printer: Printer, seconds):
         self.scheduler.add_job(OctoprintService.inject_printer_state,

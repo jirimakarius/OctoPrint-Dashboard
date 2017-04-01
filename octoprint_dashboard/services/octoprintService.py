@@ -12,13 +12,13 @@ class OctoprintService:
         try:
             OctoClient(url=url, apikey=apikey)
         except RuntimeError as e:
-            return e.args[0]
+            return {'message': {"apikey": "Invalid apikey"}}
         except requests.ConnectionError:
-            return "Invalid ip address"
+            return {'message': {"ip": "Invalid ip address"}}
         except JSONDecodeError:
-            return "Invalid ip address"
+            return {'message': {"ip": "Invalid ip address"}}
         except requests.Timeout:
-            return "Invalid ip address"
+            return {'message': {"ip": "Invalid ip address"}}
         return None
 
     @staticmethod
@@ -30,9 +30,9 @@ class OctoprintService:
         # })
 
     @staticmethod
-    def send_file(printer: Printer, file, print: bool):
+    def send_file(printer: Printer, filename, contents, print: bool):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
-        return client.upload((file.filename, file.read()), print=print)
+        return client.upload((filename, contents), print=print)
         # return requests.post('http://{0}/api/files/local'.format(printer.ip),
         #                      files={'file': (file.filename, file.read(), 'application/octet-stream')},
         #                      headers={
@@ -61,12 +61,24 @@ class OctoprintService:
         # })
 
     @staticmethod
+    def get_printer_state_repeated(printer: Printer):
+        try:
+            response = OctoprintService.get_printer_state(printer)
+            return response
+        except requests.ConnectionError:
+            response = OctoprintService.get_printer_state(printer)
+            return response
+
+    @staticmethod
     def inject_printer_state(printer: Printer):
         try:
             response = OctoprintService.get_printer_state(printer)
             Printer.states[printer.id] = response
+            Printer.states[printer.id]["failed"] = False
         except requests.ConnectionError:
-            Printer.states[printer.id] = {"state": {"text": "Offline/Unreachable"}}
+            if Printer.states[printer.id].get("failed"):
+                Printer.states[printer.id] = {"state": {"text": "Offline/Unreachable"}}
+            Printer.states[printer.id]["failed"] = True
         except RuntimeError:
             Printer.states[printer.id] = {"state": {"text": "Offline"}}
 
@@ -94,3 +106,26 @@ class OctoprintService:
     def cancel(printer: Printer):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.cancel()
+
+    @staticmethod
+    def get_files(printer: Printer):
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.files()
+
+    @staticmethod
+    def delete_file(printer: Printer, origin, filename):
+        try:
+            client = OctoClient(url=printer.url, apikey=printer.apikey)
+            client.delete(origin + "/" + filename)
+            return True
+        except RuntimeError:
+            return False
+
+    @staticmethod
+    def print(printer: Printer, origin, filename):
+        try:
+            client = OctoClient(url=printer.url, apikey=printer.apikey)
+            client.select(location=origin + "/" + filename, print=True)
+            return True
+        except RuntimeError:
+            return False

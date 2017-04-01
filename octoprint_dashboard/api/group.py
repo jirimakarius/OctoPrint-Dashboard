@@ -24,7 +24,7 @@ class GroupApi(Resource):
             printers = g.user.get_editable_groups()
             return printers
 
-    # @superadmin_required
+    @superadmin_required
     def post(self):
         args = parser.parse_args()
         group = Group(args["name"])
@@ -32,8 +32,12 @@ class GroupApi(Resource):
         db.session.commit()
         return None, 201, {'Location': "https://localhost:3000/group/{0}".format(group.id)}
 
+    @login_required
     def delete(self):
         args = group_id_parser.parse_args()
-        Group.query.filter(Group.id.in_(args["groupId"])).delete('fetch')
+        groups = Group.query.filter(Group.id.in_(args["groupId"])).all()
+        for group in groups:
+            if group.editable(g.user):
+                db.session.delete(group)
         db.session.commit()
         return None, 204

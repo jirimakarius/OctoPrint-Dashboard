@@ -8,19 +8,30 @@
       </md-button>
     </div>
   </md-toolbar>
-  <div class="md-dialog-content" layout="column">
-    <md-input-container>
-      <label>Name</label>
-      <input ng-model="$ctrl.name">
-    </md-input-container>
-    <md-input-container>
-      <label>Api key</label>
-      <input ng-model="$ctrl.apikey">
-    </md-input-container>
-    <md-input-container>
-      <label>Ip adress (with port)</label>
-      <input ng-model="$ctrl.ip">
-    </md-input-container>
+  <div class="md-dialog-content">
+    <form name="$ctrl.addprinter" ng-submit="$ctrl.submit()" layout="column">
+      <md-input-container>
+        <label>Name</label>
+        <input ng-model="$ctrl.name" name="name" required>
+        <div ng-messages="$ctrl.addprinter.$error.message">
+          <div ng-message="name">{{ $ctrl.addprinter.$error.message.name }}</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Api key</label>
+        <input ng-model="$ctrl.apikey" name="apikey" required>
+        <div ng-messages="$ctrl.addprinter.$error.message">
+          <div ng-message="apikey">{{ $ctrl.addprinter.$error.message.apikey }}</div>
+        </div>
+      </md-input-container>
+      <md-input-container>
+        <label>Ip adress (with port)</label>
+        <input ng-model="$ctrl.ip" name="ip" required>
+        <div ng-messages="$ctrl.addprinter.$error.message">
+          <div ng-message="ip">{{ $ctrl.addprinter.$error.message.ip }}</div>
+        </div>
+      </md-input-container>
+    </form>
   </div>
 
   <md-dialog-actions layout="row">

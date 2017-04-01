@@ -8,9 +8,9 @@ from octoprint_dashboard.model import Printer
 from octoprint_dashboard.services import OctoprintService
 
 parser = reqparse.RequestParser()
-parser.add_argument('name', type=str, required=True, help='Name can\'t be converted')
-parser.add_argument('apikey', type=str, required=True, help='Apikey can\'t be converted')
-parser.add_argument('ip', type=str, required=True, help='ip can\'t be converted')
+parser.add_argument('name', type=str, required=True, help='Name required')
+parser.add_argument('apikey', type=str, required=True, help='Apikey required')
+parser.add_argument('ip', type=str, required=True, help='IP required')
 
 printer_id_parser = reqparse.RequestParser()
 printer_id_parser.add_argument('printerId', type=int, required=True, help='Name can\'t be converted', action='append')
