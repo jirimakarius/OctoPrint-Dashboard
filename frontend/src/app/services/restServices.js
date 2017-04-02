@@ -3,7 +3,8 @@ angular.module('restServices', [])
 .factory('Printer', ($resource, ENV) => {
   const printers = $resource(`${ENV.api}/printer`);
   const printerIdStatus = $resource(`${ENV.api}/printer/status/:printerId`, {printerId: '@id'});
-  const printerStatus = $resource(`${ENV.api}/printer/status`, {printerId: '@id'});
+  const printerStatus = $resource(`${ENV.api}/printer/status`);
+  const printerSettings = $resource(`${ENV.api}/printer/settings`);
 
   function getCheckedPrinterId(printers) {
     const id = [];
@@ -72,6 +73,9 @@ angular.module('restServices', [])
     },
     setBedTemperature: (printerArray, temperature) => {
       return printerStatus.save({printerId: getCheckedPrinterId(printerArray)}, {bed: temperature}).$promise;
+    },
+    saveSettings: (printerArray, settings) => {
+      return printerSettings.save({printerId: getCheckedPrinterId(printerArray)}, settings).$promise;
     },
     getCheckedPrinterId,
     operational,

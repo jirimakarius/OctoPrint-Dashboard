@@ -65,7 +65,7 @@ class PrinterStatusApi(Resource):
     @login_required
     def post(self):
         args = parser.parse_args()
-        printers = Printer.query.filter(Printer.id.in_(args["printerId"])).all()
+        printers = g.user.get_accessible_printers_id(args["printerId"])
 
         for printer in printers:
             try:

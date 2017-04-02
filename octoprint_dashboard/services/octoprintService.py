@@ -129,3 +129,17 @@ class OctoprintService:
             return True
         except RuntimeError:
             return False
+
+    @staticmethod
+    def get_settings(printer: Printer):
+        return requests.get('{0}/api/settings'.format(printer.url), headers={
+            'X-Api-Key': printer.apikey
+        })
+
+    @staticmethod
+    def save_settings(printer: Printer, settings):
+        return requests.post('{0}/api/settings'.format(printer.url),
+                             json=settings,
+                             headers={
+            'X-Api-Key': printer.apikey
+        })

@@ -54,6 +54,18 @@ class User(db.Model):
 
         return printers
 
+    def get_accessible_printers_id(self, printer_ids):
+        from octoprint_dashboard.model import Printer, Group, GroupUser
+        if self.superadmin:
+            printers = Printer.query.filter(Printer.id.in_(printer_ids)).all()
+
+        else:
+            printers = Printer.query.filter(Printer.id.in_(printer_ids))\
+                .join(Printer.group).join(Group.group_user)\
+                .filter(User.id == self.id, GroupUser.role == "admin").all()
+
+        return printers
+
     def get_editable_groups(self):
         from octoprint_dashboard.model import Group, GroupUser
         groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(GroupUser.role == "admin").all()

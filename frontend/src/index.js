@@ -12,6 +12,7 @@ import {addGroup} from './app/admin/addGroup/addGroup';
 import {addSuperAdmin} from './app/admin/addSuperAdmin/addSuperAdmin';
 import {groupSettings} from './app/group/groupSettings/groupSettings';
 import {adminSettings} from './app/admin/adminSettings/adminSettings';
+import {printerSettings} from './app/admin/printerSettings/printerSettings';
 
 import './app/services/restServices';
 import './config';
@@ -48,5 +49,5 @@ angular
   .component('addSuperAdmin', addSuperAdmin)
   .component('groupSettings', groupSettings)
   .component('adminSettings', adminSettings)
+  .component('printerSettings', printerSettings)
   .run(eventListeners);
-

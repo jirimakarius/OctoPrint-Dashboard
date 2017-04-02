@@ -39,11 +39,11 @@
     <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
   </md-button>
   <md-content flex ng-if="$ctrl.checked()==1" ng-init="$ctrl.files = [];$ctrl.getFiles()">
-    <span>Files:</span>
+    <span ng-if="$ctrl.files.length">Files:</span>
     <md-list class="antipadding">
       <md-list-item class="" ng-repeat="file in $ctrl.files">
         <p class="md-caption">{{ file.name }}</p>
-        <md-icon ng-click="$ctrl.printFile(file)" ng-if="$ctrl.operational()">
+        <md-icon ng-click="$ctrl.printFile(file)" ng-if="$ctrl.operational() && file.type=='machinecode'">
           print
           <md-tooltip md-direction="left">Print file</md-tooltip>
         </md-icon>
@@ -51,7 +51,7 @@
           send
           <md-tooltip md-direction="left">Send file to other printers</md-tooltip>
         </md-icon>
-        <md-icon ng-click="$ctrl.deleteFile(file)" ng-if="$ctrl.deleteAction(file)">
+        <md-icon ng-click="$ctrl.deleteFile(file)" ng-if="$ctrl.printing(file)">
           delete
           <md-tooltip md-direction="left">Delete file</md-tooltip>
         </md-icon>

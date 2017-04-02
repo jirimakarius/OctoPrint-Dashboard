@@ -5,6 +5,7 @@ from .group import GroupApi
 from .groupSettings import GroupSettingsApi
 from .file import FileApi, FileIdApi
 from .printerStatus import PrinterStatusIdApi, PrinterStatusApi
+from .printerSettings import PrinterSettingsApi
 from .user import UserApi
 from .superadmin import SuperAdminApi
 from .config import ClientConfigApi, ConfigApi
@@ -22,3 +23,4 @@ api.add_resource(UserApi, '/user')
 api.add_resource(SuperAdminApi, '/superadmin')
 api.add_resource(ClientConfigApi, '/clientConfig')
 api.add_resource(ConfigApi, '/config')
+api.add_resource(PrinterSettingsApi, '/printer/settings')

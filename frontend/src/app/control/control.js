@@ -70,7 +70,7 @@ function ControlController(Files, Printer) {
       });
   };
 
-  this.deleteAction = function (file) {
+  this.printing = function (file) {
     return file.name !== Printer.getCheckedPrinter($ctrl.printers)[0].state.job.fileName;
   };
 
