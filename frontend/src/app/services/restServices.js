@@ -77,6 +77,9 @@ angular.module('restServices', [])
     saveSettings: (printerArray, settings) => {
       return printerSettings.save({printerId: getCheckedPrinterId(printerArray)}, settings).$promise;
     },
+    getSettings: printerArray => {
+      return printerSettings.query({printerId: getCheckedPrinterId(printerArray)}).$promise;
+    },
     getCheckedPrinterId,
     operational,
     getCheckedPrinter

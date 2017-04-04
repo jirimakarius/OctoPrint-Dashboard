@@ -66,7 +66,7 @@ class PrinterStatusApi(Resource):
     def post(self):
         args = parser.parse_args()
         printers = g.user.get_accessible_printers_id(args["printerId"])
-
+        print(args)
         for printer in printers:
             try:
                 if args["bed"] is not None:

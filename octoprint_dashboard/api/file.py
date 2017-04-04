@@ -44,9 +44,10 @@ class FileIdApi(Resource):
     })
     def get(self, printer_id):
         printer = Printer.query.get(printer_id)
-
-        files = OctoprintService.get_files(printer)
-        # print(files)
+        try:
+            files = OctoprintService.get_files(printer)
+        except requests.ConnectionError:
+            return [], 200
         return files["files"]
 
     @login_required

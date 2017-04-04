@@ -132,13 +132,15 @@ class OctoprintService:
 
     @staticmethod
     def get_settings(printer: Printer):
-        return requests.get('{0}/api/settings'.format(printer.url), headers={
+        return requests.get('{0}/api/settings'.format(printer.url), timeout=2,
+                            headers={
             'X-Api-Key': printer.apikey
         })
 
     @staticmethod
     def save_settings(printer: Printer, settings):
         return requests.post('{0}/api/settings'.format(printer.url),
+                             timeout=4,
                              json=settings,
                              headers={
             'X-Api-Key': printer.apikey

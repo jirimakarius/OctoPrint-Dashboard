@@ -1,13 +1,14 @@
 <div layout="row">
   <md-input-container flex>
     <label>Server printer status refresh time</label>
-    <input ng-model="$ctrl.config.server_refresh">
+    <input ng-model="$ctrl.config.server_refresh" ng-pattern="/^[0-9]{1,3}$/">
   </md-input-container>
 </div>
 <div layout="row">
   <md-input-container flex>
     <label>Client printer status refresh time</label>
-    <input ng-model="$ctrl.config.client_refresh">
+    <input ng-model="$ctrl.config.client_refresh" ng-pattern="/^[0-9]{1,3}$/">
   </md-input-container>
 </div>
+<md-button class="md-warn md-raised">Submit</md-button>
 

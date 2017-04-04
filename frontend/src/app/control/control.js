@@ -63,6 +63,15 @@ function ControlController(Files, Printer) {
       });
   };
 
+  this.getPresets = function () {
+    Printer.getSettings($ctrl.printers)
+      .then(response => {
+        if (response.length) {
+          $ctrl.temperaturePresets = response[0].temperature.profiles;
+        }
+      });
+  };
+
   this.deleteFile = function (file) {
     Files.deleteFile(Printer.getCheckedPrinterId($ctrl.printers)[0], file)
       .then(() => {
