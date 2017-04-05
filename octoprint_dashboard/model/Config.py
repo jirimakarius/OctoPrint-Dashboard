@@ -1,4 +1,4 @@
-from octoprint_dashboard import db
+from octoprint_dashboard.app import db
 
 
 class Config(db.Model):
@@ -16,10 +16,3 @@ class Config(db.Model):
 
     def __repr__(self):
         return '<Config %r>' % self.id
-
-    @staticmethod
-    def get_config():
-        if Config._config is None:
-            Config._config = Config.query.scalar()
-
-        return Config._config

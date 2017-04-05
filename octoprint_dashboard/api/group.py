@@ -2,7 +2,7 @@ from flask_restful import Resource, marshal_with, fields, reqparse
 from octoprint_dashboard.login import login_required, superadmin_required
 from octoprint_dashboard.model import Group
 from flask import g
-from octoprint_dashboard import db
+from octoprint_dashboard.app import db
 
 parser = reqparse.RequestParser()
 parser.add_argument('name', type=str, required=True, help='Name can\'t be converted')

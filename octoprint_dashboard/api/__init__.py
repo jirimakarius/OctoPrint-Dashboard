@@ -1,4 +1,4 @@
-from octoprint_dashboard import app
+from octoprint_dashboard.app import app
 from flask_restful import Api
 from .printer import PrinterApi
 from .group import GroupApi

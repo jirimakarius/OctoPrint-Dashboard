@@ -1,6 +1,6 @@
 from flask import request, g
 
-from octoprint_dashboard import app
+from octoprint_dashboard.app import app
 from octoprint_dashboard.login import login_required
 from octoprint_dashboard.services import LoginService
 from octoprint_dashboard.model import User

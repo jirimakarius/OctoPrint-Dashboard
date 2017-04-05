@@ -87,6 +87,10 @@ function ControlController(Files, Printer) {
     Files.printFile(Printer.getCheckedPrinterId($ctrl.printers)[0], file);
     Printer.getCheckedPrinter($ctrl.printers)[0].state.state = "Preparing to print";
   };
+
+  this.getChecked = function (printers) {
+    return Printer.getCheckedPrinter(printers);
+  };
 }
 
 export const control = {

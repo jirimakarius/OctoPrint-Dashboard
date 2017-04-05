@@ -1,5 +1,5 @@
 import click
-from octoprint_dashboard import app, db
+from octoprint_dashboard.app import app, db
 from octoprint_dashboard.model import User
 
 

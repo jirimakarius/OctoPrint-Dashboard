@@ -1,5 +1,5 @@
 /** @ngInject */
-function GroupSettingsController($mdDialog, Group, User) {
+function GroupSettingsController(Group, $mdDialog, User) {
   const $ctrl = this;
 
   this.cancel = function () {
@@ -7,8 +7,11 @@ function GroupSettingsController($mdDialog, Group, User) {
   };
 
   this.submit = function () {
-    Group.setGroupSettings($ctrl.groupsettings);
-    $mdDialog.hide();
+    Group.setGroupSettings($ctrl.groupsettings)
+      .then(() => {
+        $ctrl.group.name = $ctrl.groupsettings.name;
+        $mdDialog.hide();
+      });
   };
 
   this.addUser = function (text) {

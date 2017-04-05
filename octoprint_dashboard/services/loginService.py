@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from octoprint_dashboard import app
+from octoprint_dashboard.app import app
 import jwt
 import requests
 import base64

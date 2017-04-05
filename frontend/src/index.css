@@ -72,3 +72,16 @@ md-checkbox.md-checkbox-large > div > .md-icon{
 .antipadding {
   padding: 0 !important;
 }
+
+.oneline-chips > md-chips-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  position: relative;
+  /*width: auto;*/
+}
+
+.oneline-chip {
+  display: inline-block !important;
+  float: none !important;
+}

@@ -2,7 +2,7 @@ from flask import g
 from flask_restful import Resource, marshal_with, fields, reqparse
 import requests
 
-from octoprint_dashboard import db, scheduler
+from octoprint_dashboard.app import db, scheduler
 from octoprint_dashboard.login import login_required, superadmin_required
 from octoprint_dashboard.model import Printer
 from octoprint_dashboard.services import OctoprintService
@@ -46,7 +46,9 @@ class PrinterApi(Resource):
     @superadmin_required
     def delete(self):
         args = printer_id_parser.parse_args()
-        Printer.query.filter(Printer.id.in_(args["printerId"])).delete('fetch')
+        printers = Printer.query.filter(Printer.id.in_(args["printerId"])).all()
+        for printer in printers:
+            db.session.delete(printer)
         db.session.commit()
         scheduler.remove_printer_status_job(args["printerId"])
         return None, 204

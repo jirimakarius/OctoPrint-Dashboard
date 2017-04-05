@@ -6,6 +6,12 @@ function Controller(Config) {
     .then(response => {
       $ctrl.config = response;
     });
+
+  this.submit = () => {
+    if ($ctrl.configForm.$valid) {
+      Config.saveConfig($ctrl.config);
+    }
+  };
 }
 
 export const adminSettings = {

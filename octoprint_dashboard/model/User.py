@@ -1,4 +1,4 @@
-from octoprint_dashboard import db
+from octoprint_dashboard.app import db
 from sqlalchemy.ext.associationproxy import association_proxy
 
 
