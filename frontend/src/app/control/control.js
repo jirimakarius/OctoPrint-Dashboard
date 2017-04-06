@@ -1,5 +1,5 @@
 /** @ngInject */
-function ControlController(Files, Printer) {
+function ControlController(Files, Printer, $mdDialog, $document) {
   const $ctrl = this;
 
   this.uploadPrint = function (file) {
@@ -90,6 +90,26 @@ function ControlController(Files, Printer) {
 
   this.getChecked = function (printers) {
     return Printer.getCheckedPrinter(printers);
+  };
+
+  this.sendFile = function ($event, file) {
+    $mdDialog.show({
+      template: `<md-dialog flex="50" style="max-height: 90%"><printer-select printers="$ctrl.printers" filename="${file.name}" layout="column"></printer-select></md-dialog>`,
+      parent: angular.element($document.body),
+      controller() {
+        this.printers = $ctrl.printers;
+        this.filename = $ctrl.filename;
+      },
+      controllerAs: '$ctrl',
+      targetEvent: $event,
+      clickOutsideToClose: true,
+      fullscreen: true,
+      autoWrap: false
+    })
+      .then(result => {
+        Files.fileToPrinters(Printer.getCheckedPrinter($ctrl.printers)[0].id, result, file);
+      })
+      .catch(() => {});
   };
 }
 

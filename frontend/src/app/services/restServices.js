@@ -116,6 +116,9 @@ angular.module('restServices', [])
     },
     printFile: (printerId, file) => {
       return files.save({printerId}, {origin: file.origin, name: file.name}).$promise;
+    },
+    fileToPrinters: (printerId, printerIds, file) => {
+      return files.save({printerId}, {printerId: printerIds, origin: file.origin, name: file.name, send: true}).$promise;
     }
   };
 })
@@ -123,7 +126,7 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('Group', ($resource, ENV) => {
   const groups = $resource(`${ENV.api}/group`);
-  const groupSettingsAPI = $resource(`${ENV.api}/group/settings/:groupId`, {groupId: '@id'},
+  const groupSettingsAPI = $resource(`${ENV.api}/group/:groupId/settings`, {groupId: '@id'},
     {
       update: {method: 'PUT'}
     });

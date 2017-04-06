@@ -113,6 +113,14 @@ class OctoprintService:
         return client.files()
 
     @staticmethod
+    def get_file(printer: Printer, origin, filename):
+        return requests.get('{0}/api/files/{1}/{2}'.format(printer.url, origin, filename),
+                            timeout=4,
+                            headers={
+                                'X-Api-Key': printer.apikey
+                            })
+
+    @staticmethod
     def delete_file(printer: Printer, origin, filename):
         try:
             client = OctoClient(url=printer.url, apikey=printer.apikey)
@@ -134,8 +142,8 @@ class OctoprintService:
     def get_settings(printer: Printer):
         return requests.get('{0}/api/settings'.format(printer.url), timeout=2,
                             headers={
-            'X-Api-Key': printer.apikey
-        })
+                                'X-Api-Key': printer.apikey
+                            })
 
     @staticmethod
     def save_settings(printer: Printer, settings):
@@ -143,5 +151,17 @@ class OctoprintService:
                              timeout=4,
                              json=settings,
                              headers={
-            'X-Api-Key': printer.apikey
-        })
+                                 'X-Api-Key': printer.apikey
+                             })
+
+    @staticmethod
+    def get_file_contents(printer: Printer, origin, filename):
+        file_info = OctoprintService.get_file(printer, origin, filename).json()
+
+        print(file_info["refs"]["download"])
+        response = requests.get(file_info["refs"]["download"],
+                                timeout=4,
+                                headers={
+                                    'X-Api-Key': printer.apikey
+                                })
+        return response.content

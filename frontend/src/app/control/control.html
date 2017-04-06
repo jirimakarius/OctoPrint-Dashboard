@@ -89,7 +89,7 @@
           print
           <md-tooltip md-direction="left">Print file</md-tooltip>
         </md-icon>
-        <md-icon ng-click="$ctrl.sendFile(file)">
+        <md-icon ng-click="$ctrl.sendFile($event, file)">
           send
           <md-tooltip md-direction="left">Send file to other printers</md-tooltip>
         </md-icon>

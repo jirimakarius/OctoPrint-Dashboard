@@ -14,7 +14,7 @@ api = Api(app)
 
 api.add_resource(PrinterApi, '/printer')
 api.add_resource(GroupApi, '/group')
-api.add_resource(GroupSettingsApi, '/group/settings/<int:group_id>')
+api.add_resource(GroupSettingsApi, '/group/<int:group_id>/settings')
 api.add_resource(FileApi, '/printer/upload')
 api.add_resource(FileIdApi, '/printer/<int:printer_id>/files')
 api.add_resource(PrinterStatusIdApi, '/printer/status/<int:printer_id>')
