@@ -54,7 +54,12 @@ class PrinterStatusApi(Resource):
             })
         }),
         'id': fields.Integer,
-        'name': fields.String
+        'name': fields.String,
+        'group': fields.List(
+            fields.Nested({
+                'name': fields.String
+            }
+        ))
     })
     def get(self):
         printers = g.user.get_accessible_printers()

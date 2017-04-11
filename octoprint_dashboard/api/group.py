@@ -4,6 +4,9 @@ from octoprint_dashboard.model import Group
 from flask import g
 from octoprint_dashboard.app import db
 
+access_parser = reqparse.RequestParser()
+access_parser.add_argument('access', type=str, help='Access can\'t be converted', location="args")
+
 parser = reqparse.RequestParser()
 parser.add_argument('name', type=str, required=True, help='Name can\'t be converted')
 
@@ -21,7 +24,10 @@ class GroupApi(Resource):
         if g.user.superadmin:
             return Group.query.all()
         else:
-            printers = g.user.get_editable_groups()
+            if access_parser.parse_args()["access"] == "editable":
+                printers = g.user.get_editable_groups()
+            else:
+                printers = g.user.get_groups()
             return printers
 
     @superadmin_required

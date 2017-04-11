@@ -85,3 +85,16 @@ md-checkbox.md-checkbox-large > div > .md-icon{
   display: inline-block !important;
   float: none !important;
 }
+
+.selected-group {
+  color: rgb(244, 67, 54);
+  border-bottom: 1px solid rgb(244, 67, 54) !important;
+}
+
+.groupmenu-item {
+  border-bottom: 1px solid transparent;
+}
+
+#groupmenu {
+  border-right: 1px solid rgb(244, 67, 54);
+}

@@ -71,3 +71,9 @@ class User(db.Model):
         groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(GroupUser.role == "admin").all()
 
         return groups
+
+    def get_groups(self):
+        from octoprint_dashboard.model import Group, GroupUser
+        groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).all()
+
+        return groups

@@ -135,6 +135,9 @@ angular.module('restServices', [])
     getGroups: () => {
       return groups.query().$promise;
     },
+    getEditableGroups: () => {
+      return groups.query({access: "editable"}).$promise;
+    },
     addGroup: group => {
       return groups.save(group).$promise;
     },

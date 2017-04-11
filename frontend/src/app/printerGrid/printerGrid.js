@@ -1,5 +1,5 @@
 /** @ngInject */
-function PrinterGridController(Printer, $interval, $filter, $auth, $rootScope) {
+function PrinterGridController(Printer, $interval, $filter, $auth, $rootScope, Group, printersOfGroupFilter) {
   const $ctrl = this;
   let interval = "";
 
@@ -8,6 +8,11 @@ function PrinterGridController(Printer, $interval, $filter, $auth, $rootScope) {
       Printer.getPrinterStatus()
         .then(response => {
           $ctrl.printers = response;
+        });
+      Group.getGroups()
+        .then(response => {
+          console.dir(response);
+          $ctrl.groups = response;
         });
 
       $rootScope.configPromise.then(() => {
@@ -44,6 +49,21 @@ function PrinterGridController(Printer, $interval, $filter, $auth, $rootScope) {
       }
     });
   }
+
+  this.select = function (group) {
+    $ctrl.printers.forEach(printer => {
+      printer.checked = false;
+    });
+
+    if ($ctrl.selectedGroup === group) {
+      printersOfGroupFilter($ctrl.printers, group)
+        .forEach(printer => {
+          printer.checked = true;
+        });
+    }
+
+    $ctrl.selectedGroup = group;
+  };
 }
 
 export const printerGrid = {

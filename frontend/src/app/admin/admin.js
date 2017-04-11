@@ -46,7 +46,7 @@ function AdminController(Printer, Group, $mdDialog, $document, $auth) {
       clickOutsideToClose: true,
       fullscreen: true
     }).then(() => {
-      Group.getGroups()
+      Group.getEditableGroups()
         .then(response => {
           $ctrl.groups = response;
         });
@@ -55,7 +55,6 @@ function AdminController(Printer, Group, $mdDialog, $document, $auth) {
 
   this.deleteGroup = function (group) {
     const index = $ctrl.groups.indexOf(group);
-    console.dir(index);
     $ctrl.groups.splice(index, 1);
   };
 
@@ -95,7 +94,7 @@ function AdminController(Printer, Group, $mdDialog, $document, $auth) {
       $ctrl.printers = response;
     });
 
-  Group.getGroups()
+  Group.getEditableGroups()
     .then(response => {
       $ctrl.groups = response;
     });

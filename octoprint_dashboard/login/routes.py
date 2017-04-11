@@ -30,11 +30,3 @@ def auth():
     token = LoginService.create_api_token(check_response.get("user_name"), role)
     print(token)
     return token, 200
-
-
-@app.route('/auth/refresh', methods=['GET'])
-@login_required
-def auth_refresh():
-    token = LoginService.create_api_token(g.user.username)
-
-    return token, 200

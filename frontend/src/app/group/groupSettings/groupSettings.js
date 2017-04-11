@@ -15,6 +15,9 @@ function GroupSettingsController(Group, $mdDialog, User) {
   };
 
   this.addUser = function (text) {
+    if (!text) {
+      return;
+    }
     const resource = text.split(" ");
     resource.forEach(username => {
       if (findByUsername(username).length) {
@@ -45,7 +48,6 @@ function GroupSettingsController(Group, $mdDialog, User) {
 
   this.querySearch = query => {
     const p = query ? $ctrl.printers.filter(createFilterForPrinter(query)) : $ctrl.printers;
-    console.dir(p);
     return p;
   };
   this.transformChip = chip => {

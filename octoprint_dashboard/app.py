@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 db = SQLAlchemy(app)
 import octoprint_dashboard.model
-db.create_all()
+db.create_all() # default config přidat
 
 from octoprint_dashboard.scheduler import Scheduler
 scheduler = Scheduler()
@@ -40,11 +40,3 @@ def frontend():
 @app.route('/<text>.js')
 def neco(text):
     return send_from_directory('dist', text + ".js")
-
-
-@app.route('/uploadtest', methods=['POST'])
-def upload():
-    print(request.data)
-    for i in request.files.keys():
-        print(i)
-    return 'parek', 201
