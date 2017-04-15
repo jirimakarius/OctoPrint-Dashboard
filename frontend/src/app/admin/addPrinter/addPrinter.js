@@ -1,6 +1,7 @@
 /** @ngInject */
 function Controller($mdDialog, Printer) {
   const $ctrl = this;
+  $ctrl.printers = [];
 
   this.cancel = function () {
     $mdDialog.cancel();
@@ -14,6 +15,26 @@ function Controller($mdDialog, Printer) {
       .catch(response => {
         $ctrl.addprinter.$setSubmitted();
         $ctrl.addprinter.$error.message = response.data.message;
+      });
+  };
+
+  this.addPrinter = function (name, apikey, ip) {
+    const printer = {name, apikey, ip};
+    $ctrl.printers.push(printer);
+    $ctrl.validatePrinter(printer);
+    $ctrl.newprinter.name = "";
+    $ctrl.newprinter.apikey = "";
+    $ctrl.newprinter.ip = "";
+  };
+
+  this.validatePrinter = function (printer) {
+    printer.valid = "progress";
+    Printer.validate(printer)
+      .then(() => {
+        printer.valid = "true";
+      })
+      .catch(() => {
+        printer.valid = "false";
       });
   };
 }

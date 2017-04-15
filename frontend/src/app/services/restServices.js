@@ -47,6 +47,9 @@ angular.module('restServices', [])
     addPrinter: printer => {
       return printers.save(printer).$promise;
     },
+    validate: printer => {
+      return printers.save({validate: true}, printer).$promise;
+    },
     removePrinters: printerArray => {
       return printers.remove({printerId: getCheckedPrinterId(printerArray)}).$promise;
     },

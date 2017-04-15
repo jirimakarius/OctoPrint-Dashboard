@@ -9,34 +9,72 @@
     </div>
   </md-toolbar>
   <div class="md-dialog-content">
-    <form name="$ctrl.addprinter" ng-submit="$ctrl.submit()" layout="column">
-      <md-input-container>
-        <label>Name</label>
-        <input ng-model="$ctrl.name" name="name" required>
-        <div ng-messages="$ctrl.addprinter.$error.message">
-          <div ng-message="name">{{ $ctrl.addprinter.$error.message.name }}</div>
-        </div>
+    <!--<form name="$ctrl.addprinter" ng-submit="$ctrl.submit()" layout="column">-->
+      <!--<md-input-container>-->
+        <!--<label>Name</label>-->
+        <!--<input ng-model="$ctrl.name" name="name" required>-->
+        <!--<div ng-messages="$ctrl.addprinter.$error.message">-->
+          <!--<div ng-message="name">{{ $ctrl.addprinter.$error.message.name }}</div>-->
+        <!--</div>-->
+      <!--</md-input-container>-->
+      <!--<md-input-container>-->
+        <!--<label>Api key</label>-->
+        <!--<input ng-model="$ctrl.apikey" name="apikey" required>-->
+        <!--<div ng-messages="$ctrl.addprinter.$error.message">-->
+          <!--<div ng-message="apikey">{{ $ctrl.addprinter.$error.message.apikey }}</div>-->
+        <!--</div>-->
+      <!--</md-input-container>-->
+      <!--<md-input-container>-->
+        <!--<label>Ip adress (with port)</label>-->
+        <!--<input ng-model="$ctrl.ip" name="ip" required>-->
+        <!--<div ng-messages="$ctrl.addprinter.$error.message">-->
+          <!--<div ng-message="ip">{{ $ctrl.addprinter.$error.message.ip }}</div>-->
+        <!--</div>-->
+      <!--</md-input-container>-->
+    <!--</form>-->
+    <div layout="row">
+      <span flex="30">Name</span>
+      <span flex="30">Api-key</span>
+      <span flex="20">Url</span>
+    </div>
+    <form ng-repeat="printer in $ctrl.printers" layout="row" layout-align="start center">
+      <md-input-container flex="30" md-no-float>
+        <input placeholder="Name" ng-model="printer.name" name="name">
       </md-input-container>
-      <md-input-container>
-        <label>Api key</label>
-        <input ng-model="$ctrl.apikey" name="apikey" required>
-        <div ng-messages="$ctrl.addprinter.$error.message">
-          <div ng-message="apikey">{{ $ctrl.addprinter.$error.message.apikey }}</div>
-        </div>
+      <md-input-container flex="30" md-no-float>
+        <input placeholder="Api-key" ng-model="printer.apikey" name="apikey">
       </md-input-container>
-      <md-input-container>
-        <label>Ip adress (with port)</label>
-        <input ng-model="$ctrl.ip" name="ip" required>
-        <div ng-messages="$ctrl.addprinter.$error.message">
-          <div ng-message="ip">{{ $ctrl.addprinter.$error.message.ip }}</div>
-        </div>
+      <md-input-container flex="20" md-no-float>
+        <input placeholder="Url" ng-model="printer.ip" name="ip">
       </md-input-container>
+      <md-icon ng-if="printer.valid=='true'">done</md-icon>
+      <md-icon ng-if="printer.valid=='false'" class="md-warn">close</md-icon>
+      <md-progress-circular ng-if="printer.valid=='progress'" md-diameter=22"></md-progress-circular>
+      <div flex></div>
+      <md-button ng-click="$ctrl.validatePrinter(printer)">
+        Validate
+      </md-button>
+    </form>
+    <form layout="row" layout-align="start center">
+      <md-input-container flex="30" md-no-float>
+        <input placeholder="Name" ng-model="$ctrl.newprinter.name" name="name">
+      </md-input-container>
+      <md-input-container flex="30" md-no-float>
+        <input placeholder="Api-key" ng-model="$ctrl.newprinter.apikey" name="apikey">
+      </md-input-container>
+      <md-input-container flex="20" md-no-float>
+        <input placeholder="Url" ng-model="$ctrl.newprinter.ip" name="ip">
+      </md-input-container>
+      <div flex></div>
+      <md-button ng-click="$ctrl.addPrinter($ctrl.newprinter.name, $ctrl.newprinter.apikey, $ctrl.newprinter.ip)">
+        Validate
+      </md-button>
     </form>
   </div>
 
   <md-dialog-actions layout="row">
     <span flex></span>
-    <md-button ng-click="$ctrl.submit()">
+    <md-button ng-click="$ctrl.submit()" ng-disabled="($ctrl.printers | filter:{valid: 'true'}).length<1">
       Submit
     </md-button>
   </md-dialog-actions>
