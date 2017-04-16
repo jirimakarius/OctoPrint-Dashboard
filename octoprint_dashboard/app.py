@@ -1,7 +1,6 @@
-import requests
-from flask import Flask, send_from_directory, request, current_app
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, send_from_directory, request
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "something"
@@ -14,21 +13,31 @@ db.create_all() # default config přidat
 
 from octoprint_dashboard.scheduler import Scheduler
 scheduler = Scheduler()
-
-
-@app.before_first_request
-def _startup():
-    scheduler.start()
-
-from octoprint_dashboard.model import User
-if User.query.filter_by(superadmin=True).scalar() is None:
-    username = input("No superadmin, create superadmin: (USERNAME)  ")
-    User.upsert_superadmin(username)
-
 import octoprint_dashboard.cli_commands
 
 import octoprint_dashboard.login.routes
 import octoprint_dashboard.api
+
+
+def shutdown_server():
+    func = request.environ.get('werkzeug.server.shutdown')
+    if func is None:
+        raise RuntimeError('Not running with the Werkzeug Server')
+    func()
+
+
+@app.before_first_request
+def _startup():
+    from octoprint_dashboard.model import User, Config
+    if Config.query.scalar() is None:
+        print("No config, add config via command 'flask config'")
+        shutdown_server()
+    if User.query.filter_by(superadmin=True).scalar() is None:
+        print("No superadmin, add superadmin via command 'flask add_superadmin <username>'")
+        shutdown_server()
+
+    scheduler.start()
+
 
 
 @app.route('/')

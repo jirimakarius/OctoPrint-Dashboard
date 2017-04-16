@@ -8,11 +8,14 @@ import base64
 class LoginService:
     access_route = "https://auth.fit.cvut.cz/oauth/oauth/token"
     check_route = "https://auth.fit.cvut.cz/oauth/oauth/check_token"
-    client_id = "fd19e88d-740e-4c82-822c-fff99ef0c4cb"
-    client_secret = "Fb1VBJBaK9HYPSdY9YwOjEOwRU2B12IO"
-    redirect_uri = "http://localhost:3000"
-    authorization = "Basic " + base64.b64encode("{0}:{1}".format(client_id, client_secret).encode('ascii')).decode(
-        'utf-8')
+    from octoprint_dashboard.model import Config
+    config = Config.query.first()
+    if config:
+        client_id = config.oauth_client_id
+        client_secret = config.oauth_client_secret
+        redirect_uri = config.oauth_redirect_uri
+        authorization = "Basic " + base64.b64encode("{0}:{1}".format(client_id, client_secret).encode('ascii')).decode(
+            'utf-8')
 
     @staticmethod
     def create_api_token(username, role):
@@ -32,7 +35,6 @@ class LoginService:
 
     @staticmethod
     def get_access_code(code):
-        # {"access_token":"39fe293d-0966-4160-994e-4e24fc0aad01","token_type":"bearer","refresh_token":"3594dd6c-5416-41db-8eca-e4683ec617c4","expires_in":1550,"scope":"urn:zuul:oauth"}
         response = requests.post(LoginService.access_route, headers={
             "Authorization": LoginService.authorization
         }, data={
