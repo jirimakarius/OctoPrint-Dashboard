@@ -8,13 +8,11 @@ function Controller($mdDialog, Printer) {
   };
 
   this.submit = function () {
-    Printer.addPrinter({name: $ctrl.name, apikey: $ctrl.apikey, ip: $ctrl.ip})
+    Printer.addPrinter($ctrl.printers.filter(printer => {
+      return printer.valid === "true";
+    }))
       .then(() => {
         $mdDialog.hide();
-      })
-      .catch(response => {
-        $ctrl.addprinter.$setSubmitted();
-        $ctrl.addprinter.$error.message = response.data.message;
       });
   };
 
