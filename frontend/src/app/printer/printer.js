@@ -16,6 +16,10 @@ function PrinterController(Printer) {
     Printer.cancelPrinter($ctrl.data.id);
     $ctrl.data.state.state = "Aborting job...";
   };
+
+  this.progressHidden = function () {
+    return !($ctrl.data.state.state === "Printing" || $ctrl.data.state.state === "Pausing..." || $ctrl.data.state.state === "Paused" || $ctrl.data.state.state === "Resuming...");
+  };
 }
 
 export const printer = {
