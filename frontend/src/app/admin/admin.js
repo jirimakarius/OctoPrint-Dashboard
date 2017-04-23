@@ -16,7 +16,8 @@ function AdminController(Printer, Group, $mdDialog, $document, $auth) {
         .then(response => {
           $ctrl.printers = response;
         });
-    });
+    })
+      .catch(() => {});
   };
 
   this.removePrinters = function ($event) {

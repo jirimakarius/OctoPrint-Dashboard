@@ -5,6 +5,7 @@ angular.module('restServices', [])
   const printerIdStatus = $resource(`${ENV.api}/printer/status/:printerId`, {printerId: '@id'});
   const printerStatus = $resource(`${ENV.api}/printer/status`);
   const printerSettings = $resource(`${ENV.api}/printer/settings`);
+  const printerServicesLocal = $resource(`${ENV.api}/printer/service/local`);
 
   function getCheckedPrinterId(printers) {
     const id = [];
@@ -46,6 +47,9 @@ angular.module('restServices', [])
     },
     addPrinter: printer => {
       return printers.save(printer).$promise;
+    },
+    getLocalServices: () => {
+      return printerServicesLocal.query().$promise;
     },
     validate: printer => {
       return printers.save({validate: true}, printer).$promise;

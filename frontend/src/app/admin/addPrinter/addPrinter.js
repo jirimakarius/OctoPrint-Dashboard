@@ -3,6 +3,15 @@ function Controller($mdDialog, Printer) {
   const $ctrl = this;
   $ctrl.printers = [];
 
+  this.$onInit = function () {
+    Printer.getLocalServices()
+      .then(result => {
+        result.forEach(service => {
+          $ctrl.printers.push({name: service.name, ip: service.ip, apikey: "", valid: "false"});
+        });
+      });
+  };
+
   this.cancel = function () {
     $mdDialog.cancel();
   };

@@ -11,8 +11,9 @@ db = SQLAlchemy(app)
 import octoprint_dashboard.model
 db.create_all() # default config přidat
 
-from octoprint_dashboard.scheduler import Scheduler
+from octoprint_dashboard.background import Scheduler, ZeroconfBrowser
 scheduler = Scheduler()
+zeroconf_browser = ZeroconfBrowser()
 import octoprint_dashboard.cli_commands
 
 import octoprint_dashboard.login.routes
@@ -37,7 +38,7 @@ def _startup():
         shutdown_server()
 
     scheduler.start()
-
+    zeroconf_browser.start()
 
 
 @app.route('/')

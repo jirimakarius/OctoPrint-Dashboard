@@ -37,36 +37,36 @@
       <span flex="30">Api-key</span>
       <span flex="20">Url</span>
     </div>
-    <form ng-repeat="printer in $ctrl.printers" layout="row" layout-align="start center">
+    <form ng-repeat="printer in $ctrl.printers" name="$ctrl.forms[{{$index}}]" layout="row" layout-align="start center">
       <md-input-container flex="30" md-no-float>
-        <input placeholder="Name" ng-model="printer.name" name="name">
+        <input placeholder="Name" ng-model="printer.name" name="name" required>
       </md-input-container>
       <md-input-container flex="30" md-no-float>
-        <input placeholder="Api-key" ng-model="printer.apikey" name="apikey">
+        <input placeholder="Api-key" ng-model="printer.apikey" name="apikey" required>
       </md-input-container>
       <md-input-container flex="20" md-no-float>
-        <input placeholder="Url" ng-model="printer.ip" name="ip">
+        <input placeholder="Url" ng-model="printer.ip" name="ip" required>
       </md-input-container>
       <md-icon ng-if="printer.valid=='true'">done</md-icon>
       <md-icon ng-if="printer.valid=='false'" class="md-warn">close</md-icon>
       <md-progress-circular ng-if="printer.valid=='progress'" md-diameter=22"></md-progress-circular>
       <div flex></div>
-      <md-button ng-click="$ctrl.validatePrinter(printer)">
+      <md-button ng-click="$ctrl.validatePrinter(printer)" ng-disabled="$ctrl.forms[$index].$invalid">
         Validate
       </md-button>
     </form>
-    <form layout="row" layout-align="start center">
+    <form layout="row" layout-align="start center" name="$ctrl.newPrinterForm">
       <md-input-container flex="30" md-no-float>
-        <input placeholder="Name" ng-model="$ctrl.newprinter.name" name="name">
+        <input placeholder="Name" ng-model="$ctrl.newprinter.name" name="name" required>
       </md-input-container>
       <md-input-container flex="30" md-no-float>
-        <input placeholder="Api-key" ng-model="$ctrl.newprinter.apikey" name="apikey">
+        <input placeholder="Api-key" ng-model="$ctrl.newprinter.apikey" name="apikey" required>
       </md-input-container>
       <md-input-container flex="20" md-no-float>
-        <input placeholder="Url" ng-model="$ctrl.newprinter.ip" name="ip">
+        <input placeholder="Url" ng-model="$ctrl.newprinter.ip" name="ip" required>
       </md-input-container>
       <div flex></div>
-      <md-button ng-click="$ctrl.addPrinter($ctrl.newprinter.name, $ctrl.newprinter.apikey, $ctrl.newprinter.ip)">
+      <md-button ng-click="$ctrl.addPrinter($ctrl.newprinter.name, $ctrl.newprinter.apikey, $ctrl.newprinter.ip)" ng-disabled="$ctrl.newPrinterForm.$invalid">
         Validate
       </md-button>
     </form>

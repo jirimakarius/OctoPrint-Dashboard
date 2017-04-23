@@ -10,7 +10,7 @@ setup(
     zip_safe=False,
     url='',
     install_requires=[
-        'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful', 'apscheduler', 'octoclient', 'flask-cors'
+        'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful', 'apscheduler', 'octoclient', 'flask-cors', 'zeroconf'
     ],
     dependency_links=['https://github.com/hroncok/octoclient/tarball/master#egg=octoclient-0.1.dev1']
 )
