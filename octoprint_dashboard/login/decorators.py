@@ -17,7 +17,7 @@ def login_required(f):
             return 'Token is invalid', 401
         except ExpiredSignature:
             return 'Token has expired', 401
-        g.user = User.query.filter_by(username=payload['sub']).first()
+        g.user = User.query.filter_by(username=payload['username']).first()
         return f(*args, **kwargs)
     return decorated_function
 
@@ -35,9 +35,9 @@ def superadmin_required(f):
         except ExpiredSignature:
             return 'Token has expired', 401
 
-        g.user = User.query.filter_by(username=payload['username']).scalar()
-        if g.user.superadmin is None:
-            return '', 403
+        g.user = User.query.filter_by(username=payload['username']).first()
+        if g.user.superadmin is False:
+            return 'You are not superadmin', 403
 
         return f(*args, **kwargs)
     return decorated_function

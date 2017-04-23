@@ -1,12 +1,32 @@
-<md-content class="printer border-classic">
-  <h3>{{ $ctrl.data.name }}</h3>
-  <p>State: {{ $ctrl.data.state }} </p>
-  <md-content layout="row">
-    <p flex="50">Tool: {{ $ctrl.data.temperature.tool }}</p>
-    <p flex>Bed: {{ $ctrl.data.temperature.bed }}</p>
+<md-content class="printer" ng-class="{'selected-printer': $ctrl.data.checked}" md-whiteframe="15" layout="column" ng-click="$ctrl.data.checked=!$ctrl.data.checked">
+  <div layout="row" layout-align="space-between start">
+    <h3>{{ $ctrl.data.name }}</h3>
+    <div>
+      <md-button class="md-icon-button antimargin" ng-click="$ctrl.pause(); $event.stopPropagation()" ng-disabled="$ctrl.data.state.state!='Paused' && $ctrl.data.state.state!='Printing'">
+        <md-icon ng-if="$ctrl.data.state.state!='Paused'">pause</md-icon>
+        <md-icon ng-if="$ctrl.data.state.state=='Paused'">play_arrow</md-icon>
+        <md-tooltip>Pause</md-tooltip>
+      </md-button>
+      <md-button class="md-icon-button antimargin" ng-click="$ctrl.cancel(); $event.stopPropagation()" ng-disabled="$ctrl.data.state.state!='Paused' && $ctrl.data.state.state!='Printing'">
+        <md-icon>stop</md-icon>
+        <md-tooltip>Cancel</md-tooltip>
+      </md-button>
+    </div>
+    <md-button class="md-icon-button md-primary printer-drag" sv-handle>
+      <md-icon>drag_handle</md-icon>
+      <md-tooltip>Drag</md-tooltip>
+    </md-button>
+  </div>
+  <span>State: {{ $ctrl.data.state.state }} </span>
+  <span>File: {{ $ctrl.data.state.job.fileName }}</span>
+  <span>Print time left: {{($ctrl.data.state.state=="Printing" || $ctrl.data.state.state=="Paused") && ($ctrl.data.state.job.printTimeLeft>0 && ($ctrl.data.state.job.printTimeLeft | secondsToDateTime | date: 'HH:mm:ss') || "Calculating...") || "" }}</span>
+  <md-content layout="row" layout-align="space-between center">
+    <md-progress-linear flex="85" class="md-accent printer-progress" md-mode="determinate" value="{{ $ctrl.data.state.job.completion }}"></md-progress-linear>
+    <span ng-if="$ctrl.data.state.job.completion">{{ $ctrl.data.state.job.completion | number: 0}}%</span>
   </md-content>
-  <md-content layout="row" layout-align="end center">
-    <md-checkbox ng-model="$ctrl.data.checked" aria-label="Checked"></md-checkbox>
-    <md-button class="md-raised" sv-handle>Drag</md-button>
+
+  <md-content layout="row">
+    <span flex="50">Tool: {{ $ctrl.data.state.temperature.tool.actual }} &#8451; <span md-colors="{color: 'grey-800'}">({{ $ctrl.data.state.temperature.tool.target}} &#8451;)</span></span>
+    <span flex>Bed: {{ $ctrl.data.state.temperature.bed.actual }} &#8451; <span md-colors="{color: 'grey-800'}">({{ $ctrl.data.state.temperature.bed.target}} &#8451;)</span></span>
   </md-content>
 </md-content>

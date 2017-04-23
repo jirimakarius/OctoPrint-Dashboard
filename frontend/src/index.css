@@ -5,13 +5,30 @@
 
 .printer {
   padding: 8px 19px;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  background-color: white;
+  margin: 5px;
+  border: 1px solid transparent;
+  /*margin-right: 5px;*/
+}
+
+.printer > span {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+}
+
+.printer:focus, md-icon {
+  outline: none;
+}
+
+.printer-progress {
+  margin: 0.6em 0 !important;
+}
+
+.printer-drag {
+  margin-right: -0.75em !important;
 }
 
 .user-list{
-  height: 10em;
+  height: 6em;
   overflow-y: scroll
 }
 
@@ -26,10 +43,58 @@
 }
 
 .temperature-input{
-  width: 4em;
+  /*width: 10em;*/
 }
 
-.parek {
-  min-height: 20px;
-  height: 25px;
+.useritem {
+  min-height: 1em;
+  height: 1.5em;
+}
+
+md-checkbox.md-checkbox-large > div > .md-icon{
+  margin-top: 0.4em;
+  transform: scale(1.5);
+}
+
+.inputbutton{
+  margin-top: 1.2em !important;
+  min-width: 0;
+}
+
+.selected-printer {
+  border: 1px solid green;
+}
+
+.antimargin {
+  margin: 0 !important;
+}
+
+.antipadding {
+  padding: 0 !important;
+}
+
+.oneline-chips > md-chips-wrap {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  position: relative;
+  /*width: auto;*/
+}
+
+.oneline-chip {
+  display: inline-block !important;
+  float: none !important;
+}
+
+.selected-group {
+  color: rgb(244, 67, 54);
+  border-bottom: 1px solid rgb(244, 67, 54) !important;
+}
+
+.groupmenu-item {
+  border-bottom: 1px solid transparent;
+}
+
+#groupmenu {
+  border-right: 1px solid rgb(244, 67, 54);
 }

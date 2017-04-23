@@ -9,10 +9,15 @@ import {admin} from './app/admin/admin';
 import {group} from './app/group/group';
 import {addPrinter} from './app/admin/addPrinter/addPrinter';
 import {addGroup} from './app/admin/addGroup/addGroup';
+import {addSuperAdmin} from './app/admin/addSuperAdmin/addSuperAdmin';
 import {groupSettings} from './app/group/groupSettings/groupSettings';
+import {adminSettings} from './app/admin/adminSettings/adminSettings';
+import {printerSettings} from './app/admin/printerSettings/printerSettings';
+import {printerSelect} from './app/control/printerSelect/printerSelect';
 
 import './app/services/restServices';
 import './config';
+import './app/services/filters';
 import 'angular-ui-router';
 import 'angular-animate';
 import 'angular-aria';
@@ -29,9 +34,9 @@ import eventListeners from './app/services/eventListeners';
 import './index.css';
 
 export const app = 'app';
-
+/** @ngInject */
 angular
-  .module(app, ['ui.router', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config'])
+  .module(app, ['ui.router', 'ngMessages', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule'])
   .config(routesConfig)
   .component('main', main)
   .component('toolbar', toolbar)
@@ -42,5 +47,9 @@ angular
   .component('group', group)
   .component('addPrinter', addPrinter)
   .component('addGroup', addGroup)
+  .component('addSuperAdmin', addSuperAdmin)
   .component('groupSettings', groupSettings)
+  .component('adminSettings', adminSettings)
+  .component('printerSettings', printerSettings)
+  .component('printerSelect', printerSelect)
   .run(eventListeners);

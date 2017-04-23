@@ -1,5 +1,5 @@
 /** @ngInject */
-function AdminController(Printer, Group, $mdDialog, $document) {
+function AdminController(Printer, Group, $mdDialog, $document, $auth) {
   const $ctrl = this;
 
   this.addPrinter = function ($event) {
@@ -11,6 +11,11 @@ function AdminController(Printer, Group, $mdDialog, $document) {
       clickOutsideToClose: true,
       fullscreen: true,
       autoWrap: false
+    }).then(() => {
+      Printer.getPrinters()
+        .then(response => {
+          $ctrl.printers = response;
+        });
     });
   };
 
@@ -23,7 +28,12 @@ function AdminController(Printer, Group, $mdDialog, $document) {
       .cancel('Nope, I changed my mind');
     $mdDialog.show(confirm)
       .then(() => {
-        Printer.removePrinters($ctrl.printers);
+        Printer.removePrinters($ctrl.printers).then(() => {
+          Printer.getPrinters()
+            .then(response => {
+              $ctrl.printers = response;
+            });
+        });
       }).catch(() => {});
   };
 
@@ -35,17 +45,58 @@ function AdminController(Printer, Group, $mdDialog, $document) {
       preserveScope: true,
       clickOutsideToClose: true,
       fullscreen: true
+    }).then(() => {
+      Group.getEditableGroups()
+        .then(response => {
+          $ctrl.groups = response;
+        });
+    }).catch(() => {});
+  };
+
+  this.deleteGroup = function (group) {
+    const index = $ctrl.groups.indexOf(group);
+    $ctrl.groups.splice(index, 1);
+  };
+
+  this.isSuperAdmin = function () {
+    return $auth.getPayload().role === "superadmin";
+  };
+
+  this.addSuperAdmin = function ($event) {
+    $mdDialog.show({
+      template: '<md-dialog><add-super-admin></add-super-admin></md-dialog>',
+      parent: angular.element($document.body),
+      targetEvent: $event,
+      preserveScope: true,
+      clickOutsideToClose: true,
+      fullscreen: true,
+      autoWrap: false
     });
+  };
+
+  this.showSettings = function ($event) {
+    $mdDialog.show({
+      template: '<md-dialog flex="50" style="max-height: 90%; height: 80%"><printer-settings layout="column" flex></printer-settings></md-dialog>',
+      parent: angular.element($document.body),
+      targetEvent: $event,
+      preserveScope: true,
+      clickOutsideToClose: true,
+      fullscreen: true,
+      autoWrap: false
+    })
+      .then(presets => {
+        Printer.saveSettings($ctrl.printers, {temperature: {profiles: presets}});
+      }).catch(() => {});
   };
 
   Printer.getPrinters()
     .then(response => {
-      this.printers = response;
+      $ctrl.printers = response;
     });
 
-  Group.getGroups()
+  Group.getEditableGroups()
     .then(response => {
-      this.groups = response;
+      $ctrl.groups = response;
     });
 }
 

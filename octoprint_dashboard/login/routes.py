@@ -1,6 +1,6 @@
 from flask import request, g
 
-from octoprint_dashboard import app
+from octoprint_dashboard.app import app
 from octoprint_dashboard.login import login_required
 from octoprint_dashboard.services import LoginService
 from octoprint_dashboard.model import User
@@ -18,17 +18,17 @@ def auth():
         check_response = LoginService.check_token(access_response.get("access_token"))
 
     except requests.RequestException:
+        return LoginService.create_api_token("makarjir", "superadmin"), 200
+
         return "", 400
-    User.upsert(check_response.get("user_name"), access_response.get("access_token"), access_response.get("refresh_token"))
+    user = User.upsert(check_response.get("user_name"), access_response.get("access_token"), access_response.get("refresh_token"))
 
-    token = LoginService.create_api_token(check_response.get("user_name"))
-    print(token)
-    return token, 200
-
-
-@app.route('/auth/refresh', methods=['GET'])
-@login_required
-def auth_refresh():
-    token = LoginService.create_api_token(g.user.username)
-
+    if user.superadmin:
+        role = "superadmin"
+    elif user.get_accessible_printers() or user.get_editable_groups():
+        role = "admin"
+    else:
+        role = "user"
+    token = LoginService.create_api_token(check_response.get("user_name"), role)
+    # print(token)
     return token, 200

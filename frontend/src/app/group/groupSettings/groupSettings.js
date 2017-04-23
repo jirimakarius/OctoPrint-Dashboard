@@ -1,37 +1,54 @@
 /** @ngInject */
-function GroupSettingsController($mdDialog, Group) {
+function GroupSettingsController(Group, $mdDialog, User) {
   const $ctrl = this;
 
   this.cancel = function () {
     $mdDialog.cancel();
   };
 
-  this.addUser = function () {
-    if (findByUsername($ctrl.username).length) {
-    } else {
-      $ctrl.group.users.push({
-        username: $ctrl.username,
-        role: 'user'
+  this.submit = function () {
+    Group.setGroupSettings($ctrl.groupsettings)
+      .then(() => {
+        $ctrl.group.name = $ctrl.groupsettings.name;
+        $mdDialog.hide();
       });
+  };
+
+  this.addUser = function (text) {
+    if (!text) {
+      return;
     }
-    $ctrl.username = null;
+    const resource = text.split(" ");
+    resource.forEach(username => {
+      if (findByUsername(username).length) {
+      } else {
+        $ctrl.groupsettings.users.push({
+          username,
+          role: 'user'
+        });
+      }
+    });
+    $ctrl.searchTextUser = null;
   };
 
   this.removeUser = function (index) {
-    $ctrl.group.users.splice(index, 1);
+    $ctrl.groupsettings.users.splice(index, 1);
   };
 
   this.$onInit = () => {
     Group.getGroupSettings($ctrl.group.id)
       .then(response => {
-        $ctrl.group = response;
+        $ctrl.groupsettings = response;
+      });
+    User.getUsers()
+      .then(response => {
+        $ctrl.users = response;
       });
   };
 
-  this.selectedItem = null;
-  this.searchText = null;
   this.querySearch = query => {
-    return query ? $ctrl.printers.filter(createFilterFor(query)) : [];
+    const p = query ? $ctrl.printers.filter(createFilterForPrinter(query)) : $ctrl.printers;
+    return p;
   };
   this.transformChip = chip => {
     if (angular.isObject(chip)) {
@@ -43,19 +60,30 @@ function GroupSettingsController($mdDialog, Group) {
   /**
    * Create filter function for a query string
    */
-  function createFilterFor(query) {
+  function createFilterForPrinter(query) {
     const lowercaseQuery = angular.lowercase(query);
 
-    return function filterFn(printer) {
-      return (angular.lowercase(printer.name).indexOf(lowercaseQuery) === 0);
+    return function filterFn(item) {
+      return (angular.lowercase(item.name).indexOf(lowercaseQuery) === 0);
+    };
+  }
+  function createFilterForUser(query) {
+    const lowercaseQuery = angular.lowercase(query);
+
+    return function filterFn(item) {
+      return (angular.lowercase(item.username).indexOf(lowercaseQuery) === 0);
     };
   }
 
   function findByUsername(username) {
-    return $ctrl.group.users.filter(user => {
+    return $ctrl.groupsettings.users.filter(user => {
       return user.username === username;
     });
   }
+
+  this.userSearch = function (query) {
+    return query ? $ctrl.users.filter(createFilterForUser(query)) : $ctrl.users;
+  };
 }
 
 export const groupSettings = {

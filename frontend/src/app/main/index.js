@@ -1,3 +1,4 @@
+/** @ngInject */
 function MainController() {
   this.printers = [];
 }

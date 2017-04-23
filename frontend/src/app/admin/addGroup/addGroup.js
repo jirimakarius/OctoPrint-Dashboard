@@ -7,7 +7,7 @@ function Controller($mdDialog, Group) {
   };
 
   this.submit = function () {
-    Group.addGroup($ctrl.name)
+    Group.addGroup({name: $ctrl.name})
       .then(() => {
         $mdDialog.hide();
       });

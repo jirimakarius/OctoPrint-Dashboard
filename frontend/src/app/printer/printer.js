@@ -1,15 +1,20 @@
-/* @ngInject */
-function PrinterController(Printer, $interval) {
+/** @ngInject */
+function PrinterController(Printer) {
   const $ctrl = this;
-  this.$onInit = function () {
-    $interval(() => {
-      if ($ctrl.data.checked) {
-        Printer.getPrinterStatus($ctrl.data.id)
-          .then(response => {
-            angular.extend($ctrl.data, response);
-          });
+
+  this.pause = function () {
+    Printer.pausePrinter($ctrl.data.id).then(() => {
+      if ($ctrl.data.state.state === "Printing") {
+        $ctrl.data.state.state = "Pausing...";
       }
-    }, 5000);
+      if ($ctrl.data.state.state === "Paused") {
+        $ctrl.data.state.state = "Resuming...";
+      }
+    });
+  };
+  this.cancel = function () {
+    Printer.cancelPrinter($ctrl.data.id);
+    $ctrl.data.state.state = "Aborting job...";
   };
 }
 
