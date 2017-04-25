@@ -6,30 +6,13 @@ from octoprint_dashboard.login import login_required
 from octoprint_dashboard.model import Printer
 from octoprint_dashboard.services import OctoprintService
 
-parser = reqparse.RequestParser()
-parser.add_argument('printerId', type=int, required=True, help='Name can\'t be converted', action='append')
-parser.add_argument('bed', type=int, help='Bed temperature can\'t be converted')
-parser.add_argument('tool', type=int, help='Tool temperature can\'t be converted')
-parser.add_argument('pause', type=bool, help='Pause can\'t be converted')
-parser.add_argument('cancel', type=bool, help='Cancel can\'t be converted')
-
-
-class PrinterStatusIdApi(Resource):
-    @login_required
-    @marshal_with({
-        'temperature': fields.Nested({
-            'bed': fields.Integer(attribute="bed.actual"),
-            'tool': fields.Integer(attribute="tool0.actual")
-        }),
-        'state': fields.String(attribute="state.text"),
-        'job': fields.Nested({
-            'printTime': fields.Integer(attribute='lastPrintTime'),
-            'fileName': fields.String(attribute='file.name')
-        })
-    })
-    def get(self, printer_id):
-        state = Printer.states.get(printer_id)
-        return state, 200
+printerControlParser = reqparse.RequestParser()
+printerControlParser.add_argument('printerId', type=int, required=True, help='Printer ID can\'t be converted',
+                                  action='append')
+printerControlParser.add_argument('bed', type=int, help='Bed temperature can\'t be converted')
+printerControlParser.add_argument('tool', type=int, help='Tool temperature can\'t be converted')
+printerControlParser.add_argument('pause', type=bool, help='Pause can\'t be converted')
+printerControlParser.add_argument('cancel', type=bool, help='Cancel can\'t be converted')
 
 
 class PrinterStatusApi(Resource):
@@ -58,20 +41,18 @@ class PrinterStatusApi(Resource):
         'group': fields.List(
             fields.Nested({
                 'name': fields.String
-            }
-        ))
+            })
+        )
     })
     def get(self):
         printers = g.user.get_accessible_printers()
         states = [x.setState(Printer.states.get(x.id)) for x in printers]
-        # print(states)
         return states, 200
 
     @login_required
     def post(self):
-        args = parser.parse_args()
+        args = printerControlParser.parse_args()
         printers = g.user.get_accessible_printers_id(args["printerId"])
-        print(args)
         for printer in printers:
             try:
                 if args["bed"] is not None:
@@ -82,6 +63,6 @@ class PrinterStatusApi(Resource):
                     OctoprintService.pause(printer)
                 if args["cancel"] is not None:
                     OctoprintService.cancel(printer)
-            except requests.ConnectionError:
-                return None, 400
-        return None, 200
+            except (requests.ConnectionError, RuntimeError):
+                pass
+        return "", 200

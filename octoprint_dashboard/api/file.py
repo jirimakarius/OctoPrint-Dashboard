@@ -7,18 +7,18 @@ from octoprint_dashboard.login import login_required
 from octoprint_dashboard.model import Printer
 from octoprint_dashboard.services import OctoprintService
 
-parser = reqparse.RequestParser()
-parser.add_argument('printerId', type=int, required=True, help='Id can\'t be converted', action='append')
-parser.add_argument('file', type=FileStorage, required=True, help='No file given', location='files')
-parser.add_argument('print', type=bool, help='Print can\'t be converted')
+uploadParser = reqparse.RequestParser()
+uploadParser.add_argument('printerId', type=int, required=True, help='Id can\'t be converted', action='append')
+uploadParser.add_argument('file', type=FileStorage, required=True, help='No file given', location='files')
+uploadParser.add_argument('print', type=bool, help='Print can\'t be converted')
 
-deleteArgs = reqparse.RequestParser()
-deleteArgs.add_argument('origin', type=str, required=True, help='Origin can\'t be converted')
-deleteArgs.add_argument('name', type=str, required=True, help='Name can\'t be converted')
-deleteArgs.add_argument('send', type=bool, help='Send can\'t be converted', location="json")
+deleteParser = reqparse.RequestParser()
+deleteParser.add_argument('origin', type=str, required=True, help='Origin can\'t be converted')
+deleteParser.add_argument('name', type=str, required=True, help='Name can\'t be converted')
+deleteParser.add_argument('send', type=bool, help='Send can\'t be converted', location="json")
 
-sendArgs = reqparse.RequestParser()
-sendArgs.add_argument('printerId', type=list, required=True, help='PrinterID can\'t be converted', location="json")
+sendParser = reqparse.RequestParser()
+sendParser.add_argument('printerId', type=list, required=True, help='PrinterID can\'t be converted', location="json")
 
 
 class FileApi(Resource):
@@ -26,17 +26,16 @@ class FileApi(Resource):
     def post(self):
         if not request.files["file"]:
             return "", 400
-        args = parser.parse_args()
+        args = uploadParser.parse_args()
         filename = args["file"].filename
         contents = args["file"].read()
         printers = g.user.get_accessible_printers_id(args["printerId"])
         for printer in printers:
             try:
                 response = OctoprintService.send_file(printer, filename, contents, args['print'])
-                print(response)
-            except RuntimeError:
-                return None, 400
-        return None, 200
+            except (RuntimeError, requests.ConnectionError):
+                pass
+        return "", 200
 
 
 class FileIdApi(Resource):
@@ -47,35 +46,44 @@ class FileIdApi(Resource):
         "origin": fields.String
     })
     def get(self, printer_id):
-        printer = Printer.query.get(printer_id)
+        printer = g.user.get_printer_id(printer_id)
+        if not printer:
+            return "", 403
         try:
             files = OctoprintService.get_files(printer)
-        except requests.ConnectionError:
+        except (RuntimeError, requests.ConnectionError):
             return [], 200
-        return files["files"]
+        return files["files"], 200
 
     @login_required
     def delete(self, printer_id):
-        args = deleteArgs.parse_args()
-        printer = Printer.query.get(printer_id)
+        args = deleteParser.parse_args()
+        printer = g.user.get_printer_id(printer_id)
+        if not printer:
+            return "", 403
         if OctoprintService.delete_file(printer, args["origin"], args["name"]):
-            return None, 204
+            return "", 204
 
-        return None, 409
+        return "", 409
 
     @login_required
     def post(self, printer_id):
-        args = deleteArgs.parse_args()
-        printer = Printer.query.get(printer_id)
+        args = deleteParser.parse_args()
+        printer = g.user.get_printer_id(printer_id)
+        if not printer:
+            return "", 403
         if args["send"]:
-            body = sendArgs.parse_args()
-            printers = g.user.get_accessible_printers_id(body["printerId"])
+            printer_ids = sendParser.parse_args()
+            printers = g.user.get_accessible_printers_id(printer_ids["printerId"])
             content = OctoprintService.get_file_contents(printer, args["origin"], args["name"])
             for dest_printer in printers:
-                OctoprintService.send_file(dest_printer, args["name"], content, False)
-            return None, 200
+                try:
+                    OctoprintService.send_file(dest_printer, args["name"], content, False)
+                except (RuntimeError, requests.ConnectionError):
+                    pass
+            return "", 200
         else:
             if OctoprintService.print(printer, args["origin"], args["name"]):
-                return None, 200
+                return "", 200
 
-            return None, 409
+            return "", 409

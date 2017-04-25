@@ -1,9 +1,9 @@
 from flask import g, request
 from flask_restful import Resource, marshal_with, fields
 
+from octoprint_dashboard.app import db
 from octoprint_dashboard.login import login_required
 from octoprint_dashboard.model import Group, Printer, User, GroupUser
-from octoprint_dashboard.app import db
 
 
 class GroupSettingsApi(Resource):
@@ -60,4 +60,4 @@ class GroupSettingsApi(Resource):
 
         db.session.commit()
 
-        return None, 200
+        return "", 200

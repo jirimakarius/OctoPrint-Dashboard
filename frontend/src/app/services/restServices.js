@@ -177,7 +177,7 @@ angular.module('restServices', [])
 
 /** @ngInject */
 .factory('Config', ($resource, ENV) => {
-  const clientConfig = $resource(`${ENV.api}/clientConfig`);
+  const clientConfig = $resource(`${ENV.api}/config/client`);
   const config = $resource(`${ENV.api}/config`);
 
   return {

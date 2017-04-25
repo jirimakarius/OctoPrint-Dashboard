@@ -1,8 +1,7 @@
 from flask_restful import Resource, marshal_with, fields, reqparse
 
 from octoprint_dashboard.app import db, scheduler
-from octoprint_dashboard.login import login_required, superadmin_required
-
+from octoprint_dashboard.login import superadmin_required
 from octoprint_dashboard.model import Config
 
 
@@ -45,6 +44,7 @@ class ConfigApi(Resource):
 
         if config.server_refresh != args["server_refresh"]:
             scheduler.reschedule(args["server_refresh"])
+
         config.server_refresh = args["server_refresh"]
         config.client_refresh = args["client_refresh"]
         if args["auth"]:
@@ -56,4 +56,4 @@ class ConfigApi(Resource):
         if args["oauth_client_secret"]:
             config.oauth_client_secret = args["oauth_client_secret"]
         db.session.commit()
-        return None, 200
+        return "", 200

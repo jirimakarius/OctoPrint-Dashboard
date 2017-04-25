@@ -3,12 +3,6 @@ from octoprint_dashboard.app import app, db
 from octoprint_dashboard.model import User, Config
 
 
-# @app.cli.command()
-# def initdb():
-#     db.create_all()
-#     click.echo('Init the db')
-
-
 @app.cli.command()
 def dropdb():
     db.drop_all()
@@ -40,4 +34,3 @@ def config():
     config.oauth_redirect_uri = oauth_redirect_uri
 
     db.session.commit()
-

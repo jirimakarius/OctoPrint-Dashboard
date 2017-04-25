@@ -11,14 +11,8 @@ class OctoprintService:
     def auth(apikey, url):
         try:
             OctoClient(url=url, apikey=apikey)
-        except RuntimeError as e:
-            return {'message': {"apikey": "Invalid apikey"}}
-        except requests.ConnectionError:
-            return {'message': {"ip": "Invalid ip address"}}
-        except JSONDecodeError:
-            return {'message': {"ip": "Invalid ip address"}}
-        except requests.Timeout:
-            return {'message': {"ip": "Invalid ip address"}}
+        except (RuntimeError, JSONDecodeError, requests.ConnectionError, requests.Timeout):
+            return False
         return None
 
     @staticmethod
@@ -79,7 +73,7 @@ class OctoprintService:
             if Printer.states[printer.id].get("failed"):
                 Printer.states[printer.id] = {"state": {"text": "Offline/Unreachable"}}
             Printer.states[printer.id]["failed"] = True
-        except RuntimeError:
+        except (RuntimeError, requests.ConnectionError):
             Printer.states[printer.id] = {"state": {"text": "Offline"}}
 
     @staticmethod
@@ -114,11 +108,13 @@ class OctoprintService:
 
     @staticmethod
     def get_file(printer: Printer, origin, filename):
-        return requests.get('{0}/api/files/{1}/{2}'.format(printer.url, origin, filename),
-                            timeout=4,
-                            headers={
-                                'X-Api-Key': printer.apikey
-                            })
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.files(origin + "/" + filename)
+        # return requests.get('{0}/api/files/{1}/{2}'.format(printer.url, origin, filename),
+        #                     timeout=4,
+        #                     headers={
+        #                         'X-Api-Key': printer.apikey
+        #                     })
 
     @staticmethod
     def delete_file(printer: Printer, origin, filename):
@@ -126,7 +122,7 @@ class OctoprintService:
             client = OctoClient(url=printer.url, apikey=printer.apikey)
             client.delete(origin + "/" + filename)
             return True
-        except RuntimeError:
+        except (RuntimeError, requests.ConnectionError):
             return False
 
     @staticmethod
@@ -135,30 +131,33 @@ class OctoprintService:
             client = OctoClient(url=printer.url, apikey=printer.apikey)
             client.select(location=origin + "/" + filename, print=True)
             return True
-        except RuntimeError:
+        except (RuntimeError, requests.ConnectionError):
             return False
 
     @staticmethod
     def get_settings(printer: Printer):
-        return requests.get('{0}/api/settings'.format(printer.url), timeout=2,
-                            headers={
-                                'X-Api-Key': printer.apikey
-                            })
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.settings()
+        # return requests.get('{0}/api/settings'.format(printer.url), timeout=2,
+        #                     headers={
+        #                         'X-Api-Key': printer.apikey
+        #                     })
 
     @staticmethod
     def save_settings(printer: Printer, settings):
-        return requests.post('{0}/api/settings'.format(printer.url),
-                             timeout=4,
-                             json=settings,
-                             headers={
-                                 'X-Api-Key': printer.apikey
-                             })
+        client = OctoClient(url=printer.url, apikey=printer.apikey)
+        return client.settings(settings)
+        # return requests.post('{0}/api/settings'.format(printer.url),
+        #                      timeout=4,
+        #                      json=settings,
+        #                      headers={
+        #                          'X-Api-Key': printer.apikey
+        #                      })
 
     @staticmethod
     def get_file_contents(printer: Printer, origin, filename):
         file_info = OctoprintService.get_file(printer, origin, filename).json()
 
-        print(file_info["refs"]["download"])
         response = requests.get(file_info["refs"]["download"],
                                 timeout=4,
                                 headers={
