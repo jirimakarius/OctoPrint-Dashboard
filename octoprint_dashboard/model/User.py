@@ -1,5 +1,6 @@
-from octoprint_dashboard.app import db
 from sqlalchemy.ext.associationproxy import association_proxy
+
+from octoprint_dashboard.app import db
 
 
 class User(db.Model):
@@ -21,12 +22,9 @@ class User(db.Model):
 
     @staticmethod
     def upsert(username, access_token, refresh_token):
-        from octoprint_dashboard.model import Group, GroupUser
-
         user = User.query.filter_by(username=username).scalar()
         if user is None:
             user = User(username, access_token, refresh_token)
-            user.group_user.append(GroupUser(group=Group("default"), user=user))
             db.session.add(user)
         else:
             user.access_token = access_token
@@ -50,7 +48,8 @@ class User(db.Model):
         if self.superadmin:
             printers = Printer.query.all()
         else:
-            printers = Printer.query.join(Printer.group).join(Group.group_user).filter(User.id == self.id, GroupUser.role == "admin").all()
+            printers = Printer.query.join(Printer.group).join(Group.group_user).filter(User.id == self.id,
+                                                                                       GroupUser.role == "admin").all()
 
         return printers
 
@@ -59,8 +58,8 @@ class User(db.Model):
         if self.superadmin:
             printers = Printer.query.filter(Printer.id.in_(printer_ids)).all()
         else:
-            printers = Printer.query.filter(Printer.id.in_(printer_ids))\
-                .join(Printer.group).join(Group.group_user)\
+            printers = Printer.query.filter(Printer.id.in_(printer_ids)) \
+                .join(Printer.group).join(Group.group_user) \
                 .filter(User.id == self.id, GroupUser.role == "admin").all()
 
         return printers
@@ -93,7 +92,8 @@ class User(db.Model):
         if self.superadmin:
             groups = Group.query.all()
         else:
-            groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(GroupUser.role == "admin").all()
+            groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(
+                GroupUser.role == "admin").all()
 
         return groups
 

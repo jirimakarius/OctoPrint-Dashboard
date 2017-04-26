@@ -1,15 +1,16 @@
-from octoprint_dashboard.app import app
 from flask_restful import Api
-from .printer import PrinterApi
+
+from octoprint_dashboard.app import app
+from .config import ClientConfigApi, ConfigApi
+from .file import FileApi, FileIdApi
 from .group import GroupApi
 from .groupSettings import GroupSettingsApi
-from .file import FileApi, FileIdApi
-from .printerStatus import PrinterStatusApi
-from .printerSettings import PrinterSettingsApi
-from .user import UserApi
-from .superadmin import SuperAdminApi
-from .config import ClientConfigApi, ConfigApi
 from .localOctoPrintService import LocalOctoPrintServiceApi
+from .printer import PrinterApi
+from .printerSettings import PrinterSettingsApi
+from .printerStatus import PrinterStatusApi
+from .superadmin import SuperAdminApi
+from .user import UserApi
 
 api = Api(app)
 

@@ -19,27 +19,11 @@ class OctoprintService:
     def get_connection(printer: Printer):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.connection_info()
-        # return requests.get('http://{0}/api/connection'.format(printer.ip), headers={
-        #     'X-Api-Key': printer.apikey
-        # })
 
     @staticmethod
     def send_file(printer: Printer, filename, contents, print: bool):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.upload((filename, contents), print=print)
-        # return requests.post('http://{0}/api/files/local'.format(printer.ip),
-        #                      files={'file': (file.filename, file.read(), 'application/octet-stream')},
-        #                      headers={
-        #                          'X-Api-Key': printer.apikey
-        #                      })
-
-    @staticmethod
-    def send_file_print(printer: Printer, file):
-        return requests.post('http://{0}/api/files/local'.format(printer.ip),
-                             files={'file': (file.filename, file.read(), 'application/octet-stream')},
-                             data={'select': "true", 'print': "true"}, headers={
-                'X-Api-Key': printer.apikey
-            })
 
     @staticmethod
     def get_printer_state(printer: Printer):
@@ -50,18 +34,6 @@ class OctoprintService:
             status["job"] = job_info["job"]
             status["job"]["progress"] = job_info["progress"]
         return status
-        # return requests.get('http://{0}/api/printer'.format(printer.ip), headers={
-        #     'X-Api-Key': printer.apikey
-        # })
-
-    @staticmethod
-    def get_printer_state_repeated(printer: Printer):
-        try:
-            response = OctoprintService.get_printer_state(printer)
-            return response
-        except requests.ConnectionError:
-            response = OctoprintService.get_printer_state(printer)
-            return response
 
     @staticmethod
     def inject_printer_state(printer: Printer):
@@ -73,7 +45,7 @@ class OctoprintService:
             if Printer.states[printer.id].get("failed"):
                 Printer.states[printer.id] = {"state": {"text": "Offline/Unreachable"}}
             Printer.states[printer.id]["failed"] = True
-        except (RuntimeError, requests.ConnectionError):
+        except RuntimeError:
             Printer.states[printer.id] = {"state": {"text": "Offline"}}
 
     @staticmethod
@@ -85,11 +57,6 @@ class OctoprintService:
     def set_bed_temperature(printer: Printer, temperature):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.bed_target(temperature)
-
-    @staticmethod
-    def get_job_info(printer: Printer):
-        client = OctoClient(url=printer.url, apikey=printer.apikey)
-        return client.job_info()
 
     @staticmethod
     def pause(printer: Printer):
@@ -110,11 +77,6 @@ class OctoprintService:
     def get_file(printer: Printer, origin, filename):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.files(origin + "/" + filename)
-        # return requests.get('{0}/api/files/{1}/{2}'.format(printer.url, origin, filename),
-        #                     timeout=4,
-        #                     headers={
-        #                         'X-Api-Key': printer.apikey
-        #                     })
 
     @staticmethod
     def delete_file(printer: Printer, origin, filename):
@@ -138,21 +100,11 @@ class OctoprintService:
     def get_settings(printer: Printer):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.settings()
-        # return requests.get('{0}/api/settings'.format(printer.url), timeout=2,
-        #                     headers={
-        #                         'X-Api-Key': printer.apikey
-        #                     })
 
     @staticmethod
     def save_settings(printer: Printer, settings):
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.settings(settings)
-        # return requests.post('{0}/api/settings'.format(printer.url),
-        #                      timeout=4,
-        #                      json=settings,
-        #                      headers={
-        #                          'X-Api-Key': printer.apikey
-        #                      })
 
     @staticmethod
     def get_file_contents(printer: Printer, origin, filename):

@@ -1,4 +1,5 @@
 import click
+
 from octoprint_dashboard.app import app, db
 from octoprint_dashboard.model import User, Config
 
@@ -18,6 +19,7 @@ def add_superadmin(username):
 
 @app.cli.command()
 def config():
+    secret = input('Password for token encryption')
     client_refresh = input('Client printer status refresh time: ')
     server_refresh = input('Server printer status refresh time: ')
     oauth_client_id = input('Client ID for OAuth: ')
@@ -25,8 +27,9 @@ def config():
     oauth_redirect_uri = input('Redirect URI for OAuth: ')
     config = Config.query.scalar()
     if config is None:
-        config = Config("CVUT", None, None, None, None, None)
+        config = Config(None, None, None, None, None, None)
         db.session.add(config)
+    config.secret = secret
     config.client_refresh = client_refresh
     config.server_refresh = server_refresh
     config.oauth_client_id = oauth_client_id

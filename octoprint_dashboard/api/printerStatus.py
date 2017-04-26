@@ -46,7 +46,7 @@ class PrinterStatusApi(Resource):
     })
     def get(self):
         printers = g.user.get_accessible_printers()
-        states = [x.setState(Printer.states.get(x.id)) for x in printers]
+        states = [Printer.states.get(x.id) for x in printers]
         return states, 200
 
     @login_required

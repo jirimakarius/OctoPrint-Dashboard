@@ -29,7 +29,3 @@ class Printer(db.Model):
 
     def __hash__(self):
         return hash(self.id)
-
-    def setState(self, state):
-        self.state = state
-        return self

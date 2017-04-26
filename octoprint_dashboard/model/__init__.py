@@ -1,5 +1,5 @@
-from .User import User
+from .Config import Config
 from .Group import Group
 from .GroupUser import GroupUser
 from .Printer import Printer
-from .Config import Config
+from .User import User

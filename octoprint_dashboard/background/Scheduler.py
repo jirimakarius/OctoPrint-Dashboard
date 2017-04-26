@@ -1,6 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
-from octoprint_dashboard.services import OctoprintService
+
 from octoprint_dashboard.model import Printer, Config
+from octoprint_dashboard.services import OctoprintService
 
 
 class Scheduler:
