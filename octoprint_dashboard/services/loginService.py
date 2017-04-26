@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
-from octoprint_dashboard.app import app
+
+import base64
 import jwt
 import requests
-import base64
 
 
 class LoginService:
@@ -11,6 +11,7 @@ class LoginService:
     from octoprint_dashboard.model import Config
     config = Config.query.first()
     if config:
+        secret = config.secret
         client_id = config.oauth_client_id
         client_secret = config.oauth_client_secret
         redirect_uri = config.oauth_redirect_uri
@@ -25,13 +26,13 @@ class LoginService:
             'iat': datetime.utcnow(),
             'exp': datetime.utcnow() + timedelta(days=14)
         }
-        token = jwt.encode(payload, app.config["SECRET_KEY"], algorithm="HS256")
+        token = jwt.encode(payload, LoginService.secret, algorithm="HS256")
         return token.decode('unicode_escape')
 
     @staticmethod
     def parse_api_token(request):
         token = request.headers.get('Authorization').split()[1]
-        return jwt.decode(token, app.config['SECRET_KEY'])
+        return jwt.decode(token, LoginService.secret)
 
     @staticmethod
     def get_access_code(code):

@@ -11,7 +11,6 @@ function PrinterGridController(Printer, $interval, $filter, $auth, $rootScope, G
         });
       Group.getGroups()
         .then(response => {
-          console.dir(response);
           $ctrl.groups = response;
         });
 

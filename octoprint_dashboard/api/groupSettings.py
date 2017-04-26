@@ -1,9 +1,9 @@
 from flask import g, request
 from flask_restful import Resource, marshal_with, fields
 
+from octoprint_dashboard.app import db
 from octoprint_dashboard.login import login_required
 from octoprint_dashboard.model import Group, Printer, User, GroupUser
-from octoprint_dashboard.app import db
 
 
 class GroupSettingsApi(Resource):
@@ -28,16 +28,16 @@ class GroupSettingsApi(Resource):
         )
     })
     def get(self, group_id):
-        group = Group.query.get(group_id)
-        if group.editable(g.user):
+        group = g.user.get_editable_group_id(group_id)
+        if group:
             return group, 200
 
         return "Missing right for group", 403
 
     @login_required
     def put(self, group_id):
-        group = Group.query.get(group_id)
-        if not group.editable(g.user):
+        group = g.user.get_editable_group_id(group_id)
+        if not group:
             return "Missing right for group", 403
 
         args = request.json
@@ -60,4 +60,4 @@ class GroupSettingsApi(Resource):
 
         db.session.commit()
 
-        return None, 200
+        return "", 200

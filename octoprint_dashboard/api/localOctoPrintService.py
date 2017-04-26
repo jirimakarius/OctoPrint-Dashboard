@@ -1,4 +1,5 @@
 from flask_restful import Resource, marshal_with, fields
+
 from octoprint_dashboard.app import zeroconf_browser
 from octoprint_dashboard.login import superadmin_required
 from octoprint_dashboard.model import Printer

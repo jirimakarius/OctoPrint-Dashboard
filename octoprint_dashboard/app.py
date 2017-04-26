@@ -3,15 +3,16 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "something"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
 db = SQLAlchemy(app)
 import octoprint_dashboard.model
-db.create_all() # default config přidat
+
+db.create_all()
 
 from octoprint_dashboard.background import Scheduler, ZeroconfBrowser
+
 scheduler = Scheduler()
 zeroconf_browser = ZeroconfBrowser()
 import octoprint_dashboard.cli_commands
@@ -33,7 +34,7 @@ def _startup():
     if Config.query.scalar() is None:
         print("No config, add config via command 'flask config'")
         shutdown_server()
-    if User.query.filter_by(superadmin=True).scalar() is None:
+    if User.query.filter_by(superadmin=True).count() == 0:
         print("No superadmin, add superadmin via command 'flask add_superadmin <username>'")
         shutdown_server()
 
@@ -43,10 +44,10 @@ def _startup():
 
 @app.route('/')
 @app.route('/admin')
-def frontend():
+def index():
     return send_from_directory('dist', 'index.html')
 
 
 @app.route('/<text>.js')
-def neco(text):
+def javascript(text):
     return send_from_directory('dist', text + ".js")

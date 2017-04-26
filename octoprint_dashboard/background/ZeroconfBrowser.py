@@ -1,5 +1,6 @@
-from zeroconf import Zeroconf, ServiceBrowser, ServiceStateChange
 import socket
+
+from zeroconf import Zeroconf, ServiceBrowser, ServiceStateChange
 
 
 class ZeroconfBrowser:
@@ -14,8 +15,6 @@ class ZeroconfBrowser:
                                        handlers=[self.on_service_state_change])
 
     def on_service_state_change(self, zeroconf, service_type, name, state_change):
-        # print("Service %s of type %s state changed: %s" % (name, service_type, state_change))
-
         if state_change is ServiceStateChange.Added:
             info = zeroconf.get_service_info(service_type, name)
             if info:

@@ -1,5 +1,6 @@
-from octoprint_dashboard.app import db
 from sqlalchemy.ext.associationproxy import association_proxy
+
+from octoprint_dashboard.app import db
 
 
 class User(db.Model):
@@ -21,12 +22,9 @@ class User(db.Model):
 
     @staticmethod
     def upsert(username, access_token, refresh_token):
-        from octoprint_dashboard.model import Group, GroupUser
-
         user = User.query.filter_by(username=username).scalar()
         if user is None:
             user = User(username, access_token, refresh_token)
-            user.group_user.append(GroupUser(group=Group("default"), user=user))
             db.session.add(user)
         else:
             user.access_token = access_token
@@ -50,7 +48,8 @@ class User(db.Model):
         if self.superadmin:
             printers = Printer.query.all()
         else:
-            printers = Printer.query.join(Printer.group).join(Group.group_user).filter(User.id == self.id, GroupUser.role == "admin").all()
+            printers = Printer.query.join(Printer.group).join(Group.group_user).filter(User.id == self.id,
+                                                                                       GroupUser.role == "admin").all()
 
         return printers
 
@@ -58,22 +57,63 @@ class User(db.Model):
         from octoprint_dashboard.model import Printer, Group, GroupUser
         if self.superadmin:
             printers = Printer.query.filter(Printer.id.in_(printer_ids)).all()
-
         else:
-            printers = Printer.query.filter(Printer.id.in_(printer_ids))\
-                .join(Printer.group).join(Group.group_user)\
+            printers = Printer.query.filter(Printer.id.in_(printer_ids)) \
+                .join(Printer.group).join(Group.group_user) \
                 .filter(User.id == self.id, GroupUser.role == "admin").all()
 
         return printers
 
+    def get_accessible_printer_id(self, printer_id):
+        from octoprint_dashboard.model import Printer, Group, GroupUser
+        if self.superadmin:
+            printer = Printer.query.get(printer_id)
+        else:
+            printer = Printer.query.filter(Printer.id == printer_id) \
+                .join(Printer.group).join(Group.group_user) \
+                .filter(User.id == self.id, GroupUser.role == "admin").scalar()
+
+        return printer
+
+    def get_printer_id(self, printer_id):
+        from octoprint_dashboard.model import Printer, Group
+        if self.superadmin:
+            printer = Printer.query.get(printer_id)
+        else:
+            printer = Printer.query.filter(Printer.id == printer_id) \
+                .join(Printer.group).join(Group.group_user) \
+                .filter(User.id == self.id).scalar()
+
+        return printer
+
     def get_editable_groups(self):
         from octoprint_dashboard.model import Group, GroupUser
-        groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(GroupUser.role == "admin").all()
+
+        if self.superadmin:
+            groups = Group.query.all()
+        else:
+            groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(
+                GroupUser.role == "admin").all()
 
         return groups
 
+    def get_editable_group_id(self, id):
+        from octoprint_dashboard.model import Group, GroupUser
+
+        if self.superadmin:
+            group = Group.query.get(id)
+        else:
+            group = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(
+                GroupUser.role == "admin").filter(Group.id == id).scalar()
+
+        return group
+
     def get_groups(self):
         from octoprint_dashboard.model import Group, GroupUser
-        groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).all()
+
+        if self.superadmin:
+            groups = Group.query.all()
+        else:
+            groups = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).all()
 
         return groups
