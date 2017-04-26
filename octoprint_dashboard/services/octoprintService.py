@@ -108,7 +108,7 @@ class OctoprintService:
 
     @staticmethod
     def get_file_contents(printer: Printer, origin, filename):
-        file_info = OctoprintService.get_file(printer, origin, filename).json()
+        file_info = OctoprintService.get_file(printer, origin, filename).json
 
         response = requests.get(file_info["refs"]["download"],
                                 timeout=4,

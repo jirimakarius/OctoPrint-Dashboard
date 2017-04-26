@@ -3,7 +3,6 @@ function ControlController(Files, Printer, $mdDialog, $document) {
   const $ctrl = this;
 
   this.uploadPrint = function (file) {
-    console.dir(file);
     if (file) {
       Files.uploadPrintFile(file, $ctrl.printers)
         .then(() => {
@@ -37,9 +36,7 @@ function ControlController(Files, Printer, $mdDialog, $document) {
   };
 
   this.setBedTemperature = function (temp) {
-    Printer.setBedTemperature($ctrl.printers, temp).then(response => {
-      console.dir(response);
-    });
+    Printer.setBedTemperature($ctrl.printers, temp);
     $ctrl.printers.forEach(printer => {
       if (printer.checked) {
         printer.state.temperature.bed.target = temp;

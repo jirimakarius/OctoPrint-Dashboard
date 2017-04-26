@@ -97,6 +97,17 @@ class User(db.Model):
 
         return groups
 
+    def get_editable_group_id(self, id):
+        from octoprint_dashboard.model import Group, GroupUser
+
+        if self.superadmin:
+            group = Group.query.get(id)
+        else:
+            group = Group.query.join(Group.group_user).join(GroupUser.user).filter(User.id == self.id).filter(
+                GroupUser.role == "admin").filter(Group.id == id).scalar()
+
+        return group
+
     def get_groups(self):
         from octoprint_dashboard.model import Group, GroupUser
 

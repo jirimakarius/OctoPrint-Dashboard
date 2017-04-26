@@ -34,7 +34,7 @@ def _startup():
     if Config.query.scalar() is None:
         print("No config, add config via command 'flask config'")
         shutdown_server()
-    if User.query.filter_by(superadmin=True).scalar() is None:
+    if User.query.filter_by(superadmin=True).count() == 0:
         print("No superadmin, add superadmin via command 'flask add_superadmin <username>'")
         shutdown_server()
 

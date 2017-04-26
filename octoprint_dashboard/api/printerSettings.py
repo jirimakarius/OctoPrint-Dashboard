@@ -1,6 +1,6 @@
 import requests
 from flask import g, request
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, marshal_with, fields
 
 from octoprint_dashboard.login import login_required
 from octoprint_dashboard.services import OctoprintService
@@ -11,13 +11,24 @@ printerIdParser.add_argument('printerId', type=int, required=True, help='Name ca
 
 class PrinterSettingsApi(Resource):
     @login_required
+    @marshal_with({
+        "temperature": fields.Nested({
+            "profiles": fields.List(
+                fields.Nested({
+                    "bed": fields.String,
+                    "extruder": fields.String,
+                    "name": fields.String
+                })
+            )
+        })
+    })
     def get(self):
         args = printerIdParser.parse_args()
         printers = g.user.get_accessible_printers_id(args["printerId"])
         settings = []
         for printer in printers:
             try:
-                ret = OctoprintService.get_settings(printer).json()
+                ret = OctoprintService.get_settings(printer)
                 ret["printerId"] = printer.id
                 settings.append(ret)
             except (requests.ConnectionError, RuntimeError):

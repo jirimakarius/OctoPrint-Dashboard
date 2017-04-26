@@ -19,7 +19,7 @@ class ClientConfigApi(Resource):
 configParser = reqparse.RequestParser()
 configParser.add_argument('server_refresh', type=int, required=True, help='Server refresh can\'t be converted')
 configParser.add_argument('client_refresh', type=int, required=True, help='Client refresh can\'t be converted')
-configParser.add_argument('auth', type=str, help='Auth can\'t be converted')
+configParser.add_argument('secret', type=str, help='Secret can\'t be converted')
 configParser.add_argument('oauth_redirect_uri', type=str)
 configParser.add_argument('oauth_client_id', type=str)
 configParser.add_argument('oauth_client_secret', type=str)
@@ -30,7 +30,6 @@ class ConfigApi(Resource):
     @marshal_with({
         "server_refresh": fields.Integer,
         "client_refresh": fields.Integer,
-        "auth": fields.String
     })
     def get(self):
         config = Config.query.first()
@@ -47,8 +46,8 @@ class ConfigApi(Resource):
 
         config.server_refresh = args["server_refresh"]
         config.client_refresh = args["client_refresh"]
-        if args["auth"]:
-            config.auth = args["auth"]
+        if args["secret"]:
+            config.auth = args["secret"]
         if args["oauth_redirect_uri"]:
             config.oauth_redirect_uri = args["oauth_redirect_uri"]
         if args["oauth_client_id"]:
