@@ -8,7 +8,8 @@ from octoprint_dashboard.model import Config
 class ClientConfigApi(Resource):
     @marshal_with({
         "refresh": fields.Integer(attribute="client_refresh"),
-        "auth": fields.String
+        "oauth_redirect_uri": fields.String,
+        "oauth_client_id": fields.String
     })
     def get(self):
         config = Config.query.first()
@@ -29,7 +30,7 @@ class ConfigApi(Resource):
     @superadmin_required
     @marshal_with({
         "server_refresh": fields.Integer,
-        "client_refresh": fields.Integer,
+        "client_refresh": fields.Integer
     })
     def get(self):
         config = Config.query.first()

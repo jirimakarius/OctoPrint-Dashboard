@@ -21,8 +21,8 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
   $authProvider.oauth2({
     name: 'CVUT',
     url: `${ENV.api}/auth`,
-    clientId: 'fd19e88d-740e-4c82-822c-fff99ef0c4cb',
-    redirectUri: 'http://localhost:3000',
+    clientId: '',
+    redirectUri: '',
     authorizationEndpoint: 'https://auth.fit.cvut.cz/oauth/authorize',
     scope: ['urn:zuul:oauth'],
     scopeDelimiter: ' ',
@@ -30,12 +30,10 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
   });
 
   $mdThemingProvider.theme('default')
-  // .dark();
     .primaryPalette('green', {
       default: '800'
     })
     .accentPalette('blue')
     .warnPalette('red')
     .dark();
-  // .backgroundPalette('deep-orange');
 }
