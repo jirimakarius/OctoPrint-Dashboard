@@ -35,5 +35,17 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
     })
     .accentPalette('blue')
     .warnPalette('red')
-    .dark();
+    // .dark()
+  ;
+
+  $mdThemingProvider.theme('dark')
+    .primaryPalette('green', {
+      default: '800'
+    })
+    .accentPalette('blue')
+    .warnPalette('red')
+    .dark()
+  ;
+  // $mdThemingProvider.alwaysWatchTheme(true);
+  // $mdThemingProvider.generateThemesOnDemand(true);
 }

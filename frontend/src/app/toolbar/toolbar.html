@@ -15,12 +15,17 @@
   </div>
 </md-toolbar>
 <md-content>
-  <md-nav-bar aria-label="menu" md-selected-nav-item="$ctrl.currentNavItem">
+  <md-nav-bar aria-label="menu" md-selected-nav-item="$ctrl.currentNavItem" flex>
     <md-nav-item md-nav-sref="main" name="main">
       Home
     </md-nav-item>
     <md-nav-item md-nav-sref="admin" name="admin" ng-if="$ctrl.isAuthenticated() && $ctrl.isAdmin()">
       Settings
     </md-nav-item>
+    <span flex></span>
+    <md-switch id="themeSwitch" ng-model="$root.theme" aria-label="Theme" ng-true-value="'dark'" ng-false-value="'default'" class="md-warn">
+      Dark theme
+    </md-switch>
   </md-nav-bar>
+
 </md-content>

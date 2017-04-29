@@ -1,5 +1,5 @@
 /** @ngInject */
-function ToolbarController($auth, $state) {
+function ToolbarController($auth, $state, $rootScope) {
   this.login = function () {
     // console.dir($auth);
     $auth.logout();
@@ -24,6 +24,10 @@ function ToolbarController($auth, $state) {
   };
   this.isAdmin = function () {
     return $auth.getPayload().role !== "user";
+  };
+
+  this.theme = function () {
+    $rootScope.theme = "default";
   };
 
   this.username = this.isAuthenticated() ? $auth.getPayload().username : "";

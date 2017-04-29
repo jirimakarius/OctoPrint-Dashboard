@@ -102,3 +102,9 @@ md-checkbox.md-checkbox-large > div > .md-icon{
 .hidden {
   visibility: hidden;
 }
+
+#themeSwitch {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  margin-right: 2em;
+}
