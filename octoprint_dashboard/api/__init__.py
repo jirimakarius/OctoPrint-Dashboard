@@ -6,7 +6,7 @@ from .file import FileApi, FileIdApi
 from .group import GroupApi
 from .groupSettings import GroupSettingsApi
 from .localOctoPrintService import LocalOctoPrintServiceApi
-from .printer import PrinterApi
+from .printer import PrinterApi, PrinterIdApi
 from .printerSettings import PrinterSettingsApi
 from .printerStatus import PrinterStatusApi
 from .superadmin import SuperAdminApi
@@ -15,6 +15,7 @@ from .user import UserApi
 api = Api(app)
 
 api.add_resource(PrinterApi, '/printer')
+api.add_resource(PrinterIdApi, '/printer/<int:printer_id>')
 api.add_resource(GroupApi, '/group')
 api.add_resource(GroupSettingsApi, '/group/<int:group_id>/settings')
 api.add_resource(FileApi, '/printer/upload')

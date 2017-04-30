@@ -61,3 +61,22 @@ class PrinterApi(Resource):
         db.session.commit()
         scheduler.remove_printer_status_job(args["printerId"])
         return "", 204
+
+
+class PrinterIdApi(Resource):
+    @superadmin_required
+    def put(self, printer_id):
+        args = validateParser.parse_args()
+        url = "http://{0}".format(args['ip'])
+        auth = OctoprintService.auth(args['apikey'], url)
+        if auth is not None:
+            return "", 400
+        printer = Printer.query.get(printer_id)
+        printer.name = args['name']
+        printer.apikey = args['apikey']
+        printer.url = url
+        db.session.commit()
+        config = Config.query.first()
+        scheduler.remove_printer_status_job([printer_id])
+        scheduler.add_printer_status_job(printer, config.server_refresh)
+        return "", 200

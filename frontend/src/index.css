@@ -62,7 +62,7 @@ md-checkbox.md-checkbox-large > div > .md-icon{
 }
 
 .selected-printer {
-  border: 1px solid green;
+  border: 1px solid rgb(46, 125, 50);
 }
 
 .antimargin {
@@ -107,4 +107,8 @@ md-checkbox.md-checkbox-large > div > .md-icon{
   margin-top: 0.5em;
   margin-bottom: 0;
   margin-right: 2em;
+}
+
+.printersettings-state {
+  background-color: rgb(46, 125, 50);
 }

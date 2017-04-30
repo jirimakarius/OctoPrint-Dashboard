@@ -77,17 +77,19 @@ function AdminController(Printer, Group, $mdDialog, $document, $auth) {
 
   this.showSettings = function ($event) {
     $mdDialog.show({
-      template: '<md-dialog flex="50" style="max-height: 90%; height: 80%"><printer-settings layout="column" flex></printer-settings></md-dialog>',
+      template: '<md-dialog flex="75" style="height: 90%"><printer-settings layout="column" printers="$ctrl.printers" flex></printer-settings></md-dialog>',
       parent: angular.element($document.body),
       targetEvent: $event,
       preserveScope: true,
+      controller() {
+        this.printers = $ctrl.printers;
+      },
+      controllerAs: '$ctrl',
       clickOutsideToClose: true,
       fullscreen: true,
       autoWrap: false
     })
-      .then(presets => {
-        Printer.saveSettings($ctrl.printers, {temperature: {profiles: presets}});
-      }).catch(() => {});
+      .then(() => {}).catch(() => {});
   };
 
   Printer.getPrinters()

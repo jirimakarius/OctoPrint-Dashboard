@@ -47,8 +47,7 @@ function GroupSettingsController(Group, $mdDialog, User) {
   };
 
   this.querySearch = query => {
-    const p = query ? $ctrl.printers.filter(createFilterForPrinter(query)) : $ctrl.printers;
-    return p;
+    return query ? $ctrl.printers.filter(createFilterForPrinter(query)) : $ctrl.printers;
   };
   this.transformChip = chip => {
     if (angular.isObject(chip)) {

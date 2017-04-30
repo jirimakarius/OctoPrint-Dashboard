@@ -2,7 +2,9 @@ angular.module('restServices', [])
 /** @ngInject */
 .factory('Printer', ($resource, ENV) => {
   const printers = $resource(`${ENV.api}/printer`);
-  const printerIdStatus = $resource(`${ENV.api}/printer/status/:printerId`, {printerId: '@id'});
+  const printer = $resource(`${ENV.api}/printer/:printerId`, {printerId: '@printerId'}, {
+    update: {method: 'PUT', params: {printerId: '@printerId'}}
+  });
   const printerStatus = $resource(`${ENV.api}/printer/status`);
   const printerSettings = $resource(`${ENV.api}/printer/settings`);
   const printerServicesLocal = $resource(`${ENV.api}/printer/service/local`);
@@ -48,6 +50,9 @@ angular.module('restServices', [])
     addPrinter: printer => {
       return printers.save(printer).$promise;
     },
+    updatePrinter: printerInput => {
+      return printer.update({printerId: printerInput.id}, printerInput).$promise;
+    },
     getLocalServices: () => {
       return printerServicesLocal.query().$promise;
     },
@@ -56,9 +61,6 @@ angular.module('restServices', [])
     },
     removePrinters: printerArray => {
       return printers.remove({printerId: getCheckedPrinterId(printerArray)}).$promise;
-    },
-    getPrinterIdStatus: printerId => {
-      return printerIdStatus.get({printerId}).$promise;
     },
     getPrinterStatus: () => {
       return printerStatus.query().$promise;

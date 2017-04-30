@@ -11,7 +11,7 @@
   },
   "local": {
     "ENV": {
-      "api": "http://localhost:3000"
+      "api": ""
     }
   },
   "production": {
