@@ -5,11 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-CORS(app)
-db = SQLAlchemy(app)
+CORS(app)  # allows cross-origin requests
+db = SQLAlchemy(app)  # create database connection
 import octoprint_dashboard.model
 
-db.create_all()
+db.create_all()  # creates database schema
 
 from octoprint_dashboard.background import Scheduler, ZeroconfBrowser
 
@@ -22,6 +22,9 @@ import octoprint_dashboard.api
 
 
 def shutdown_server():
+    """
+    Function for stopping server 
+    """
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
         raise RuntimeError('Not running with the Werkzeug Server')
@@ -30,6 +33,10 @@ def shutdown_server():
 
 @app.before_first_request
 def _startup():
+    """
+    Function executed before first request, checks if is application configured 
+    and at least one superadmin present, if not shutdowns server
+    """
     from octoprint_dashboard.model import User, Config
     if Config.query.scalar() is None:
         print("No config, add config via command 'flask config'")
@@ -38,8 +45,8 @@ def _startup():
         print("No superadmin, add superadmin via command 'flask add_superadmin <username>'")
         shutdown_server()
 
-    scheduler.start()
-    zeroconf_browser.start()
+    scheduler.start()  # starts background task scheduler
+    zeroconf_browser.start()  # starts MDNS service discovery
 
 
 @app.route('/')

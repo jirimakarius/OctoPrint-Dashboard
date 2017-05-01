@@ -4,6 +4,12 @@ from octoprint_dashboard.app import db
 
 
 class User(db.Model):
+    """
+    Instance of this class equals single record of config in database
+    Class behaves like repository of Config records
+    
+    User represents human being, logged into app at least once
+    """
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True)
     access_token = db.Column(db.String(80))
@@ -22,6 +28,9 @@ class User(db.Model):
 
     @staticmethod
     def upsert(username, access_token, refresh_token):
+        """
+        Creates user with parameters in database or updates access and refresh token of user
+        """
         user = User.query.filter_by(username=username).scalar()
         if user is None:
             user = User(username, access_token, refresh_token)
@@ -34,6 +43,9 @@ class User(db.Model):
 
     @staticmethod
     def upsert_superadmin(username):
+        """
+        Makes user superadmin
+        """
         user = User.query.filter_by(username=username).scalar()
         if user is None:
             user = User(username, None, None)
@@ -44,6 +56,9 @@ class User(db.Model):
         db.session.commit()
 
     def get_accessible_printers(self):
+        """
+        Returns all printers accessible to user with admin role
+        """
         from octoprint_dashboard.model import Printer, Group, GroupUser
         if self.superadmin:
             printers = Printer.query.all()
@@ -54,6 +69,9 @@ class User(db.Model):
         return printers
 
     def get_accessible_printers_id(self, printer_ids):
+        """
+        Returns printers of given ids accessible to user with admin role
+        """
         from octoprint_dashboard.model import Printer, Group, GroupUser
         if self.superadmin:
             printers = Printer.query.filter(Printer.id.in_(printer_ids)).all()
@@ -65,6 +83,9 @@ class User(db.Model):
         return printers
 
     def get_accessible_printer_id(self, printer_id):
+        """
+        Returns printer of given id accessible to user with admin role or None
+        """
         from octoprint_dashboard.model import Printer, Group, GroupUser
         if self.superadmin:
             printer = Printer.query.get(printer_id)
@@ -76,6 +97,9 @@ class User(db.Model):
         return printer
 
     def get_printer_id(self, printer_id):
+        """
+        Returns printer of given id accessible to user or None
+        """
         from octoprint_dashboard.model import Printer, Group
         if self.superadmin:
             printer = Printer.query.get(printer_id)
@@ -87,6 +111,9 @@ class User(db.Model):
         return printer
 
     def get_editable_groups(self):
+        """
+        Returns groups accessible to user with admin role 
+        """
         from octoprint_dashboard.model import Group, GroupUser
 
         if self.superadmin:
@@ -98,6 +125,9 @@ class User(db.Model):
         return groups
 
     def get_editable_group_id(self, id):
+        """
+        Returns groups of given id accessible to user with admin role
+        """
         from octoprint_dashboard.model import Group, GroupUser
 
         if self.superadmin:
@@ -109,6 +139,9 @@ class User(db.Model):
         return group
 
     def get_groups(self):
+        """
+        Returns groups accessible to user
+        """
         from octoprint_dashboard.model import Group, GroupUser
 
         if self.superadmin:

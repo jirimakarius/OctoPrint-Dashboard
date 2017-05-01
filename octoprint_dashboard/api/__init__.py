@@ -14,6 +14,7 @@ from .user import UserApi
 
 api = Api(app)
 
+"""Api definition"""
 api.add_resource(PrinterApi, '/printer')
 api.add_resource(PrinterIdApi, '/printer/<int:printer_id>')
 api.add_resource(GroupApi, '/group')

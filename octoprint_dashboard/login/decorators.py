@@ -7,6 +7,11 @@ from octoprint_dashboard.services import LoginService
 
 
 def login_required(f):
+    """
+    Decorator function for routes
+    Checks Authorization header, token validity and injects user into flask global variable g
+    """
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not request.headers.get('Authorization'):
@@ -25,6 +30,11 @@ def login_required(f):
 
 
 def superadmin_required(f):
+    """
+    Decorator function for routes
+    Checks Authorization header, token validity, superadmin permission and injects user into flask global variable g
+    """
+
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not request.headers.get('Authorization'):

@@ -3,10 +3,14 @@ from flask_restful import Resource, marshal_with, fields
 
 from octoprint_dashboard.app import db
 from octoprint_dashboard.login import login_required
-from octoprint_dashboard.model import Group, Printer, User, GroupUser
+from octoprint_dashboard.model import Printer, User, GroupUser
 
 
 class GroupSettingsApi(Resource):
+    """
+    Api class for single group settings
+    """
+
     @login_required
     @marshal_with({
         'id': fields.Integer,
@@ -28,6 +32,7 @@ class GroupSettingsApi(Resource):
         )
     })
     def get(self, group_id):
+        """Gets settings of group"""
         group = g.user.get_editable_group_id(group_id)
         if group:
             return group, 200
@@ -36,6 +41,7 @@ class GroupSettingsApi(Resource):
 
     @login_required
     def put(self, group_id):
+        """Modifies settings of group"""
         group = g.user.get_editable_group_id(group_id)
         if not group:
             return "Missing right for group", 403
@@ -43,13 +49,15 @@ class GroupSettingsApi(Resource):
         args = request.json
         group.name = args["name"]
         printer_ids = [x["id"] for x in args["printers"]]
-        printers = Printer.query.filter(Printer.id.in_(printer_ids)) if printer_ids else []
+        printers = Printer.query.filter(
+            Printer.id.in_(printer_ids)) if printer_ids else []  # associate group with printers in request
         group.printer = printers
 
         usernames = [x["username"] for x in args["users"]]
         users = User.query.filter(User.username.in_(usernames)).all() if usernames else []
         group.group_user = []
-        for input in args["users"]:
+        for input in args["users"]:     # associate group with users trough class GroupUser in request, creating new
+                                        # users in database
             found = None
             for user in users:
                 if user.username == input["username"]:

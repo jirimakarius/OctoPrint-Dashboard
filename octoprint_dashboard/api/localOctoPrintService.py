@@ -6,6 +6,11 @@ from octoprint_dashboard.model import Printer
 
 
 class LocalOctoPrintServiceApi(Resource):
+    """
+    Returns information about unsaved printers in local network.
+    Uses zeroconf, multicast DNS service discovery
+    """
+
     @superadmin_required
     @marshal_with({
         "ip": fields.String,

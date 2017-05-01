@@ -6,7 +6,7 @@ from octoprint_dashboard.login import login_required
 from octoprint_dashboard.model import Printer
 from octoprint_dashboard.services import OctoprintService
 
-printerControlParser = reqparse.RequestParser()
+printerControlParser = reqparse.RequestParser()  # parser for printer commands
 printerControlParser.add_argument('printerId', type=int, required=True, help='Printer ID can\'t be converted',
                                   action='append')
 printerControlParser.add_argument('bed', type=int, help='Bed temperature can\'t be converted')
@@ -16,6 +16,10 @@ printerControlParser.add_argument('cancel', type=bool, help='Cancel can\'t be co
 
 
 class PrinterStatusApi(Resource):
+    """
+    Api class for printer commands and printer status
+    """
+
     @login_required
     @marshal_with({
         'state': fields.Nested({
@@ -45,12 +49,17 @@ class PrinterStatusApi(Resource):
         )
     })
     def get(self):
+        """Gets actual accessible printers state, including groups, name and job info"""
         printers = g.user.get_accessible_printers()
         states = [x.set_state(Printer.states.get(x.id)) for x in printers]
         return states, 200
 
     @login_required
     def post(self):
+        """
+        Issues command to printers.
+        Possible action are settings temperature of bed and extruder, pausing and cancelling print
+        """
         args = printerControlParser.parse_args()
         printers = g.user.get_accessible_printers_id(args["printerId"])
         for printer in printers:

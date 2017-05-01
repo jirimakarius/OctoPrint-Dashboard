@@ -6,6 +6,10 @@ from octoprint_dashboard.model import User, Config
 
 @app.cli.command()
 def dropdb():
+    """
+    Command for dropping database
+    'flask dropdb'
+    """
     db.drop_all()
     click.echo('Dropping the db')
 
@@ -13,12 +17,20 @@ def dropdb():
 @app.cli.command()
 @click.argument('username')
 def add_superadmin(username):
+    """
+    Command for adding superadmin via command line
+    'flask add_superadmin <username>'
+    """
     User.upsert_superadmin(username)
     click.echo('Powering up ' + username + ' to superadmin')
 
 
 @app.cli.command()
 def config():
+    """
+    Command for configuring application
+    'flask config'
+    """
     secret = input('Password for token encryption')
     client_refresh = input('Client printer status refresh time: ')
     server_refresh = input('Server printer status refresh time: ')

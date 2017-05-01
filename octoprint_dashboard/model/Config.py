@@ -2,6 +2,12 @@ from octoprint_dashboard.app import db
 
 
 class Config(db.Model):
+    """
+    Instance of this class equals single record of config in database
+    Class behaves like repository of Config records
+    
+    There has to be only one record of Config in database otherwise application wouldn't work
+    """
     id = db.Column(db.Integer, primary_key=True)
     secret = db.Column(db.String(80))
     client_refresh = db.Column(db.Integer)

@@ -5,6 +5,13 @@ from octoprint_dashboard.model import User
 
 
 class Group(db.Model):
+    """
+    Instance of this class equals single record of config in database
+    Class behaves like repository of Config records
+
+    Group represent link between users and printers, single group has 
+    M:N users and M:N printers
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
 
@@ -17,6 +24,7 @@ class Group(db.Model):
         return '<Group %r>' % self.name
 
     def editable(self, user: User):
+        """Returns true if group is editable by given user else false"""
         from octoprint_dashboard.model import GroupUser
         if user.superadmin:
             return True

@@ -2,6 +2,13 @@ from octoprint_dashboard.app import db
 
 
 class GroupUser(db.Model):
+    """
+    Instance of this class equals single record of config in database
+    Class behaves like repository of Config records
+    
+    GroupUser represents link between Groups and Users.
+    This class is used because every relation has role attribute
+    """
     __tablename__ = 'group_user'
 
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), primary_key=True)

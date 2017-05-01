@@ -6,6 +6,11 @@ from octoprint_dashboard.model import Config
 
 
 class ClientConfigApi(Resource):
+    """
+    Api class for client getting public configurations for client.
+    This configurations are only for client and they do not require logged user
+    """
+
     @marshal_with({
         "refresh": fields.Integer(attribute="client_refresh"),
         "oauth_redirect_uri": fields.String,
@@ -24,9 +29,13 @@ configParser.add_argument('secret', type=str, help='Secret can\'t be converted')
 configParser.add_argument('oauth_redirect_uri', type=str)
 configParser.add_argument('oauth_client_id', type=str)
 configParser.add_argument('oauth_client_secret', type=str)
+"""Parser for POST request of server configuration API"""
 
 
 class ConfigApi(Resource):
+    """Api class for superadmin, login is required, specifically with superadmin permission
+    """
+
     @superadmin_required
     @marshal_with({
         "server_refresh": fields.Integer,
@@ -39,10 +48,13 @@ class ConfigApi(Resource):
 
     @superadmin_required
     def post(self):
+        """Updates application configuration and updates background tasks
+        """
         args = configParser.parse_args()
         config = Config.query.first()
 
         if config.server_refresh != args["server_refresh"]:
+            # updating background tasks on server refresh time change
             scheduler.reschedule(args["server_refresh"])
 
         config.server_refresh = args["server_refresh"]

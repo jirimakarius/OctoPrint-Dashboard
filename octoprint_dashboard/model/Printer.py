@@ -1,6 +1,7 @@
 from octoprint_dashboard.app import db
 from octoprint_dashboard.model import Group
 
+"""M:N association table"""
 printer_group = db.Table('printer_group',
                          db.Column('printer_id', db.Integer, db.ForeignKey('printer.id')),
                          db.Column('group_id', db.Integer, db.ForeignKey('group.id'))
@@ -8,6 +9,12 @@ printer_group = db.Table('printer_group',
 
 
 class Printer(db.Model):
+    """
+    Instance of this class equals single record of config in database
+    Class behaves like repository of Config records
+    
+    Printer represent single OctoPrint instance
+    """
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     apikey = db.Column(db.String(80))
@@ -31,5 +38,9 @@ class Printer(db.Model):
         return hash(self.id)
 
     def set_state(self, state):
+        """
+        Sets state instance variable
+        Used by PrinterStatusApi
+        """
         self.state = state
         return self
