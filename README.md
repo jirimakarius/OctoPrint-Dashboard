@@ -14,14 +14,14 @@ virtualenv octoprint-dashboard
 ```
 Now you should be in virtual enviroment, you should see `(octoprint-dashboard)` at start of command line
 ```bash
-pip install git+https://github.com/meadowfrey/OctoPrint-Dashboard.git --process-dependecy-links
+pip install git+https://github.com/meadowfrey/OctoPrint-Dashboard.git --process-dependency-links
 # or
-pip install octoprint_dashboard --process-dependecy-links
+pip install octoprint_dashboard --process-dependency-links
 ```
 
 Set environment, flask runs application by **FLASK_APP** environment variable 
 ```bash
-export FLASK_APP=octoprint_dashboard
+export FLASK_APP=octoprint-dashboard
 ```
 
 Get OAuth client and secret key from [here](https://auth.fit.cvut.cz/manager/index.xhtml).
@@ -29,7 +29,7 @@ Create new project and app of type **Web application**, with redirect uri of you
 
 Configure application
 ```bash
-flask config
+python -m flask config
 ```
 * Password for token encryption - is only hash for token, you don't have to remember it
 * Client refresh - seconds between data refresh for user
@@ -40,10 +40,10 @@ flask config
 
 Make yourself superadmin
 ```bash
-flask add_superadmin [yourusername]
+python -m flask add_superadmin [yourusername]
 ```
 
 Run server
 ```bash
-flask run --host=0.0.0.0 [--port=]
+python -m flask run --host=0.0.0.0 [--port=]
 ```

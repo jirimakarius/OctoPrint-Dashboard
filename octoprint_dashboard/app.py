@@ -39,10 +39,10 @@ def _startup():
     """
     from octoprint_dashboard.model import User, Config
     if Config.query.scalar() is None:
-        print("No config, add config via command 'flask config'")
+        print("No config, add config via command 'python -m flask config'")
         shutdown_server()
     if User.query.filter_by(superadmin=True).count() == 0:
-        print("No superadmin, add superadmin via command 'flask add_superadmin <username>'")
+        print("No superadmin, add superadmin via command 'python -m flask add_superadmin <username>'")
         shutdown_server()
 
     scheduler.start()  # starts background task scheduler

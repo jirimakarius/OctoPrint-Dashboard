@@ -1,16 +1,16 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 with open('README.md') as f:
     long_description = ''.join(f.readlines())
 
 setup(
     name='octoprint_dashboard',
-    version='0.1.dev1',
+    version='0.2.dev1',
     description='Runs server application for controlling multiple 3D printers with OctoPrint',
     long_description=long_description,
     author='Jiří Makarius',
     keywords="octoprint 3Dprint dashboard python flask",
-    packages=['octoprint_dashboard'],
+    packages=find_packages(),
     license='MIT',
     include_package_data=True,
     zip_safe=False,
