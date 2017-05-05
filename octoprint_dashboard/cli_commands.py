@@ -31,7 +31,7 @@ def config():
     Command for configuring application
     'flask config'
     """
-    secret = input('Password for token encryption')
+    secret = input('Password for token encryption: ')
     client_refresh = input('Client printer status refresh time: ')
     server_refresh = input('Server printer status refresh time: ')
     oauth_client_id = input('Client ID for OAuth: ')
