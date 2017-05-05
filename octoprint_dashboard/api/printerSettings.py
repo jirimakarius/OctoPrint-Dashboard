@@ -68,7 +68,7 @@ class PrinterSettingsApi(Resource):
 
         for printer in printers:
             try:
-                ret = OctoprintService.save_settings(printer, request.json)
+                OctoprintService.save_settings(printer, request.json)
             except (requests.ConnectionError, RuntimeError):
                 pass
 

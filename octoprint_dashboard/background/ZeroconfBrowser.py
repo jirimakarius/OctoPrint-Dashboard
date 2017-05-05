@@ -26,9 +26,11 @@ class ZeroconfBrowser:
         """
         if state_change is ServiceStateChange.Added:
             info = zeroconf.get_service_info(service_type, name)
+            print(info)
             if info:
                 self.services["%s:%d" % (socket.inet_ntoa(info.address), info.port)] = {
                     "ip": "%s:%d" % (socket.inet_ntoa(info.address), info.port),
+                    "server": info.server,
                     "service": name,
                     "name": name.split('"')[1] if len(name.split('"')) == 3 else None
                 }

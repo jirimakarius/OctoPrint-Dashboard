@@ -13,7 +13,7 @@ class LocalOctoPrintServiceApi(Resource):
 
     @superadmin_required
     @marshal_with({
-        "ip": fields.String,
+        "ip": fields.String(attribute="server"),
         "name": fields.String
     })
     def get(self):

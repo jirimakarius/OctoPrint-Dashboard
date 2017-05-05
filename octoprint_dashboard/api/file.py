@@ -35,7 +35,7 @@ class FileApi(Resource):
         printers = g.user.get_accessible_printers_id(args["printerId"])
         for printer in printers:
             try:
-                response = OctoprintService.send_file(printer, filename, contents, args['print'])
+                OctoprintService.send_file(printer, filename, contents, args['print'])
             except (RuntimeError, requests.ConnectionError):
                 pass
         return "", 200

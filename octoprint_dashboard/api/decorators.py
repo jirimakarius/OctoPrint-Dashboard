@@ -5,7 +5,7 @@ from functools import wraps
 
 def selective_marshal_with(fields, fields_private):
     """
-    Selective response marshalling. 
+    Selective response marshalling.
     Adds specified fields to response if user has superadmin permission
     """
 

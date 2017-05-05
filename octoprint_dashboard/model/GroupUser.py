@@ -5,7 +5,7 @@ class GroupUser(db.Model):
     """
     Instance of this class equals single record of config in database
     Class behaves like repository of Config records
-    
+
     GroupUser represents link between Groups and Users.
     This class is used because every relation has role attribute
     """

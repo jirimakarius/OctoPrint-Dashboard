@@ -1,4 +1,3 @@
-import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from octoprint_dashboard.model import Printer, Config
@@ -37,14 +36,14 @@ class Scheduler:
 
     def remove_printer_status_job(self, printer_ids):
         """
-        Removes printer status task 
+        Removes printer status task
         """
         for printer in printer_ids:
             self.scheduler.remove_job(str(printer))
 
     def reschedule(self, seconds):
         """
-        Changes execution period of all running jobs to parameter seconds 
+        Changes execution period of all running jobs to parameter seconds
         """
         jobs = self.scheduler.get_jobs()
         for job in jobs:

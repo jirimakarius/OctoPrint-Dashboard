@@ -12,7 +12,7 @@ class Printer(db.Model):
     """
     Instance of this class equals single record of config in database
     Class behaves like repository of Config records
-    
+
     Printer represent single OctoPrint instance
     """
     id = db.Column(db.Integer, primary_key=True)

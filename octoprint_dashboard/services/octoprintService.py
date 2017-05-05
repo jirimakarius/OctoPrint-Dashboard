@@ -117,7 +117,7 @@ class OctoprintService:
     @staticmethod
     def get_file(printer: Printer, origin, filename):
         """
-        Returns data about specific file on printer 
+        Returns data about specific file on printer
         """
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.files(origin + "/" + filename)
@@ -159,7 +159,7 @@ class OctoprintService:
     @staticmethod
     def save_settings(printer: Printer, settings):
         """
-        Overwrites given OctoPrint settings 
+        Overwrites given OctoPrint settings
         """
         client = OctoClient(url=printer.url, apikey=printer.apikey)
         return client.settings(settings)
@@ -174,7 +174,5 @@ class OctoprintService:
 
         response = requests.get(file_info["refs"]["download"],
                                 timeout=4,
-                                headers={
-                                    'X-Api-Key': printer.apikey
-                                })
+                                headers={'X-Api-Key': printer.apikey})
         return response.content

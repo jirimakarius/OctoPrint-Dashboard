@@ -8,7 +8,7 @@ import requests
 class LoginService:
     """
     This class is meant to be whole static to simulate singleton
-    
+
     It is collection of functions for login handling
     """
     access_route = "https://auth.fit.cvut.cz/oauth/oauth/token"
@@ -40,7 +40,7 @@ class LoginService:
     @staticmethod
     def parse_api_token(request):
         """
-        Returns parsed and decoded token from authorization header 
+        Returns parsed and decoded token from authorization header
         """
         token = request.headers.get('Authorization').split()[1]
         return jwt.decode(token, LoginService.secret)
@@ -76,7 +76,7 @@ class LoginService:
     @staticmethod
     def refresh_token(refresh_token):
         """
-        Makes request to OAuth to refresh access token and returns response 
+        Makes request to OAuth to refresh access token and returns response
         """
         response = requests.post(LoginService.access_route, headers={
             "Authorization": LoginService.authorization

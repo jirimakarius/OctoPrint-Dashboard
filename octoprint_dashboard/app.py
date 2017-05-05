@@ -23,7 +23,7 @@ import octoprint_dashboard.api
 
 def shutdown_server():
     """
-    Function for stopping server 
+    Function for stopping server
     """
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
@@ -34,7 +34,7 @@ def shutdown_server():
 @app.before_first_request
 def _startup():
     """
-    Function executed before first request, checks if is application configured 
+    Function executed before first request, checks if is application configured
     and at least one superadmin present, if not shutdowns server
     """
     from octoprint_dashboard.model import User, Config

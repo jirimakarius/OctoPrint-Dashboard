@@ -7,7 +7,7 @@ class User(db.Model):
     """
     Instance of this class equals single record of config in database
     Class behaves like repository of Config records
-    
+
     User represents human being, logged into app at least once
     """
     id = db.Column(db.Integer, primary_key=True)
@@ -112,7 +112,7 @@ class User(db.Model):
 
     def get_editable_groups(self):
         """
-        Returns groups accessible to user with admin role 
+        Returns groups accessible to user with admin role
         """
         from octoprint_dashboard.model import Group, GroupUser
 

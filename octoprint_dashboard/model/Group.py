@@ -9,7 +9,7 @@ class Group(db.Model):
     Instance of this class equals single record of config in database
     Class behaves like repository of Config records
 
-    Group represent link between users and printers, single group has 
+    Group represent link between users and printers, single group has
     M:N users and M:N printers
     """
     id = db.Column(db.Integer, primary_key=True)
