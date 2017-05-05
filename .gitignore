@@ -1,4 +1,5 @@
 .idea
+dist
 
 frontend/.tmp/
 frontend/coverage/
