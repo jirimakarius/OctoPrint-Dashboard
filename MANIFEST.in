@@ -1,4 +1,4 @@
 include LICENSE
-include README.md
+include README.rst
 graft octoprint_dashboard/dist
 graft octoprint_dashboard/static
