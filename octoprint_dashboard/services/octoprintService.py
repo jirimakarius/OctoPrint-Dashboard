@@ -1,5 +1,3 @@
-from json import JSONDecodeError
-
 import requests
 from octoclient import OctoClient
 
@@ -20,7 +18,7 @@ class OctoprintService:
         """
         try:
             OctoClient(url=url, apikey=apikey)
-        except (RuntimeError, JSONDecodeError, requests.ConnectionError, requests.Timeout):
+        except (RuntimeError, requests.RequestException, ValueError):
             return False
         return None
 
