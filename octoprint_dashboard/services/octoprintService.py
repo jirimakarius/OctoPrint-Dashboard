@@ -168,7 +168,7 @@ class OctoprintService:
         Returns file contents
         Gets file information and downloads it's contents
         """
-        file_info = OctoprintService.get_file(printer, origin, filename).json
+        file_info = OctoprintService.get_file(printer, origin, filename)
 
         response = requests.get(file_info["refs"]["download"],
                                 timeout=4,
