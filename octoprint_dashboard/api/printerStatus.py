@@ -61,17 +61,18 @@ class PrinterStatusApi(Resource):
         Possible action are settings temperature of bed and extruder, pausing and cancelling print
         """
         args = printerControlParser.parse_args()
+        print(args)
         printers = g.user.get_accessible_printers_id(args["printerId"])
         for printer in printers:
-            try:
+            # try:
                 if args["bed"] is not None:
-                    OctoprintService.set_bed_temperature(printer, args["bed"])
+                    print(OctoprintService.set_bed_temperature(printer, args["bed"]))
                 if args["tool"] is not None:
                     OctoprintService.set_tool_temperature(printer, args["tool"])
                 if args["pause"] is not None:
                     OctoprintService.pause(printer)
                 if args["cancel"] is not None:
                     OctoprintService.cancel(printer)
-            except (requests.ConnectionError, RuntimeError):
-                pass
+            # except (requests.ConnectionError, RuntimeError):
+            #     pass
         return "", 200

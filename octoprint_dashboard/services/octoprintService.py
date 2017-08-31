@@ -84,6 +84,7 @@ class OctoprintService:
         Returns response with 204/No Content
         """
         client = OctoClient(url=printer.url, apikey=printer.apikey)
+        print(client)
         return client.bed_target(temperature)
 
     @staticmethod

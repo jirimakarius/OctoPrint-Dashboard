@@ -1,6 +1,6 @@
 from flask_restful import Resource, marshal_with, fields, reqparse
 
-from octoprint_dashboard.app import db, scheduler
+from octoprint_dashboard.app import db
 from octoprint_dashboard.login import superadmin_required
 from octoprint_dashboard.model import Config
 
@@ -53,9 +53,9 @@ class ConfigApi(Resource):
         args = configParser.parse_args()
         config = Config.query.first()
 
-        if config.server_refresh != args["server_refresh"]:
+        # if config.server_refresh != args["server_refresh"]:
             # updating background tasks on server refresh time change
-            scheduler.reschedule(args["server_refresh"])
+            # scheduler.reschedule(args["server_refresh"])
 
         config.server_refresh = args["server_refresh"]
         config.client_refresh = args["client_refresh"]

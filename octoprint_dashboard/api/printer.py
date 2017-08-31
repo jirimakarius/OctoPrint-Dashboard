@@ -1,7 +1,7 @@
 from flask import g, request
 from flask_restful import Resource, marshal_with, fields, reqparse
 
-from octoprint_dashboard.app import db, scheduler
+from octoprint_dashboard.app import db
 from octoprint_dashboard.login import login_required, superadmin_required
 from octoprint_dashboard.model import Printer, Config
 from octoprint_dashboard.services import OctoprintService
@@ -55,8 +55,8 @@ class PrinterApi(Resource):
                 printer = Printer(args["name"], args["apikey"], url)
                 db.session.add(printer)
                 db.session.commit()
-                scheduler.add_printer_status_job(printer,
-                                                 config.server_refresh)  # register printer status for background tasks
+                # scheduler.add_printer_status_job(printer,
+                #                                  config.server_refresh)  # register printer status for background tasks
             return "", 201
 
     @superadmin_required
@@ -67,7 +67,7 @@ class PrinterApi(Resource):
         for printer in printers:
             db.session.delete(printer)
         db.session.commit()
-        scheduler.remove_printer_status_job(args["printerId"])  # unregister printer status from background tasks
+        # scheduler.remove_printer_status_job(args["printerId"])  # unregister printer status from background tasks
         return "", 204
 
 
@@ -90,6 +90,6 @@ class PrinterIdApi(Resource):
         printer.url = url
         db.session.commit()
         config = Config.query.first()
-        scheduler.remove_printer_status_job([printer_id])  # reschedule printer job with new access data
-        scheduler.add_printer_status_job(printer, config.server_refresh)
+        # scheduler.remove_printer_status_job([printer_id])  # reschedule printer job with new access data
+        # scheduler.add_printer_status_job(printer, config.server_refresh)
         return "", 200
