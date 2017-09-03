@@ -29,6 +29,7 @@ import 'angular-sortable-view';
 import 'satellizer';
 import 'ng-file-upload';
 import 'angular-socket-io';
+import 'lodash';
 
 import routesConfig from './routes';
 import eventListeners from './app/services/eventListeners';

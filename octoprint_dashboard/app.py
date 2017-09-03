@@ -51,8 +51,8 @@ def _startup():
         shutdown_server()
 
     # scheduler.start()  # starts background task scheduler
-    OctoprintStatus()
-    zeroconf_browser.start()  # starts MDNS service discovery
+OctoprintStatus()
+zeroconf_browser.start()  # starts MDNS service discovery
 
 
 @app.route('/')

@@ -1,4 +1,5 @@
-from flask_socketio import disconnect, join_room, emit
+from flask_restful import fields, marshal
+from flask_socketio import disconnect, join_room, emit, send
 from jwt import DecodeError, ExpiredSignature
 
 from octoprint_dashboard.app import socketio
@@ -21,11 +22,19 @@ def on_join(data):
     except ExpiredSignature:
         disconnect()
         return
-    printers = Printer.query.join(Printer.group).join(Group.group_user).filter(
-        User.username == payload["username"]).all()
+    user = User.query.filter_by(username=payload["username"]).scalar()
+    printers = user.get_accessible_printers()
 
     for printer in printers:
         join_room(str(printer.id))
-        print(printer.id)
 
-    # socketio.emit("status", {"message": "fuck"}, room="1")
+    datatype = {
+        'id': fields.Integer,
+        'name': fields.String,
+        'group': fields.List(
+            fields.Nested({
+                'name': fields.String
+            })
+        )
+    }
+    emit("printers", marshal(printers, datatype))

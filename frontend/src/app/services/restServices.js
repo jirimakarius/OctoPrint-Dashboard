@@ -35,7 +35,7 @@ angular.module('restServices', [])
     let result = true;
 
     printers.forEach(printer => {
-      if (printer.checked && printer.state.state !== "Operational") {
+      if (printer.checked && printer.state.text !== "Operational") {
         result = false;
       }
     });

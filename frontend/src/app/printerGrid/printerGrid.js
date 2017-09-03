@@ -1,21 +1,55 @@
 /** @ngInject */
-function PrinterGridController($auth, printersOfGroupFilter, socketIO) {
+function PrinterGridController($auth, printersOfGroupFilter, socketIO, Group, $log) {
   const $ctrl = this;
   // let interval = "";
 
   this.$onInit = function () {
     if ($auth.isAuthenticated()) {
+      socketIO.on('reconnecting', () => {
+        _.forEach($ctrl.printers, printer => {
+          printer.state.text = "Connection lost";
+        });
+      });
+      socketIO.on('reconnect', () => {
+        socketIO.emit("join", {
+          jwt: $auth.getToken()
+        });
+      });
       socketIO.emit("join", {
         jwt: $auth.getToken()
       });
-      // Printer.getPrinterStatus()
-      //   .then(response => {
-      //     $ctrl.printers = response;
-      //   });
-      // Group.getGroups()
-      //   .then(response => {
-      //     $ctrl.groups = response;
-      //   });
+      socketIO.on("printers", data => {
+        _.forEach($ctrl.printers, printer => {
+          printer.found = false;
+        });
+        _.forEach(data, printer => {
+          let found = _.find($ctrl.printers, {id: printer.id});
+          printer.found = true;
+          if (found) {
+            _.merge(found, printer);
+          } else {
+            $ctrl.printers.push(printer);
+            found = _.last($ctrl.printers);
+          }
+          if (!found.state) {
+            _.extend(found, {state: {text: "Offline/Unreachable"}, temps: [], job: {}, progress: {}});
+          }
+        });
+        _.pullAllBy($ctrl.printers, {found: false}, "found");
+      });
+      socketIO.on("status", data => {
+        const printer = _.find($ctrl.printers, {id: data.id});
+        if (printer) {
+          _.merge(printer, data);
+        } else {
+          $ctrl.printers.push(data);
+        }
+        $log.log(printer);
+      });
+      Group.getGroups()
+        .then(response => {
+          $ctrl.groups = response;
+        });
       //
       // $rootScope.configPromise.then(() => {
       //   interval = $interval(() => {
@@ -25,32 +59,6 @@ function PrinterGridController($auth, printersOfGroupFilter, socketIO) {
       // });
     }
   };
-
-  // this.$onDestroy = function () {
-  //   $interval.cancel(interval);
-  // };
-
-  // function mergePrinterStatus(response) {
-  //   const foundPrinters = new Array($ctrl.printers.length);
-  //
-  //   response.forEach(printer => {
-  //     const oldPrinter = $filter('filter')($ctrl.printers, data => {
-  //       return printer.id === data.id;
-  //     });
-  //     if (oldPrinter.length) {
-  //       foundPrinters[$ctrl.printers.indexOf(oldPrinter)] = 1;
-  //       angular.extend(oldPrinter[0], printer);
-  //     } else {
-  //       $ctrl.printers.push(printer);
-  //     }
-  //   });
-  //
-  //   foundPrinters.forEach((printer, index) => {
-  //     if (!printer) {
-  //       $ctrl.printers.splice(index, 1);
-  //     }
-  //   });
-  // }
 
   this.select = function (group) {
     $ctrl.printers.forEach(printer => {

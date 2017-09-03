@@ -1,7 +1,7 @@
 export default eventListeners;
 
 /** @ngInject */
-function eventListeners($transitions, $rootScope, Config, SatellizerConfig, socketIO, $log) {
+function eventListeners($transitions, $rootScope, Config, SatellizerConfig) {
   $rootScope.configPromise = Config.getClientConfig()
     .then(response => {
       $rootScope.config = response;
@@ -14,8 +14,5 @@ function eventListeners($transitions, $rootScope, Config, SatellizerConfig, sock
     if (!$auth.isAuthenticated() || !$auth.getPayload().role) {
       return trans.router.stateService.target('main');
     }
-  });
-  socketIO.on("status", data => {
-    $log.log(data);
   });
 }

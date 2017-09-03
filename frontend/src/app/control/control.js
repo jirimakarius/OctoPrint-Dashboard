@@ -10,7 +10,7 @@ function ControlController(Files, Printer, $mdDialog, $document) {
         });
       $ctrl.printers.forEach(printer => {
         if (printer.checked) {
-          printer.state.state = "Preparing to print";
+          printer.state.text = "Preparing to print";
         }
       });
     }
@@ -27,21 +27,21 @@ function ControlController(Files, Printer, $mdDialog, $document) {
 
   this.setToolTemperature = function (temp) {
     Printer.setToolTemperature($ctrl.printers, temp);
-    $ctrl.printers.forEach(printer => {
-      if (printer.checked) {
-        printer.state.temperature.tool.target = temp;
-      }
-    });
+    // $ctrl.printers.forEach(printer => {
+    //   if (printer.checked) {
+    //     printer.temps[0].tool0.target = temp;
+    //   }
+    // });
     delete $ctrl.tool;
   };
 
   this.setBedTemperature = function (temp) {
     Printer.setBedTemperature($ctrl.printers, temp);
-    $ctrl.printers.forEach(printer => {
-      if (printer.checked) {
-        printer.state.temperature.bed.target = temp;
-      }
-    });
+    // $ctrl.printers.forEach(printer => {
+    //   if (printer.checked) {
+    //     printer.state.temperature.bed.target = temp;
+    //   }
+    // });
     delete $ctrl.bed;
   };
 
@@ -77,12 +77,12 @@ function ControlController(Files, Printer, $mdDialog, $document) {
   };
 
   this.printing = function (file) {
-    return file.name !== Printer.getCheckedPrinter($ctrl.printers)[0].state.job.fileName;
+    return file.name !== Printer.getCheckedPrinter($ctrl.printers)[0].job.file.name;
   };
 
   this.printFile = function (file) {
     Files.printFile(Printer.getCheckedPrinterId($ctrl.printers)[0], file);
-    Printer.getCheckedPrinter($ctrl.printers)[0].state.state = "Preparing to print";
+    // Printer.getCheckedPrinter($ctrl.printers)[0].state.text = "Preparing to print";
   };
 
   this.getChecked = function (printers) {
