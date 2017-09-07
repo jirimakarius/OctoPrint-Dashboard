@@ -51,7 +51,7 @@ def _startup():
         shutdown_server()
 
     # scheduler.start()  # starts background task scheduler
-OctoprintStatus()
+octoprint_status = OctoprintStatus()
 zeroconf_browser.start()  # starts MDNS service discovery
 
 

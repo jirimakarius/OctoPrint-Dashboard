@@ -31,11 +31,6 @@ class OctoprintDashboardEventHandler(WebSocketEventHandler):
                 }
             }
             socketio.emit("status", data, room=str(printer_id))
-            # if data.startswith('m'):
-            #     self.on_message(ws, json.loads(data[1:]))
-            # elif data.startswith('a'):
-            #     for msg in json.loads(data[1:]):
-            #         self.on_message(ws, msg, printer_id)
 
         self.socket = websocket.WebSocketApp(self.url,
                                              on_open=self.on_open,
@@ -67,3 +62,8 @@ class OctoprintStatus:
             listener = OctoprintDashboardEventHandler(printer.url, on_message=on_message)
             listener.run_with_id(printer.id)
             self.listeners[printer.id] = listener
+
+    def add_listener(self, printer):
+        listener = OctoprintDashboardEventHandler(printer.url, on_message=on_message)
+        listener.run_with_id(printer.id)
+        self.listeners[printer.id] = listener
