@@ -76,7 +76,7 @@
     <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
     <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>
   </md-button>
-  <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)' ngf-accept="'.stl,.gcode,.gco,.g'" ng-disabled="!$ctrl.checked()">
+  <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)' ngf-accept="'.stl,.gcode,.gco,.g,.STL,.GCODE,.G,.GCO'" ng-disabled="!$ctrl.checked()">
     Upload file
     <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
   </md-button>

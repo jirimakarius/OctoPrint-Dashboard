@@ -15,7 +15,7 @@ import octoprint_dashboard.model
 
 db.create_all()  # creates database schema
 
-from octoprint_dashboard.background import Scheduler, ZeroconfBrowser, OctoprintStatus
+from octoprint_dashboard.background import ZeroconfBrowser, OctoprintStatus
 
 # scheduler = Scheduler()
 zeroconf_browser = ZeroconfBrowser()
@@ -26,13 +26,13 @@ import octoprint_dashboard.api
 import octoprint_dashboard.socketIO.socketioService
 
 
-def shutdown_server():
+def shutdown_server(message):
     """
     Function for stopping server
     """
     func = request.environ.get('werkzeug.server.shutdown')
     if func is None:
-        raise RuntimeError('Not running with the Werkzeug Server')
+        raise RuntimeError(message)
     func()
 
 
@@ -45,12 +45,12 @@ def _startup():
     from octoprint_dashboard.model import User, Config
     if Config.query.scalar() is None:
         print("No config, add config via command 'python -m flask config'")
-        shutdown_server()
+        shutdown_server("No config, add config via command 'python -m flask config'")
     if User.query.filter_by(superadmin=True).count() == 0:
         print("No superadmin, add superadmin via command 'python -m flask add_superadmin <username>'")
-        shutdown_server()
+        shutdown_server("No superadmin, add superadmin via command 'python -m flask add_superadmin <username>'")
 
-    # scheduler.start()  # starts background task scheduler
+
 octoprint_status = OctoprintStatus()
 zeroconf_browser.start()  # starts MDNS service discovery
 

@@ -1,6 +1,7 @@
+from functools import wraps
+
 from flask import g
 from flask_restful import marshal_with
-from functools import wraps
 
 
 def selective_marshal_with(fields, fields_private):

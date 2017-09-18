@@ -1,6 +1,5 @@
 from flask import g, request
 from flask_restful import Resource, marshal_with, fields, reqparse
-from flask_socketio import close_room, emit
 
 from octoprint_dashboard.app import db, socketio
 from octoprint_dashboard.login import login_required, superadmin_required
@@ -48,7 +47,6 @@ class PrinterApi(Resource):
         else:  # creates multiple printers
             from octoprint_dashboard.app import octoprint_status
             body = request.json
-            config = Config.query.first()
             for args in body:
                 url = "http://{0}".format(args['ip'])
                 auth = OctoprintService.auth(args['apikey'], url)
@@ -96,4 +94,5 @@ class PrinterIdApi(Resource):
         printer.url = url
         db.session.commit()
 
+        socketio.emit("rejoin", broadcast=True, skip_sid=None)
         return "", 200

@@ -1,7 +1,7 @@
 from flask import g, request
 from flask_restful import Resource, marshal_with, fields
 
-from octoprint_dashboard.app import db
+from octoprint_dashboard.app import db, socketio
 from octoprint_dashboard.login import login_required
 from octoprint_dashboard.model import Printer, User, GroupUser
 
@@ -56,8 +56,8 @@ class GroupSettingsApi(Resource):
         usernames = [x["username"] for x in args["users"]]
         users = User.query.filter(User.username.in_(usernames)).all() if usernames else []
         group.group_user = []
-        for input in args["users"]:     # associate group with users trough class GroupUser in request, creating new
-                                        # users in database
+        for input in args["users"]:  # associate group with users trough class GroupUser in request, creating new
+            # users in database
             found = None
             for user in users:
                 if user.username == input["username"]:
@@ -68,4 +68,5 @@ class GroupSettingsApi(Resource):
 
         db.session.commit()
 
+        socketio.emit("rejoin", broadcast=True, skip_sid=None)
         return "", 200

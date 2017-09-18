@@ -186,9 +186,6 @@ angular.module('restServices', [])
     getClientConfig: () => {
       return clientConfig.get().$promise;
     },
-    getConfig: () => {
-      return config.get().$promise;
-    },
     saveConfig: conf => {
       return config.save(conf).$promise;
     }
