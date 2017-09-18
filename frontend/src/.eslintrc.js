@@ -1,4 +1,8 @@
 module.exports = {
+  globals: {
+    'io': true,
+    '_': true
+  },
   extends: [
     'angular'
   ],

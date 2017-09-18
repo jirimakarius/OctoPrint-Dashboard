@@ -1,7 +1,7 @@
 from flask import g
 from flask_restful import Resource, marshal_with, fields, reqparse
 
-from octoprint_dashboard.app import db
+from octoprint_dashboard.app import db, socketio
 from octoprint_dashboard.login import login_required, superadmin_required
 from octoprint_dashboard.model import Group
 
@@ -51,4 +51,6 @@ class GroupApi(Resource):
             if group.id in args["groupId"]:
                 db.session.delete(group)
         db.session.commit()
+
+        socketio.emit("rejoin", broadcast=True, skip_sid=None)
         return "", 204

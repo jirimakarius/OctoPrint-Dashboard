@@ -28,15 +28,19 @@ import 'angular-resource';
 import 'angular-sortable-view';
 import 'satellizer';
 import 'ng-file-upload';
+import 'angular-socket-io';
+import 'lodash';
+
 import routesConfig from './routes';
 import eventListeners from './app/services/eventListeners';
+import './app/services/socketio';
 
 import './index.css';
 
 export const app = 'app';
 /** @ngInject */
 angular
-  .module(app, ['ui.router', 'ngMessages', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule'])
+  .module(app, ['ui.router', 'ngMessages', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule', 'btford.socket-io', 'services.socketIO'])
   .config(routesConfig)
   .component('main', main)
   .component('toolbar', toolbar)

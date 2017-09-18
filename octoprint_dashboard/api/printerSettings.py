@@ -4,6 +4,7 @@ import requests
 from flask import g, request
 from flask_restful import Resource, reqparse, fields
 
+from octoprint_dashboard.app import socketio
 from octoprint_dashboard.login import login_required
 from octoprint_dashboard.services import OctoprintService
 from .decorators import selective_marshal_with
@@ -72,4 +73,5 @@ class PrinterSettingsApi(Resource):
             except (requests.ConnectionError, RuntimeError):
                 pass
 
+        socketio.emit("rejoin", broadcast=True, skip_sid=None)
         return "", 200

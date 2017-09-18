@@ -46,6 +46,13 @@ class LoginService:
         return jwt.decode(token, LoginService.secret)
 
     @staticmethod
+    def parse_api_token_direct(token):
+        """
+        Returns parsed and decoded token from authorization header
+        """
+        return jwt.decode(token, LoginService.secret)
+
+    @staticmethod
     def get_access_code(code):
         """
         Makes request to OAuth to exchange code for access_token and returns response

@@ -35,7 +35,7 @@ angular.module('restServices', [])
     let result = true;
 
     printers.forEach(printer => {
-      if (printer.checked && printer.state.state !== "Operational") {
+      if (printer.checked && printer.state.text !== "Operational") {
         result = false;
       }
     });
@@ -185,9 +185,6 @@ angular.module('restServices', [])
   return {
     getClientConfig: () => {
       return clientConfig.get().$promise;
-    },
-    getConfig: () => {
-      return config.get().$promise;
     },
     saveConfig: conf => {
       return config.save(conf).$promise;

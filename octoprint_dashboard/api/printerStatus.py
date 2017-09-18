@@ -65,7 +65,7 @@ class PrinterStatusApi(Resource):
         for printer in printers:
             try:
                 if args["bed"] is not None:
-                    OctoprintService.set_bed_temperature(printer, args["bed"])
+                    print(OctoprintService.set_bed_temperature(printer, args["bed"]))
                 if args["tool"] is not None:
                     OctoprintService.set_tool_temperature(printer, args["tool"])
                 if args["pause"] is not None:
