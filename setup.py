@@ -5,7 +5,7 @@ with open('README.rst') as f:
 
 setup(
     name='octoprint_dashboard',
-    version='0.2.1.dev1',
+    version='0.2.3',
     description='Runs server application for controlling multiple 3D printers with OctoPrint',
     long_description=long_description,
     author='Jiří Makarius',
@@ -16,7 +16,7 @@ setup(
     zip_safe=False,
     url='https://github.com/meadowfrey/OctoPrint-Dashboard',
     install_requires=[
-        'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful', 'apscheduler', 'octoclient', 'flask-cors', 'zeroconf', 'flask-socketio', 'eventlet'
+        'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful', 'octoclient', 'flask-cors', 'zeroconf', 'flask-socketio', 'eventlet'
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
