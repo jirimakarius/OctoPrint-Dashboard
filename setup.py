@@ -1,11 +1,12 @@
 from setuptools import setup, find_packages
+from octoprint_dashboard import __version__
 
 with open('README.rst') as f:
     long_description = ''.join(f.readlines())
 
 setup(
     name='octoprint_dashboard',
-    version='0.2.3',
+    version=__version__,
     description='Runs server application for controlling multiple 3D printers with OctoPrint',
     long_description=long_description,
     author='Jiří Makarius',
@@ -17,7 +18,7 @@ setup(
     url='https://github.com/meadowfrey/OctoPrint-Dashboard',
     install_requires=[
         'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful', 'octoclient', 'flask-cors', 'zeroconf',
-        'flask-socketio', 'eventlet', 'alembic', 'Flask-Migrate'
+        'flask-socketio', 'eventlet', 'alembic', 'Flask-Migrate', 'raven[flask]'
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
