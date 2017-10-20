@@ -1,12 +1,13 @@
 import requests
-from flask import request
+from flask import request, Blueprint
 
-from octoprint_dashboard.app import app
 from octoprint_dashboard.model import User
 from octoprint_dashboard.services import LoginService
 
+login_bp = Blueprint("login", __name__)
 
-@app.route('/auth', methods=['POST'])
+
+@login_bp.route('/auth', methods=['POST'])
 def auth():
     """
     Route for user login.

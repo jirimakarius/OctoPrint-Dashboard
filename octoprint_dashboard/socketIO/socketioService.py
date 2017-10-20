@@ -1,9 +1,9 @@
 from flask_restful import fields, marshal
-from flask_socketio import disconnect, join_room, emit, send
+from flask_socketio import disconnect, join_room, emit
 from jwt import DecodeError, ExpiredSignature
 
 from octoprint_dashboard.app import socketio
-from octoprint_dashboard.model import User, Printer, Group
+from octoprint_dashboard.model import User
 from octoprint_dashboard.services import LoginService
 
 

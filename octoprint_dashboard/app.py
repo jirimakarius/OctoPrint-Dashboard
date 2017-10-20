@@ -60,9 +60,13 @@ def _startup():
 
 
 import octoprint_dashboard.cli_commands
-import octoprint_dashboard.login.routes
-import octoprint_dashboard.api
-import octoprint_dashboard.socketIO.socketioService
+from octoprint_dashboard.socketIO import socketio_bp
+from octoprint_dashboard.api import api_bp
+from octoprint_dashboard.login import login_bp
+
+app.register_blueprint(socketio_bp)
+app.register_blueprint(api_bp)
+app.register_blueprint(login_bp)
 
 
 @app.route('/')

@@ -1,6 +1,6 @@
+import base64
 from datetime import datetime, timedelta
 
-import base64
 import jwt
 import requests
 
