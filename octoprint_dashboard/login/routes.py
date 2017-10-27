@@ -1,7 +1,7 @@
 import requests
-from flask import request, Blueprint
+from flask import request, Blueprint, current_app
 
-from octoprint_dashboard.model import User
+from octoprint_dashboard.model import User, Config
 from octoprint_dashboard.services import LoginService
 
 login_bp = Blueprint("login", __name__)
@@ -14,6 +14,9 @@ def auth():
     Needs code in request body, given by OAuth2.0
     Checks code, gets access token, saves user in database and returns authorization token
     """
+    if current_app.config["AUTH"] == Config.NONE:
+        return "", 404
+
     data = request.json
     if "code" not in data:
         return "", 400

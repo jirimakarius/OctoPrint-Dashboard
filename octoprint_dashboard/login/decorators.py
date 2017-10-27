@@ -1,8 +1,8 @@
-from flask import g, request
+from flask import g, request, current_app
 from functools import wraps
 from jwt import DecodeError, ExpiredSignature
 
-from octoprint_dashboard.model import User
+from octoprint_dashboard.model import User, Config
 from octoprint_dashboard.services import LoginService
 
 
@@ -14,6 +14,10 @@ def login_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if current_app.config["AUTH"] == Config.NONE:
+            g.user = User("Gandalf", superadmin=True)
+            return f(*args, **kwargs)
+
         if not request.headers.get('Authorization'):
             return "Missing authorization header", 401
 
@@ -37,6 +41,10 @@ def superadmin_required(f):
 
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if current_app.config["AUTH"] == Config.NONE:
+            g.user = User("Gandalf", superadmin=True)
+            return f(*args, **kwargs)
+
         if not request.headers.get('Authorization'):
             return "Missing authorization header", 401
 
