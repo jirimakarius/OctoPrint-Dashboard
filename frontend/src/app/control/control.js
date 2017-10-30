@@ -5,9 +5,9 @@ function ControlController(Files, Printer, $mdDialog, $document) {
   this.uploadPrint = function (file) {
     if (file) {
       Files.uploadPrintFile(file, $ctrl.printers)
-        .then(() => {
-          $ctrl.getFiles();
-        });
+                .then(() => {
+                  $ctrl.getFiles();
+                });
       $ctrl.printers.forEach(printer => {
         if (printer.checked) {
           printer.state.text = "Preparing to print";
@@ -19,9 +19,9 @@ function ControlController(Files, Printer, $mdDialog, $document) {
   this.upload = function (file) {
     if (file) {
       Files.uploadFile(file, $ctrl.printers)
-        .then(() => {
-          $ctrl.getFiles();
-        });
+                .then(() => {
+                  $ctrl.getFiles();
+                });
     }
   };
 
@@ -45,25 +45,25 @@ function ControlController(Files, Printer, $mdDialog, $document) {
 
   this.getFiles = function () {
     Files.getFiles(Printer.getCheckedPrinterId($ctrl.printers)[0])
-      .then(response => {
-        $ctrl.files = response;
-      });
+            .then(response => {
+              $ctrl.files = response;
+            });
   };
 
   this.getPresets = function () {
     Printer.getSettings($ctrl.printers)
-      .then(response => {
-        if (response.length) {
-          $ctrl.temperaturePresets = response[0].temperature.profiles;
-        }
-      });
+            .then(response => {
+              if (response.length) {
+                $ctrl.temperaturePresets = response[0].temperature.profiles;
+              }
+            });
   };
 
   this.deleteFile = function (file) {
     Files.deleteFile(Printer.getCheckedPrinterId($ctrl.printers)[0], file)
-      .then(() => {
-        $ctrl.files.splice($ctrl.files.indexOf(file), 1);
-      });
+            .then(() => {
+              $ctrl.files.splice($ctrl.files.indexOf(file), 1);
+            });
   };
 
   this.printing = function (file) {
@@ -72,7 +72,7 @@ function ControlController(Files, Printer, $mdDialog, $document) {
 
   this.printFile = function (file) {
     Files.printFile(Printer.getCheckedPrinterId($ctrl.printers)[0], file);
-    // Printer.getCheckedPrinter($ctrl.printers)[0].state.text = "Preparing to print";
+        // Printer.getCheckedPrinter($ctrl.printers)[0].state.text = "Preparing to print";
   };
 
   this.getChecked = function (printers) {
@@ -93,10 +93,11 @@ function ControlController(Files, Printer, $mdDialog, $document) {
       fullscreen: true,
       autoWrap: false
     })
-      .then(result => {
-        Files.fileToPrinters(Printer.getCheckedPrinter($ctrl.printers)[0].id, result, file);
-      })
-      .catch(() => {});
+            .then(result => {
+              Files.fileToPrinters(Printer.getCheckedPrinter($ctrl.printers)[0].id, result, file);
+            })
+            .catch(() => {
+            });
   };
 }
 

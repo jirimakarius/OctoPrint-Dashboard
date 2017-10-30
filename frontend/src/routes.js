@@ -6,17 +6,17 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
   $urlRouterProvider.otherwise('/');
 
   $stateProvider
-    .state('main', {
-      url: '/',
-      template: '<main layout="column" flex></main>'
-    })
-    .state('admin', {
-      url: '/admin',
-      template: '<admin layout="column" flex></admin>',
-      data: {
-        security: true
-      }
-    });
+        .state('main', {
+          url: '/',
+          template: '<main layout="column" flex></main>'
+        })
+        .state('admin', {
+          url: '/admin',
+          template: '<admin layout="column" flex></admin>',
+          data: {
+            security: true
+          }
+        });
 
   $authProvider.oauth2({
     name: 'CVUT',
@@ -30,22 +30,22 @@ function routesConfig($stateProvider, $urlRouterProvider, $locationProvider, $au
   });
 
   $mdThemingProvider.theme('default')
-    .primaryPalette('green', {
-      default: '800'
-    })
-    .accentPalette('blue')
-    .warnPalette('red')
+        .primaryPalette('green', {
+          default: '800'
+        })
+        .accentPalette('blue')
+        .warnPalette('red')
     // .dark()
-  ;
+    ;
 
   $mdThemingProvider.theme('dark')
-    .primaryPalette('green', {
-      default: '800'
-    })
-    .accentPalette('blue')
-    .warnPalette('red')
-    .dark()
-  ;
-  // $mdThemingProvider.alwaysWatchTheme(true);
-  // $mdThemingProvider.generateThemesOnDemand(true);
+        .primaryPalette('green', {
+          default: '800'
+        })
+        .accentPalette('blue')
+        .warnPalette('red')
+        .dark()
+    ;
+    // $mdThemingProvider.alwaysWatchTheme(true);
+    // $mdThemingProvider.generateThemesOnDemand(true);
 }

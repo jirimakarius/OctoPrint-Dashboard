@@ -1,5 +1,7 @@
 import os
+
 import raven
+
 from . import __version__
 
 
@@ -14,7 +16,8 @@ class Config:
         'include_paths': ['octoprint_dashboard'],
         'release': release,
     }
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///{}/database.db'.format(os.path.dirname(__file__))
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(
+        os.getenv("FLASK_DB", os.path.dirname(os.path.dirname(__file__)) + "/octoprint_dashboard.db"))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MIGRATIONS_DIR = os.path.join(os.path.dirname(__file__), "model", "migrations")
 

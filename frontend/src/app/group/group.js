@@ -20,17 +20,18 @@ function GroupController($mdDialog, $document, Group, $scope) {
 
   this.deleteGroup = function ($event) {
     const confirm = $mdDialog.confirm()
-      .title('Delete chosen group?')
-      .textContent(`Are you sure, you want to delete group ${$ctrl.group.name} ?`)
-      .targetEvent($event)
-      .ok('Of course, i\'m sure')
-      .cancel('Nope, I changed my mind');
+            .title('Delete chosen group?')
+            .textContent(`Are you sure, you want to delete group ${$ctrl.group.name} ?`)
+            .targetEvent($event)
+            .ok('Of course, i\'m sure')
+            .cancel('Nope, I changed my mind');
     $mdDialog.show(confirm)
-      .then(() => {
-        Group.deleteGroup($ctrl.group).then(() => {
-          $scope.$parent.$ctrl.deleteGroup($ctrl.group);
-        });
-      }).catch(() => {});
+            .then(() => {
+              Group.deleteGroup($ctrl.group).then(() => {
+                $scope.$parent.$ctrl.deleteGroup($ctrl.group);
+              });
+            }).catch(() => {
+            });
   };
 }
 

@@ -15,6 +15,7 @@ export default angular.module('authServices', [])
           return true;
         });
       }
+
       function logout() {
         return oauth().then(auth => {
           if (auth) {
@@ -23,6 +24,7 @@ export default angular.module('authServices', [])
           return true;
         });
       }
+
       function authenticate(str) {
         return oauth().then(auth => {
           if (auth) {
@@ -31,6 +33,7 @@ export default angular.module('authServices', [])
           return true;
         });
       }
+
       function setToken(token) {
         return oauth().then(auth => {
           if (auth) {
@@ -39,6 +42,7 @@ export default angular.module('authServices', [])
           return true;
         });
       }
+
       function getPayload() {
         return oauth().then(auth => {
           if (auth) {
@@ -47,12 +51,14 @@ export default angular.module('authServices', [])
           return {username: "Human", role: "Superhero"};
         });
       }
+
       function getToken() {
         if ($rootScope.auth === "none") {
           return "IShallPass";
         }
         return $auth.getToken();
       }
+
       function isRole(role) {
         return oauth().then(auth => {
           if (auth) {
@@ -61,6 +67,7 @@ export default angular.module('authServices', [])
           return true;
         });
       }
+
       return {
         oauth, isAuthenticated, logout, authenticate, setToken, getPayload, getToken, isRole
       };

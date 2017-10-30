@@ -10,12 +10,12 @@ function Controller($mdDialog, Printer, auth) {
   this.$onInit = function () {
     $ctrl.state = 2;
     Printer.getSettings($ctrl.printers)
-      .then(settings => {
-        $ctrl.settings = settings;
-        if (settings.length === 1) {
-          $ctrl.printer = settings[0];
-        }
-      });
+            .then(settings => {
+              $ctrl.settings = settings;
+              if (settings.length === 1) {
+                $ctrl.printer = settings[0];
+              }
+            });
     auth.isRole("superadmin").then(bool => {
       $ctrl.isSuperAdmin = bool;
     });
@@ -24,12 +24,12 @@ function Controller($mdDialog, Printer, auth) {
   this.validate = function (printer) {
     $ctrl.printer.valid = "progress";
     Printer.updatePrinter(printer)
-      .then(() => {
-        $ctrl.printer.valid = "true";
-      })
-      .catch(() => {
-        $ctrl.printer.valid = "false";
-      });
+            .then(() => {
+              $ctrl.printer.valid = "true";
+            })
+            .catch(() => {
+              $ctrl.printer.valid = "false";
+            });
   };
 
   this.removePreset = function (key) {

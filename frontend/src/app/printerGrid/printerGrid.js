@@ -53,9 +53,9 @@ function PrinterGridController(auth, printersOfGroupFilter, socketIO, Group) {
           }
         });
         Group.getGroups()
-                  .then(response => {
-                    $ctrl.groups = response;
-                  });
+                    .then(response => {
+                      $ctrl.groups = response;
+                    });
       }
     });
   };
@@ -67,9 +67,9 @@ function PrinterGridController(auth, printersOfGroupFilter, socketIO, Group) {
 
     if ($ctrl.selectedGroup === group) {
       printersOfGroupFilter($ctrl.printers, group)
-        .forEach(printer => {
-          printer.checked = true;
-        });
+                .forEach(printer => {
+                  printer.checked = true;
+                });
     }
 
     $ctrl.selectedGroup = group;

@@ -1,83 +1,59 @@
-<!--<md-dialog>-->
-  <md-toolbar>
+<md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Add printer</h2>
-      <span flex></span>
-      <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
-        <md-icon aria-label="Close dialog">close</md-icon>
-      </md-button>
+        <h2>Add printer</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+            <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
     </div>
-  </md-toolbar>
-  <div class="md-dialog-content">
-    <!--<form name="$ctrl.addprinter" ng-submit="$ctrl.submit()" layout="column">-->
-      <!--<md-input-container>-->
-        <!--<label>Name</label>-->
-        <!--<input ng-model="$ctrl.name" name="name" required>-->
-        <!--<div ng-messages="$ctrl.addprinter.$error.message">-->
-          <!--<div ng-message="name">{{ $ctrl.addprinter.$error.message.name }}</div>-->
-        <!--</div>-->
-      <!--</md-input-container>-->
-      <!--<md-input-container>-->
-        <!--<label>Api key</label>-->
-        <!--<input ng-model="$ctrl.apikey" name="apikey" required>-->
-        <!--<div ng-messages="$ctrl.addprinter.$error.message">-->
-          <!--<div ng-message="apikey">{{ $ctrl.addprinter.$error.message.apikey }}</div>-->
-        <!--</div>-->
-      <!--</md-input-container>-->
-      <!--<md-input-container>-->
-        <!--<label>Ip adress (with port)</label>-->
-        <!--<input ng-model="$ctrl.ip" name="ip" required>-->
-        <!--<div ng-messages="$ctrl.addprinter.$error.message">-->
-          <!--<div ng-message="ip">{{ $ctrl.addprinter.$error.message.ip }}</div>-->
-        <!--</div>-->
-      <!--</md-input-container>-->
-    <!--</form>-->
+</md-toolbar>
+<div class="md-dialog-content">
     <div layout="row">
-      <span flex="30">Name</span>
-      <span flex="30">Api-key</span>
-      <span flex="20">Url</span>
+        <span flex="30">Name</span>
+        <span flex="30">Api-key</span>
+        <span flex="20">Url</span>
     </div>
     <form ng-repeat="printer in $ctrl.printers" name="$ctrl.forms[{{$index}}]" layout="row" layout-align="start center">
-      <md-input-container flex="30" md-no-float>
-        <input placeholder="Name" ng-model="printer.name" name="name" required>
-      </md-input-container>
-      <md-input-container flex="30" md-no-float>
-        <input placeholder="Api-key" ng-model="printer.apikey" name="apikey" required>
-      </md-input-container>
-      <md-input-container flex="20" md-no-float>
-        <input placeholder="Url" ng-model="printer.ip" name="ip" required>
-      </md-input-container>
-      <md-icon ng-if="printer.valid=='true'">done</md-icon>
-      <md-icon ng-if="printer.valid=='false'" class="md-warn">close</md-icon>
-      <md-progress-circular ng-if="printer.valid=='progress'" md-diameter=22"></md-progress-circular>
-      <div flex></div>
-      <md-button ng-click="$ctrl.validatePrinter(printer)" ng-disabled="$ctrl.forms[$index].$invalid">
-        Validate
-      </md-button>
+        <md-input-container flex="30" md-no-float>
+            <input placeholder="Name" ng-model="printer.name" name="name" required>
+        </md-input-container>
+        <md-input-container flex="30" md-no-float>
+            <input placeholder="Api-key" ng-model="printer.apikey" name="apikey" required>
+        </md-input-container>
+        <md-input-container flex="20" md-no-float>
+            <input placeholder="Url" ng-model="printer.ip" name="ip" required>
+        </md-input-container>
+        <md-icon ng-if="printer.valid=='true'">done</md-icon>
+        <md-icon ng-if="printer.valid=='false'" class="md-warn">close</md-icon>
+        <md-progress-circular ng-if="printer.valid=='progress'" md-diameter=22"></md-progress-circular>
+        <div flex></div>
+        <md-button ng-click="$ctrl.validatePrinter(printer)" ng-disabled="$ctrl.forms[$index].$invalid">
+            Validate
+        </md-button>
     </form>
     <form layout="row" layout-align="start center" name="$ctrl.newPrinterForm">
-      <md-input-container flex="30" md-no-float>
-        <input placeholder="Name" ng-model="$ctrl.newprinter.name" name="name" required>
-      </md-input-container>
-      <md-input-container flex="30" md-no-float>
-        <input placeholder="Api-key" ng-model="$ctrl.newprinter.apikey" name="apikey" required>
-      </md-input-container>
-      <md-input-container flex="20" md-no-float>
-        <input placeholder="Url" ng-model="$ctrl.newprinter.ip" name="ip" required>
-      </md-input-container>
-      <div flex></div>
-      <md-button ng-click="$ctrl.addPrinter($ctrl.newprinter.name, $ctrl.newprinter.apikey, $ctrl.newprinter.ip)" ng-disabled="$ctrl.newPrinterForm.$invalid">
-        Validate
-      </md-button>
+        <md-input-container flex="30" md-no-float>
+            <input placeholder="Name" ng-model="$ctrl.newprinter.name" name="name" required>
+        </md-input-container>
+        <md-input-container flex="30" md-no-float>
+            <input placeholder="Api-key" ng-model="$ctrl.newprinter.apikey" name="apikey" required>
+        </md-input-container>
+        <md-input-container flex="20" md-no-float>
+            <input placeholder="Url" ng-model="$ctrl.newprinter.ip" name="ip" required>
+        </md-input-container>
+        <div flex></div>
+        <md-button ng-click="$ctrl.addPrinter($ctrl.newprinter.name, $ctrl.newprinter.apikey, $ctrl.newprinter.ip)"
+                   ng-disabled="$ctrl.newPrinterForm.$invalid">
+            Validate
+        </md-button>
     </form>
-  </div>
+</div>
 
-  <md-dialog-actions layout="row">
+<md-dialog-actions layout="row">
     <span flex></span>
     <md-button ng-click="$ctrl.submit()" ng-disabled="($ctrl.printers | filter:{valid: 'true'}).length<1">
-      Submit
+        Submit
     </md-button>
-  </md-dialog-actions>
-<!--</md-dialog>-->
+</md-dialog-actions>
 
 

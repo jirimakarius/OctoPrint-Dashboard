@@ -22,29 +22,31 @@ function AdminController(Printer, Group, $mdDialog, $document, auth) {
       autoWrap: false
     }).then(() => {
       Printer.getPrinters()
-        .then(response => {
-          $ctrl.printers = response;
-        });
+                .then(response => {
+                  $ctrl.printers = response;
+                });
     })
-      .catch(() => {});
+            .catch(() => {
+            });
   };
 
   this.removePrinters = function ($event) {
     const confirm = $mdDialog.confirm()
-      .title('Delete chosen printers?')
-      .textContent('Are you sure, you want to delete selected printers?')
-      .targetEvent($event)
-      .ok('Of course, i\'m sure')
-      .cancel('Nope, I changed my mind');
+            .title('Delete chosen printers?')
+            .textContent('Are you sure, you want to delete selected printers?')
+            .targetEvent($event)
+            .ok('Of course, i\'m sure')
+            .cancel('Nope, I changed my mind');
     $mdDialog.show(confirm)
-      .then(() => {
-        Printer.removePrinters($ctrl.printers).then(() => {
-          Printer.getPrinters()
-            .then(response => {
-              $ctrl.printers = response;
+            .then(() => {
+              Printer.removePrinters($ctrl.printers).then(() => {
+                Printer.getPrinters()
+                        .then(response => {
+                          $ctrl.printers = response;
+                        });
+              });
+            }).catch(() => {
             });
-        });
-      }).catch(() => {});
   };
 
   this.addGroup = function ($event) {
@@ -57,10 +59,11 @@ function AdminController(Printer, Group, $mdDialog, $document, auth) {
       fullscreen: true
     }).then(() => {
       Group.getEditableGroups()
-        .then(response => {
-          $ctrl.groups = response;
-        });
-    }).catch(() => {});
+                .then(response => {
+                  $ctrl.groups = response;
+                });
+    }).catch(() => {
+    });
   };
 
   this.deleteGroup = function (group) {
@@ -94,18 +97,20 @@ function AdminController(Printer, Group, $mdDialog, $document, auth) {
       fullscreen: true,
       autoWrap: false
     })
-      .then(() => {}).catch(() => {});
+            .then(() => {
+            }).catch(() => {
+            });
   };
 
   Printer.getPrinters()
-    .then(response => {
-      $ctrl.printers = response;
-    });
+        .then(response => {
+          $ctrl.printers = response;
+        });
 
   Group.getEditableGroups()
-    .then(response => {
-      $ctrl.groups = response;
-    });
+        .then(response => {
+          $ctrl.groups = response;
+        });
 }
 
 export const admin = {

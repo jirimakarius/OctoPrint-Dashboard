@@ -1,20 +1,20 @@
 <md-list-item>
-  <span>{{ $ctrl.group.name }}</span>
-  <md-menu class="md-secondary">
-    <md-button md-menu-origin class="md-icon-button">
-      <md-icon>settings</md-icon>
-    </md-button>
-    <md-menu-content width="4">
-      <md-menu-item>
-        <md-button ng-click="$ctrl.showSettings($event)">
-          Edit
+    <span>{{ $ctrl.group.name }}</span>
+    <md-menu class="md-secondary">
+        <md-button md-menu-origin class="md-icon-button">
+            <md-icon>settings</md-icon>
         </md-button>
-      </md-menu-item>
-      <md-menu-item>
-        <md-button ng-click="$ctrl.deleteGroup()">
-          Delete
-        </md-button>
-      </md-menu-item>
-    </md-menu-content>
-  </md-menu>
+        <md-menu-content width="4">
+            <md-menu-item>
+                <md-button ng-click="$ctrl.showSettings($event)">
+                    Edit
+                </md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="$ctrl.deleteGroup()">
+                    Delete
+                </md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
 </md-list-item>

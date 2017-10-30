@@ -36,7 +36,7 @@ function ToolbarController(auth, $state, $rootScope) {
     });
   };
 
-  // this.username = this.isAuthenticated() ? auth.getPayload().username : "";
+    // this.username = this.isAuthenticated() ? auth.getPayload().username : "";
 }
 
 export const toolbar = {

@@ -1,16 +1,20 @@
 <div flex="20">
-  <md-content ng-if="something.printers.length">
-    <md-list>
-      <md-list-item ng-click="something.select(null)" ng-class="{'selected-group': !something.selectedGroup}" class="groupmenu-item"> All </md-list-item>
-      <md-list-item ng-repeat="group in something.groups" ng-click="something.select(group.name)" ng-class="{'selected-group': something.selectedGroup==group.name}" class="groupmenu-item">
-        {{ group.name }}
-      </md-list-item>
-    </md-list>
-  </md-content>
+    <md-content ng-if="something.printers.length">
+        <md-list>
+            <md-list-item ng-click="something.select(null)" ng-class="{'selected-group': !something.selectedGroup}"
+                          class="groupmenu-item"> All
+            </md-list-item>
+            <md-list-item ng-repeat="group in something.groups" ng-click="something.select(group.name)"
+                          ng-class="{'selected-group': something.selectedGroup==group.name}" class="groupmenu-item">
+                {{ group.name }}
+            </md-list-item>
+        </md-list>
+    </md-content>
 </div>
 
 <h1 ng-if="!something.printers.length">Contact Admin for printer access</h1>
 <md-content sv-root sv-part="something.printers" flex ng-if="something.printers.length">
-  <printer ng-repeat="printer in something.printers | printersOfGroup:something.selectedGroup"" sv-element="opt" data="printer" class="grid">
-  </printer>
+    <printer ng-repeat="printer in something.printers | printersOfGroup:something.selectedGroup"
+    " sv-element="opt" data="printer" class="grid">
+    </printer>
 </md-content>
