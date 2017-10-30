@@ -18,7 +18,7 @@ setup(
     url='https://github.com/meadowfrey/OctoPrint-Dashboard',
     install_requires=[
         'flask', 'requests', 'pyjwt', 'flask-sqlalchemy', 'flask-restful', 'octoclient', 'flask-cors', 'zeroconf',
-        'flask-socketio', 'eventlet', 'alembic', 'Flask-Migrate', 'raven[flask]'
+        'flask-socketio', 'eventlet', 'alembic', 'flask-migrate', 'raven[flask]'
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
