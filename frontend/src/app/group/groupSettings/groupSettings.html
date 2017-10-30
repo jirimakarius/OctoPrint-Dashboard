@@ -1,72 +1,70 @@
 <md-toolbar>
-  <div class="md-toolbar-tools">
-    <h2>{{ $ctrl.group.name }}</h2>
-    <span flex></span>
-    <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
-      <md-icon aria-label="Close dialog">close</md-icon>
-    </md-button>
-  </div>
+    <div class="md-toolbar-tools">
+        <h2>{{ $ctrl.group.name }}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+            <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
 </md-toolbar>
 <div class="md-dialog-content" layout="column">
-  <md-input-container>
-    <label>Name</label>
-    <input ng-model="$ctrl.groupsettings.name">
-  </md-input-container>
-  <span class="md-title">Printers</span>
-  <md-chips ng-model="$ctrl.groupsettings.printers" md-autocomplete-snap
-            md-transform-chip="$ctrl.transformChip($chip)"
-            md-require-match="true">
-    <md-autocomplete
-      md-min-length="0"
-      md-selected-item="$ctrl.selectedItem"
-      md-search-text="$ctrl.searchText"
-      md-items="printer in $ctrl.querySearch($ctrl.searchText)"
-      md-item-text="printer.name"
-      placeholder="Search for a printer">
-      <span md-highlight-text="$ctrl.searchText">{{printer.name}}</span>
-    </md-autocomplete>
-    <md-chip-template>
-        <span>{{$chip.name}}</span>
-    </md-chip-template>
-  </md-chips>
-  <span class="md-title" style="margin-top: 2em">Users</span>
-  <form name="addUser" ng-submit="$ctrl.addUser($ctrl.searchTextUser)">
-    <md-autocomplete
-      md-input-name="autocompleteField"
-      md-selected-item="$ctrl.selectedUser"
-      md-search-text="$ctrl.searchTextUser"
-      md-items="user in $ctrl.userSearch($ctrl.searchTextUser)"
-      md-item-text="user.username"
-      md-selected-item-change="$ctrl.addUser($ctrl.selectedUser.username)"
-      md-floating-label="Add user">
-      <md-item-template>
-        <span md-highlight-text="$ctrl.searchTextUser" md-highlight-flags="^i">{{user.username}}</span>
-      </md-item-template>
-      <!--<md-not-found>-->
-      <!--No states matching "{{$ctrl.searchTextUser}}" were found.-->
-      <!--</md-not-found>-->
-    </md-autocomplete>
-  </form>
-  <md-content class="user-list" layout="column">
-    <md-list layout="column">
-      <md-list-item class="useritem" ng-repeat="user in $ctrl.groupsettings.users">
-        <p class="md-caption" flex>{{ user.username }}</p>
-        <md-select ng-model="user.role" class="md-no-underline" aria-label="Role for {{user.name}}">
-          <md-option value="admin">Admin</md-option>
-          <md-option value="user">User</md-option>
-        </md-select>
-        <md-button class="md-icon-button" ng-click="$ctrl.removeUser($index)">
-          <md-icon aria-label="Remove user">close</md-icon>
-        </md-button>
-      </md-list-item>
-    </md-list>
-  </md-content>
-  <!--<div flex></div>-->
+    <md-input-container>
+        <label>Name</label>
+        <input ng-model="$ctrl.groupsettings.name">
+    </md-input-container>
+    <span class="md-title">Printers</span>
+    <md-chips ng-model="$ctrl.groupsettings.printers" md-autocomplete-snap
+              md-transform-chip="$ctrl.transformChip($chip)"
+              md-require-match="true">
+        <md-autocomplete
+                md-min-length="0"
+                md-selected-item="$ctrl.selectedItem"
+                md-search-text="$ctrl.searchText"
+                md-items="printer in $ctrl.querySearch($ctrl.searchText)"
+                md-item-text="printer.name"
+                placeholder="Search for a printer">
+            <span md-highlight-text="$ctrl.searchText">{{ printer.name }}</span>
+        </md-autocomplete>
+        <md-chip-template>
+            <span>{{$chip.name}}</span>
+        </md-chip-template>
+    </md-chips>
+    <div ng-if="$ctrl.auth">
+        <span class="md-title" style="margin-top: 2em">Users</span>
+        <form name="addUser" ng-submit="$ctrl.addUser($ctrl.searchTextUser)">
+            <md-autocomplete
+                    md-input-name="autocompleteField"
+                    md-selected-item="$ctrl.selectedUser"
+                    md-search-text="$ctrl.searchTextUser"
+                    md-items="user in $ctrl.userSearch($ctrl.searchTextUser)"
+                    md-item-text="user.username"
+                    md-selected-item-change="$ctrl.addUser($ctrl.selectedUser.username)"
+                    md-floating-label="Add user">
+                <md-item-template>
+                    <span md-highlight-text="$ctrl.searchTextUser" md-highlight-flags="^i">{{ user.username }}</span>
+                </md-item-template>
+            </md-autocomplete>
+        </form>
+        <md-content class="user-list" layout="column">
+            <md-list layout="column">
+                <md-list-item class="useritem" ng-repeat="user in $ctrl.groupsettings.users">
+                    <p class="md-caption" flex>{{ user.username }}</p>
+                    <md-select ng-model="user.role" class="md-no-underline" aria-label="Role for {{ user.name }}">
+                        <md-option value="admin">Admin</md-option>
+                        <md-option value="user">User</md-option>
+                    </md-select>
+                    <md-button class="md-icon-button" ng-click="$ctrl.removeUser($index)">
+                        <md-icon aria-label="Remove user">close</md-icon>
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
 </div>
 <md-dialog-actions layout="row">
-  <span flex></span>
-  <md-button class="md-primary md-raised" ng-click="$ctrl.submit()">
-    Submit
-  </md-button>
+    <span flex></span>
+    <md-button class="md-primary md-raised" ng-click="$ctrl.submit()">
+        Submit
+    </md-button>
 </md-dialog-actions>
 

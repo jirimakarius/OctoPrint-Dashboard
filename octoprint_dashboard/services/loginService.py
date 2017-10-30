@@ -1,6 +1,6 @@
+import base64
 from datetime import datetime, timedelta
 
-import base64
 import jwt
 import requests
 
@@ -13,15 +13,23 @@ class LoginService:
     """
     access_route = "https://auth.fit.cvut.cz/oauth/oauth/token"
     check_route = "https://auth.fit.cvut.cz/oauth/oauth/check_token"
-    from octoprint_dashboard.model import Config
-    config = Config.query.first()
-    if config:
-        secret = config.secret
-        client_id = config.oauth_client_id
-        client_secret = config.oauth_client_secret
-        redirect_uri = config.oauth_redirect_uri
-        authorization = "Basic " + base64.b64encode("{0}:{1}".format(client_id, client_secret).encode('ascii')).decode(
-            'utf-8')
+    secret = None
+    client_id = None
+    client_secret = None
+    redirect_uri = None
+    authorization = None
+
+    @classmethod
+    def init(cls):
+        from octoprint_dashboard.model import Config
+        config = Config.query.first()
+        if config:
+            cls.secret = config.secret
+            cls.client_id = config.oauth_client_id
+            cls.client_secret = config.oauth_client_secret
+            cls.redirect_uri = config.oauth_redirect_uri
+            cls.authorization = "Basic " + base64.b64encode(
+                "{0}:{1}".format(cls.client_id, cls.client_secret).encode('ascii')).decode('utf-8')
 
     @staticmethod
     def create_api_token(username, role):

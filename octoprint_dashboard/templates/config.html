@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>OctoPrint dashboard -- config</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="jumbotron">
+                <h1>You are not prepared!!!</h1>
+            </div>
+            <form method="post">
+                {% if form and form.errors %}
+                    {% for key, error in form.errors.items() %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ key }}: {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <div class="form-group">
+                    <label for="secret">Secret</label>
+                    <input class="form-control" id="secret" name="secret" required placeholder="Password for token encryption">
+                </div>
+                <div class="form-group">
+                    <label for="auth">Authorization</label>
+                    <select class="form-control" name="auth" id="auth" onchange="check()">
+                        {% for option in auth_options %}
+                            <option value="{{ option.0 }}" {% if option.0=="none" %}selected="selected"{% endif %}>{{ option.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="oauth_id">OAuth ID</label>
+                    <input class="form-control" id="oauth_id" name="oauth_id" required placeholder="ID for OAuth">
+                </div>
+                <div class="form-group">
+                    <label for="oauth_secret">OAuth secret</label>
+                    <input class="form-control" id="oauth_secret" name="oauth_secret" required placeholder="Secret key for OAuth">
+                </div>
+                <div class="form-group">
+                    <label for="oauth_uri">OAuth redirect URI</label>
+                    <input class="form-control" id="oauth_uri" name="oauth_uri" required placeholder="Redirect uri for OAuth ({{ request.host_url }})">
+                </div>
+                <div class="form-group">
+                    <label for="oauth_admin">First admin</label>
+                    <input class="form-control" id="oauth_admin" name="superadmin" required placeholder="Your username">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script>
+            function check() {
+                if ($("#auth").val()==="none") {
+                    $("input[id^=oauth_]").prop('disabled', true);
+                } else {
+                    $("input[id^=oauth_]").prop('disabled', false);
+                }
+            }
+
+            $(document).ready(function () {
+                check();
+            })
+        </script>
+    </body>
+</html>

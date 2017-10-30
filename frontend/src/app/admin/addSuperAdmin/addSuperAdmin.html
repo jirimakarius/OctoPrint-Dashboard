@@ -1,37 +1,32 @@
-<!--<md-dialog>-->
-  <md-toolbar>
+<md-toolbar>
     <div class="md-toolbar-tools">
-      <h2>Add SuperAdmin</h2>
-      <span flex></span>
-      <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
-        <md-icon aria-label="Close dialog">close</md-icon>
-      </md-button>
+        <h2>Add SuperAdmin</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+            <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
     </div>
-  </md-toolbar>
-  <div class="md-dialog-content" layout="column">
+</md-toolbar>
+<div class="md-dialog-content" layout="column">
     <md-autocomplete
-      md-input-name="autocompleteField"
-      md-selected-item="$ctrl.selectedUser"
-      md-search-text="$ctrl.searchTextUser"
-      md-items="user in $ctrl.userSearch($ctrl.searchTextUser)"
-      md-item-text="user.username"
-      md-min-length="0"
-      md-floating-label="Add user">
-      <md-item-template>
-        <span md-highlight-text="$ctrl.searchTextUser" md-highlight-flags="^i">{{user.username}}</span>
-      </md-item-template>
-      <!--<md-not-found>-->
-      <!--No states matching "{{$ctrl.searchTextUser}}" were found.-->
-      <!--</md-not-found>-->
+            md-input-name="autocompleteField"
+            md-selected-item="$ctrl.selectedUser"
+            md-search-text="$ctrl.searchTextUser"
+            md-items="user in $ctrl.userSearch($ctrl.searchTextUser)"
+            md-item-text="user.username"
+            md-min-length="0"
+            md-floating-label="Add user">
+        <md-item-template>
+            <span md-highlight-text="$ctrl.searchTextUser" md-highlight-flags="^i">{{ user.username }}</span>
+        </md-item-template>
     </md-autocomplete>
-  </div>
+</div>
 
-  <md-dialog-actions layout="row">
+<md-dialog-actions layout="row">
     <span flex></span>
     <md-button ng-click="$ctrl.submit()">
-      Submit
+        Submit
     </md-button>
-  </md-dialog-actions>
-<!--</md-dialog>-->
+</md-dialog-actions>
 
 

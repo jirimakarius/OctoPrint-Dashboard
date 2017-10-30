@@ -18,10 +18,11 @@ class User(db.Model):
 
     group = association_proxy("group_user", "group")
 
-    def __init__(self, username=None, access_token=None, refresh_token=None):
+    def __init__(self, username=None, access_token=None, refresh_token=None, superadmin=False):
         self.username = username
         self.access_token = access_token
         self.refresh_token = refresh_token
+        self.superadmin = superadmin
 
     def __repr__(self):
         return '<User %r>' % self.username

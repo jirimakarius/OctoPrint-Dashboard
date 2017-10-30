@@ -10,7 +10,7 @@ class ClientConfigApi(Resource):
     """
 
     @marshal_with({
-        "refresh": fields.Integer(attribute="client_refresh"),
+        "auth": fields.String,
         "oauth_redirect_uri": fields.String,
         "oauth_client_id": fields.String
     })

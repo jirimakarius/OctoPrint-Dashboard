@@ -1,32 +1,40 @@
-<md-content class="printer" ng-class="{'selected-printer': $ctrl.data.checked}" md-whiteframe="15" layout="column" ng-click="$ctrl.data.checked=!$ctrl.data.checked">
-  <div layout="row" layout-align="space-between start">
-    <h3>{{ $ctrl.data.name }}</h3>
-    <div>
-      <md-button class="md-icon-button antimargin" ng-click="$ctrl.pause(); $event.stopPropagation()" ng-disabled="$ctrl.data.state.text!='Paused' && $ctrl.data.state.text!='Printing'">
-        <md-icon ng-if="$ctrl.data.state.text!='Paused'">pause</md-icon>
-        <md-icon ng-if="$ctrl.data.state.text=='Paused'">play_arrow</md-icon>
-        <md-tooltip>Pause</md-tooltip>
-      </md-button>
-      <md-button class="md-icon-button antimargin" ng-click="$ctrl.cancel(); $event.stopPropagation()" ng-disabled="$ctrl.data.state.text!='Paused' && $ctrl.data.state.text!='Printing'">
-        <md-icon>stop</md-icon>
-        <md-tooltip>Cancel</md-tooltip>
-      </md-button>
+<md-content class="printer" ng-class="{'selected-printer': $ctrl.data.checked}" md-whiteframe="15" layout="column"
+            ng-click="$ctrl.data.checked=!$ctrl.data.checked">
+    <div layout="row" layout-align="space-between start">
+        <h3>{{ $ctrl.data.name }}</h3>
+        <div>
+            <md-button class="md-icon-button antimargin" ng-click="$ctrl.pause(); $event.stopPropagation()"
+                       ng-disabled="$ctrl.data.state.text!='Paused' && $ctrl.data.state.text!='Printing'">
+                <md-icon ng-if="$ctrl.data.state.text!='Paused'">pause</md-icon>
+                <md-icon ng-if="$ctrl.data.state.text=='Paused'">play_arrow</md-icon>
+                <md-tooltip>Pause</md-tooltip>
+            </md-button>
+            <md-button class="md-icon-button antimargin" ng-click="$ctrl.cancel(); $event.stopPropagation()"
+                       ng-disabled="$ctrl.data.state.text!='Paused' && $ctrl.data.state.text!='Printing'">
+                <md-icon>stop</md-icon>
+                <md-tooltip>Cancel</md-tooltip>
+            </md-button>
+        </div>
+        <md-button class="md-icon-button md-primary printer-drag" sv-handle>
+            <md-icon>drag_handle</md-icon>
+            <md-tooltip>Drag</md-tooltip>
+        </md-button>
     </div>
-    <md-button class="md-icon-button md-primary printer-drag" sv-handle>
-      <md-icon>drag_handle</md-icon>
-      <md-tooltip>Drag</md-tooltip>
-    </md-button>
-  </div>
-  <span>State: {{ $ctrl.data.state.text }} </span>
-  <span ng-class="{hidden: $ctrl.data.state.text!='Printing' && $ctrl.data.state.text!='Paused'}">File: {{ $ctrl.data.job.file.name }}</span>
-  <span ng-class="{hidden: $ctrl.data.state.text!='Printing' && $ctrl.data.state.text!='Paused'}">Print time left: {{($ctrl.data.state.text=="Printing" || $ctrl.data.state.text=="Paused") && ($ctrl.data.progress.printTimeLeft>0 && ($ctrl.data.progress.printTimeLeft | secondsToDateTime | date: 'HH:mm:ss') || "Calculating...") || "" }}</span>
-  <md-content layout="row" layout-align="space-between center" ng-class="{hidden: $ctrl.progressHidden()}">
-    <md-progress-linear flex="85" class="md-accent printer-progress" md-mode="determinate" value="{{ $ctrl.data.progress.completion }}"></md-progress-linear>
-    <span ng-if="$ctrl.data.progress.completion">{{ $ctrl.data.progress.completion | number: 0}}%</span>
-  </md-content>
+    <span>State: {{ $ctrl.data.state.text }} </span>
+    <span ng-class="{hidden: $ctrl.data.state.text!='Printing' && $ctrl.data.state.text!='Paused'}">File:
+        {{ $ctrl.data.job.file.name }}</span>
+    <span ng-class="{hidden: $ctrl.data.state.text!='Printing' && $ctrl.data.state.text!='Paused'}">Print time left:
+        {{ ($ctrl.data.state.text=="Printing" || $ctrl.data.state.text=="Paused") && ($ctrl.data.progress.printTimeLeft>0 && ($ctrl.data.progress.printTimeLeft | secondsToDateTime | date: 'HH:mm:ss') || "Calculating...") || "" }}</span>
+    <md-content layout="row" layout-align="space-between center" ng-class="{hidden: $ctrl.progressHidden()}">
+        <md-progress-linear flex="85" class="md-accent printer-progress" md-mode="determinate"
+                            value="{{ $ctrl.data.progress.completion }}"></md-progress-linear>
+        <span ng-if="$ctrl.data.progress.completion">{{ $ctrl.data.progress.completion | number: 0}}%</span>
+    </md-content>
 
-  <md-content layout="row" ng-class="{hidden: !$ctrl.data.temps[0]}">
-    <span flex="50">Tool: {{ $ctrl.data.temps[0].tool0.actual }} &#8451; <span md-colors="{color: 'grey-800'}">({{ $ctrl.data.temps[0].tool0.target}} &#8451;)</span></span>
-    <span flex>Bed: {{ $ctrl.data.temps[0].bed.actual }} &#8451; <span md-colors="{color: 'grey-800'}">({{ $ctrl.data.temps[0].bed.target}} &#8451;)</span></span>
-  </md-content>
+    <md-content layout="row" ng-class="{hidden: !$ctrl.data.temps[0]}">
+        <span flex="50">Tool: {{ $ctrl.data.temps[0].tool0.actual }} &#8451; <span
+                md-colors="{color: 'grey-800'}">({{ $ctrl.data.temps[0].tool0.target}} &#8451;)</span></span>
+        <span flex>Bed: {{ $ctrl.data.temps[0].bed.actual }} &#8451; <span
+                md-colors="{color: 'grey-800'}">({{ $ctrl.data.temps[0].bed.target}} &#8451;)</span></span>
+    </md-content>
 </md-content>

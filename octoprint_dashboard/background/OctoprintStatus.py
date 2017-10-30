@@ -56,8 +56,10 @@ def on_message(ws, message, printer_id):
 
 class OctoprintStatus:
     def __init__(self):
-        printers = Printer.query.all()
         self.listeners = {}
+
+    def start(self):
+        printers = Printer.query.all()
         for printer in printers:
             listener = OctoprintDashboardEventHandler(printer.url, on_message=on_message)
             listener.run_with_id(printer.id)

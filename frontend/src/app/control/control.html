@@ -1,103 +1,101 @@
 <md-content layout="column">
-  <div>
-    <md-chips class="oneline-chips">
-        <md-chip class="oneline-chip md-caption" ng-repeat="printer in $ctrl.printers | filter:{checked: true}" ng-click="printer.checked=false">
-          {{ printer.name }}
-          <!--<md-icon>close</md-icon>-->
-        </md-chip>
-    </md-chips>
-  </div>
-  <div layout-align="center start" layout="row">
-    <form ng-submit="$ctrl.setToolTemperature($ctrl.tool)" flex>
-      <md-input-container class="temperature-input">
-        <label>Set tool temperature</label>
-        <input ng-model="$ctrl.tool" type="text" ng-disabled="!$ctrl.checked() || !$ctrl.operational()" ng-pattern="/^[0-9]{1,3}$/">
+    <div>
+        <md-chips class="oneline-chips">
+            <md-chip class="oneline-chip md-caption" ng-repeat="printer in $ctrl.printers | filter:{checked: true}"
+                     ng-click="printer.checked=false">
+                {{ printer.name }}
+            </md-chip>
+        </md-chips>
+    </div>
+    <div layout-align="center start" layout="row">
+        <form ng-submit="$ctrl.setToolTemperature($ctrl.tool)" flex>
+            <md-input-container class="temperature-input">
+                <label>Set tool temperature</label>
+                <input ng-model="$ctrl.tool" type="text" ng-disabled="!$ctrl.checked() || !$ctrl.operational()"
+                       ng-pattern="/^[0-9]{1,3}$/">
+                <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
+                <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational
+                </md-tooltip>
+            </md-input-container>
+        </form>
+        <md-menu class="inputbutton" md-position-mode="target-right target">
+            <md-button aria-label="Set tool temperature preset" class="md-icon-button md-warn"
+                       ng-click="$mdMenu.open($event)" ng-disabled="$ctrl.checked()!=1 || !$ctrl.operational()">
+                <md-icon md-menu-origin>present_to_all</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item ng-repeat="preset in $ctrl.temperaturePresets">
+                    <md-button ng-click="$ctrl.setToolTemperature(preset.extruder)">
+                        {{ preset.name }} ({{ preset.extruder }} &#8451;)
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setToolTemperature(0)">
+                        Off
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <div layout-align="center start" layout="row" style="margin-top: -3em; margin-bottom: -2em">
+        <form ng-submit="$ctrl.setBedTemperature($ctrl.bed)" flex>
+            <md-input-container class="temperature-input">
+                <label>Set bed temperature</label>
+                <input ng-model="$ctrl.bed" type="text" ng-disabled="!$ctrl.checked() || !$ctrl.operational()"
+                       ng-pattern="/^[0-9]{1,3}$/">
+                <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
+                <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational
+                </md-tooltip>
+            </md-input-container>
+        </form>
+        <md-menu class="inputbutton" md-position-mode="target-right target">
+            <md-button aria-label="Set bed temperature preset" class="md-icon-button md-warn"
+                       ng-click="$mdMenu.open($event)" ng-disabled="$ctrl.checked()!=1 || !$ctrl.operational()">
+                <md-icon md-menu-origin>present_to_all</md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item ng-repeat="preset in $ctrl.temperaturePresets">
+                    <md-button ng-click="$ctrl.setBedTemperature(preset.bed)">
+                        {{ preset.name }} ({{ preset.bed }} &#8451;)
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="$ctrl.setBedTemperature(0)">
+                        Off
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <md-button class='md-raised md-primary' ngf-select='$ctrl.uploadPrint($file)' ngf-accept="'.gcode,.gco,.g'"
+               ng-disabled="!$ctrl.checked() || !$ctrl.operational()">
+        Print from file
         <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
         <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>
-      </md-input-container>
-    </form>
-    <md-menu class="inputbutton" md-position-mode="target-right target">
-      <md-button aria-label="Set tool temperature preset" class="md-icon-button md-warn" ng-click="$mdMenu.open($event)" ng-disabled="$ctrl.checked()!=1 || !$ctrl.operational()">
-        <md-icon md-menu-origin>present_to_all</md-icon>
-      </md-button>
-      <md-menu-content width="4">
-        <md-menu-item ng-repeat="preset in $ctrl.temperaturePresets">
-          <md-button ng-click="$ctrl.setToolTemperature(preset.extruder)">
-            {{ preset.name }} ({{ preset.extruder }} &#8451;)
-          </md-button>
-        </md-menu-item>
-        <md-menu-item>
-          <md-button ng-click="$ctrl.setToolTemperature(0)">
-            Off
-          </md-button>
-        </md-menu-item>
-      </md-menu-content>
-    </md-menu>
-    <!--<md-button class="md-raised md-warn inputbutton" ng-click="$ctrl.setToolTemperature($ctrl.tool)" ng-disabled="!$ctrl.checked() || !$ctrl.operational()">-->
-      <!--Set-->
-      <!--<md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>-->
-      <!--<md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>-->
-    <!--</md-button>-->
-  </div>
-  <div layout-align="center start" layout="row" style="margin-top: -3em; margin-bottom: -2em">
-    <form ng-submit="$ctrl.setBedTemperature($ctrl.bed)" flex>
-      <md-input-container class="temperature-input">
-        <label>Set bed temperature</label>
-        <input ng-model="$ctrl.bed" type="text" ng-disabled="!$ctrl.checked() || !$ctrl.operational()" ng-pattern="/^[0-9]{1,3}$/">
+    </md-button>
+    <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)'
+               ngf-accept="'.stl,.gcode,.gco,.g,.STL,.GCODE,.G,.GCO'" ng-disabled="!$ctrl.checked()">
+        Upload file
         <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
-        <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>
-      </md-input-container>
-    </form>
-    <md-menu class="inputbutton" md-position-mode="target-right target">
-      <md-button aria-label="Set bed temperature preset" class="md-icon-button md-warn" ng-click="$mdMenu.open($event)" ng-disabled="$ctrl.checked()!=1 || !$ctrl.operational()">
-        <md-icon md-menu-origin>present_to_all</md-icon>
-      </md-button>
-      <md-menu-content width="4">
-        <md-menu-item ng-repeat="preset in $ctrl.temperaturePresets">
-          <md-button ng-click="$ctrl.setBedTemperature(preset.bed)">
-            {{ preset.name }} ({{ preset.bed }} &#8451;)
-          </md-button>
-        </md-menu-item>
-        <md-menu-item>
-          <md-button ng-click="$ctrl.setBedTemperature(0)">
-            Off
-          </md-button>
-        </md-menu-item>
-      </md-menu-content>
-    </md-menu>
-    <!--<md-button class="md-raised md-warn inputbutton" ng-click="$ctrl.setBedTemperature($ctrl.bed)" ng-disabled="!$ctrl.checked() || !$ctrl.operational()">-->
-      <!--Set-->
-      <!--<md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>-->
-      <!--<md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>-->
-    <!--</md-button>-->
-  </div>
-  <md-button class='md-raised md-primary' ngf-select='$ctrl.uploadPrint($file)' ngf-accept="'.gcode,.gco,.g'" ng-disabled="!$ctrl.checked() || !$ctrl.operational()">
-    Print from file
-    <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
-    <md-tooltip md-direction="left" ng-if="!$ctrl.operational()">Select printers are not operational</md-tooltip>
-  </md-button>
-  <md-button class='md-raised md-primary' ngf-select='$ctrl.upload($file)' ngf-accept="'.stl,.gcode,.gco,.g,.STL,.GCODE,.G,.GCO'" ng-disabled="!$ctrl.checked()">
-    Upload file
-    <md-tooltip md-direction="left" ng-if="!$ctrl.checked()">Select printer to control</md-tooltip>
-  </md-button>
-  <md-content flex ng-if="$ctrl.checked()==1" ng-init="$ctrl.files = [];$ctrl.getFiles();$ctrl.getPresets()">
-    <span ng-if="$ctrl.files.length">Files:</span>
-    <md-list class="antipadding">
-      <md-list-item class="" ng-repeat="file in $ctrl.files">
-        <p class="md-caption">{{ file.name }}</p>
-        <md-icon ng-click="$ctrl.printFile(file)" ng-if="$ctrl.operational() && file.type=='machinecode'">
-          print
-          <md-tooltip md-direction="left">Print file</md-tooltip>
-        </md-icon>
-        <md-icon ng-click="$ctrl.sendFile($event, file)">
-          send
-          <md-tooltip md-direction="left">Send file to other printers</md-tooltip>
-        </md-icon>
-        <md-icon ng-click="$ctrl.deleteFile(file)" ng-if="$ctrl.printing(file)">
-          delete
-          <md-tooltip md-direction="left">Delete file</md-tooltip>
-        </md-icon>
-      </md-list-item>
-    </md-list>
-  </md-content>
+    </md-button>
+    <md-content flex ng-if="$ctrl.checked()==1" ng-init="$ctrl.files = [];$ctrl.getFiles();$ctrl.getPresets()">
+        <span ng-if="$ctrl.files.length">Files:</span>
+        <md-list class="antipadding">
+            <md-list-item class="" ng-repeat="file in $ctrl.files">
+                <p class="md-caption">{{ file.name }}</p>
+                <md-icon ng-click="$ctrl.printFile(file)" ng-if="$ctrl.operational() && file.type=='machinecode'">
+                    print
+                    <md-tooltip md-direction="left">Print file</md-tooltip>
+                </md-icon>
+                <md-icon ng-click="$ctrl.sendFile($event, file)">
+                    send
+                    <md-tooltip md-direction="left">Send file to other printers</md-tooltip>
+                </md-icon>
+                <md-icon ng-click="$ctrl.deleteFile(file)" ng-if="$ctrl.printing(file)">
+                    delete
+                    <md-tooltip md-direction="left">Delete file</md-tooltip>
+                </md-icon>
+            </md-list-item>
+        </md-list>
+    </md-content>
 </md-content>

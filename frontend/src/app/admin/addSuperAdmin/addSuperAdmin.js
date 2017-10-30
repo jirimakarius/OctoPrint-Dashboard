@@ -14,9 +14,9 @@ function Controller($mdDialog, User) {
 
   this.$onInit = () => {
     User.getUsers()
-      .then(response => {
-        $ctrl.users = response;
-      });
+            .then(response => {
+              $ctrl.users = response;
+            });
   };
 
   function createFilterForUser(query) {

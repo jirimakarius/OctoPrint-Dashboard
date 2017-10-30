@@ -5,11 +5,11 @@ function Controller($mdDialog, Printer) {
 
   this.$onInit = function () {
     Printer.getLocalServices()
-      .then(result => {
-        result.forEach(service => {
-          $ctrl.printers.push({name: service.name, ip: service.ip, apikey: "", valid: "false"});
-        });
-      });
+            .then(result => {
+              result.forEach(service => {
+                $ctrl.printers.push({name: service.name, ip: service.ip, apikey: "", valid: "false"});
+              });
+            });
   };
 
   this.cancel = function () {
@@ -20,9 +20,9 @@ function Controller($mdDialog, Printer) {
     Printer.addPrinter($ctrl.printers.filter(printer => {
       return printer.valid === "true";
     }))
-      .then(() => {
-        $mdDialog.hide();
-      });
+            .then(() => {
+              $mdDialog.hide();
+            });
   };
 
   this.addPrinter = function (name, apikey, ip) {
@@ -37,12 +37,12 @@ function Controller($mdDialog, Printer) {
   this.validatePrinter = function (printer) {
     printer.valid = "progress";
     Printer.validate(printer)
-      .then(() => {
-        printer.valid = "true";
-      })
-      .catch(() => {
-        printer.valid = "false";
-      });
+            .then(() => {
+              printer.valid = "true";
+            })
+            .catch(() => {
+              printer.valid = "false";
+            });
   };
 }
 

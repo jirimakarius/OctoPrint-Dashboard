@@ -1,5 +1,5 @@
 /** @ngInject */
-function GroupSettingsController(Group, $mdDialog, User) {
+function GroupSettingsController(Group, $mdDialog, User, auth) {
   const $ctrl = this;
 
   this.cancel = function () {
@@ -8,10 +8,10 @@ function GroupSettingsController(Group, $mdDialog, User) {
 
   this.submit = function () {
     Group.setGroupSettings($ctrl.groupsettings)
-      .then(() => {
-        $ctrl.group.name = $ctrl.groupsettings.name;
-        $mdDialog.hide();
-      });
+            .then(() => {
+              $ctrl.group.name = $ctrl.groupsettings.name;
+              $mdDialog.hide();
+            });
   };
 
   this.addUser = function (text) {
@@ -37,13 +37,16 @@ function GroupSettingsController(Group, $mdDialog, User) {
 
   this.$onInit = () => {
     Group.getGroupSettings($ctrl.group.id)
-      .then(response => {
-        $ctrl.groupsettings = response;
-      });
+            .then(response => {
+              $ctrl.groupsettings = response;
+            });
     User.getUsers()
-      .then(response => {
-        $ctrl.users = response;
-      });
+            .then(response => {
+              $ctrl.users = response;
+            });
+    auth.oauth().then(oauth => {
+      $ctrl.auth = oauth;
+    });
   };
 
   this.querySearch = query => {
@@ -53,12 +56,12 @@ function GroupSettingsController(Group, $mdDialog, User) {
     if (angular.isObject(chip)) {
       return chip;
     }
-    // Otherwise, create a new one
     return {name: chip, type: 'new'};
   };
-  /**
-   * Create filter function for a query string
-   */
+
+    /**
+     * Create filter function for a query string
+     */
   function createFilterForPrinter(query) {
     const lowercaseQuery = angular.lowercase(query);
 
@@ -66,6 +69,7 @@ function GroupSettingsController(Group, $mdDialog, User) {
       return (angular.lowercase(item.name).indexOf(lowercaseQuery) === 0);
     };
   }
+
   function createFilterForUser(query) {
     const lowercaseQuery = angular.lowercase(query);
 

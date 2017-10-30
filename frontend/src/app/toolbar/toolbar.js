@@ -1,40 +1,45 @@
 /** @ngInject */
-function ToolbarController($auth, $state, $rootScope) {
+function ToolbarController(auth, $state, $rootScope) {
+  const $ctrl = this;
+
   this.login = function () {
-    // console.dir($auth);
-    $auth.logout();
-    // $auth.setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEyMzQ1Njc4OTAsIm5hbWUiOiJKb2huIERvZSJ9.kRkUHzvZMWXjgB4zkO3d6P1imkdp0ogebLuxnTCiYUU");
-    // $log.log($auth.isAuthenticated());
-    // console.dir($auth.getToken());
-    // console.dir($auth.getPayload());
-    $auth.authenticate('CVUT').then(response => {
-    //   console.dir(response);
-      $auth.setToken(response.data);
+    auth.logout();
+    auth.authenticate('CVUT').then(response => {
+      auth.setToken(response.data);
       $state.reload();
-      // $log.log($auth.isAuthenticated());
-      // console.dir($auth.getPayload());
     });
   };
   this.logout = function () {
-    $auth.logout();
+    auth.logout();
     $state.reload();
-  };
-  this.isAuthenticated = function () {
-    return $auth.isAuthenticated();
-  };
-  this.isAdmin = function () {
-    return $auth.getPayload().role !== "user";
   };
 
   this.theme = function () {
     $rootScope.theme = "default";
   };
 
-  this.username = this.isAuthenticated() ? $auth.getPayload().username : "";
+  this.$onInit = function () {
+    auth.oauth().then(val => {
+      $ctrl.oauth = val;
+    });
+    auth.isAuthenticated().then(val => {
+      $ctrl.isAuthenticated = val;
+    });
+    auth.getPayload().then(val => {
+      if (val) {
+        $ctrl.isAdmin = (val.role !== "user");
+        $ctrl.username = val.username;
+      } else {
+        $ctrl.isAdmin = false;
+        $ctrl.username = "";
+      }
+    });
+  };
+
+    // this.username = this.isAuthenticated() ? auth.getPayload().username : "";
 }
 
 export const toolbar = {
   template: require('./toolbar.html'),
   controller: ToolbarController
-  // controller: ['$auth',ToolbarController]
 };

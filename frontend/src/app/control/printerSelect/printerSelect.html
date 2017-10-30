@@ -1,27 +1,28 @@
 <md-toolbar>
-  <div class="md-toolbar-tools">
-    <h2>Select printers</h2>
-    <span flex></span>
-    <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
-      <md-icon aria-label="Close dialog">close</md-icon>
-    </md-button>
-  </div>
+    <div class="md-toolbar-tools">
+        <h2>Select printers</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="$ctrl.cancel()">
+            <md-icon aria-label="Close dialog">close</md-icon>
+        </md-button>
+    </div>
 </md-toolbar>
 <div class="md-dialog-content" layout="column">
-  <span class="md-title">Select printers to send <strong>{{ $ctrl.filename }}</strong> to:</span>
-  <md-content flex>
-    <md-list class="border-classic" ng-if="$ctrl.printers">
-      <md-list-item ng-repeat="printer in $ctrl.printers | filter:{checked: '!true'}">
-        <span>{{ printer.name }}</span>
-        <md-checkbox class="md-secondary" ng-model="$ctrl.selected[printer.id]" aria-label="Checked {{ printer.name }}"></md-checkbox>
-      </md-list-item>
-    </md-list>
-  </md-content>
+    <span class="md-title">Select printers to send <strong>{{ $ctrl.filename }}</strong> to:</span>
+    <md-content flex>
+        <md-list class="border-classic" ng-if="$ctrl.printers">
+            <md-list-item ng-repeat="printer in $ctrl.printers | filter:{checked: '!true'}">
+                <span>{{ printer.name }}</span>
+                <md-checkbox class="md-secondary" ng-model="$ctrl.selected[printer.id]"
+                             aria-label="Checked {{ printer.name }}"></md-checkbox>
+            </md-list-item>
+        </md-list>
+    </md-content>
 </div>
 <md-dialog-actions layout="row">
-  <span flex></span>
-  <md-button class="md-primary md-raised" ng-click="$ctrl.submit()">
-    Submit
-  </md-button>
+    <span flex></span>
+    <md-button class="md-primary md-raised" ng-click="$ctrl.submit()">
+        Submit
+    </md-button>
 </md-dialog-actions>
 

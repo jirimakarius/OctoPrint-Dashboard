@@ -1,31 +1,32 @@
 <md-toolbar>
-  <div class="md-toolbar-tools" layout-align="space-between center">
-    <h1>OctoPrint Dashboard</h1>
-    <div ng-if="!$ctrl.isAuthenticated()">
-      <md-button class="md-raised md-warn" aria-label="Login" ng-click="$ctrl.login()">
-        Login
-      </md-button>
+    <div class="md-toolbar-tools" layout-align="space-between center">
+        <h1>OctoPrint Dashboard</h1>
+        <div ng-if="!$ctrl.isAuthenticated && $ctrl.oauth">
+            <md-button class="md-raised md-warn" aria-label="Login" ng-click="$ctrl.login()">
+                Login
+            </md-button>
+        </div>
+        <div ng-if="$ctrl.isAuthenticated && $ctrl.oauth">
+            <span style="font-size: 70%">Logged as {{ $ctrl.username }}</span>
+            <md-button class="md-raised" aria-label="Logout" ng-click="$ctrl.logout()">
+                Logout
+            </md-button>
+        </div>
     </div>
-    <div ng-if="$ctrl.isAuthenticated()">
-      <span style="font-size: 70%">Logged as {{ $ctrl.username }}</span>
-      <md-button class="md-raised" aria-label="Logout" ng-click="$ctrl.logout()">
-        Logout
-      </md-button>
-    </div>
-  </div>
 </md-toolbar>
 <md-content>
-  <md-nav-bar aria-label="menu" md-selected-nav-item="$ctrl.currentNavItem" flex>
-    <md-nav-item md-nav-sref="main" name="main">
-      Home
-    </md-nav-item>
-    <md-nav-item md-nav-sref="admin" name="admin" ng-if="$ctrl.isAuthenticated() && $ctrl.isAdmin()">
-      Settings
-    </md-nav-item>
-    <span flex></span>
-    <md-switch id="themeSwitch" ng-model="$root.theme" aria-label="Theme" ng-true-value="'dark'" ng-false-value="'default'" class="md-warn">
-      Dark theme
-    </md-switch>
-  </md-nav-bar>
+    <md-nav-bar aria-label="menu" md-selected-nav-item="$ctrl.currentNavItem" flex>
+        <md-nav-item md-nav-sref="main" name="main">
+            Home
+        </md-nav-item>
+        <md-nav-item md-nav-sref="admin" name="admin" ng-if="$ctrl.isAuthenticated && $ctrl.isAdmin">
+            Settings
+        </md-nav-item>
+        <span flex></span>
+        <md-switch id="themeSwitch" ng-model="$root.theme" aria-label="Theme" ng-true-value="'dark'"
+                   ng-false-value="'default'" class="md-warn">
+            Dark theme
+        </md-switch>
+    </md-nav-bar>
 
 </md-content>
