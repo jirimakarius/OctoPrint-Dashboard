@@ -1,5 +1,5 @@
 /** @ngInject */
-function GroupSettingsController(Group, $mdDialog, User) {
+function GroupSettingsController(Group, $mdDialog, User, auth) {
   const $ctrl = this;
 
   this.cancel = function () {
@@ -44,6 +44,9 @@ function GroupSettingsController(Group, $mdDialog, User) {
       .then(response => {
         $ctrl.users = response;
       });
+    auth.oauth().then(oauth => {
+      $ctrl.auth = oauth;
+    });
   };
 
   this.querySearch = query => {

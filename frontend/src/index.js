@@ -11,7 +11,6 @@ import {addPrinter} from './app/admin/addPrinter/addPrinter';
 import {addGroup} from './app/admin/addGroup/addGroup';
 import {addSuperAdmin} from './app/admin/addSuperAdmin/addSuperAdmin';
 import {groupSettings} from './app/group/groupSettings/groupSettings';
-import {adminSettings} from './app/admin/adminSettings/adminSettings';
 import {printerSettings} from './app/admin/printerSettings/printerSettings';
 import {printerSelect} from './app/control/printerSelect/printerSelect';
 
@@ -34,13 +33,14 @@ import 'lodash';
 import routesConfig from './routes';
 import eventListeners from './app/services/eventListeners';
 import './app/services/socketio';
+import './app/services/auth';
 
 import './index.css';
 
 export const app = 'app';
 /** @ngInject */
 angular
-  .module(app, ['ui.router', 'ngMessages', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule', 'btford.socket-io', 'services.socketIO'])
+  .module(app, ['ui.router', 'ngMessages', 'ngMaterial', 'satellizer', 'ngResource', 'restServices', 'angular-sortable-view', 'ngFileUpload', 'app.config', 'filterModule', 'btford.socket-io', 'services.socketIO', 'authServices'])
   .config(routesConfig)
   .component('main', main)
   .component('toolbar', toolbar)
@@ -53,7 +53,6 @@ angular
   .component('addGroup', addGroup)
   .component('addSuperAdmin', addSuperAdmin)
   .component('groupSettings', groupSettings)
-  .component('adminSettings', adminSettings)
   .component('printerSettings', printerSettings)
   .component('printerSelect', printerSelect)
   .run(eventListeners);

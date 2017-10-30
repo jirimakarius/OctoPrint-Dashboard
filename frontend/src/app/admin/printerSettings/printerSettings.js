@@ -1,5 +1,5 @@
 /** @ngInject */
-function Controller($mdDialog, Printer, $auth) {
+function Controller($mdDialog, Printer, auth) {
   const $ctrl = this;
   this.presets = [];
   this.addPreset = function () {
@@ -16,6 +16,9 @@ function Controller($mdDialog, Printer, $auth) {
           $ctrl.printer = settings[0];
         }
       });
+    auth.isRole("superadmin").then(bool => {
+      $ctrl.isSuperAdmin = bool;
+    });
   };
 
   this.validate = function (printer) {
@@ -39,10 +42,6 @@ function Controller($mdDialog, Printer, $auth) {
 
   this.cancel = function () {
     $mdDialog.cancel();
-  };
-
-  this.isSuperAdmin = function () {
-    return $auth.getPayload().role === "superadmin";
   };
 }
 

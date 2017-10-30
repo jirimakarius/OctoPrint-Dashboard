@@ -1,6 +1,15 @@
 /** @ngInject */
-function AdminController(Printer, Group, $mdDialog, $document, $auth) {
+function AdminController(Printer, Group, $mdDialog, $document, auth) {
   const $ctrl = this;
+
+  this.$onInit = function () {
+    auth.isRole("superadmin").then(bool => {
+      $ctrl.isSuperAdmin = bool;
+    });
+    auth.oauth().then(oauth => {
+      $ctrl.auth = oauth;
+    });
+  };
 
   this.addPrinter = function ($event) {
     $mdDialog.show({
@@ -57,10 +66,6 @@ function AdminController(Printer, Group, $mdDialog, $document, $auth) {
   this.deleteGroup = function (group) {
     const index = $ctrl.groups.indexOf(group);
     $ctrl.groups.splice(index, 1);
-  };
-
-  this.isSuperAdmin = function () {
-    return $auth.getPayload().role === "superadmin";
   };
 
   this.addSuperAdmin = function ($event) {

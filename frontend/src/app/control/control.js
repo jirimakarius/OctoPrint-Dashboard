@@ -27,21 +27,11 @@ function ControlController(Files, Printer, $mdDialog, $document) {
 
   this.setToolTemperature = function (temp) {
     Printer.setToolTemperature($ctrl.printers, temp);
-    // $ctrl.printers.forEach(printer => {
-    //   if (printer.checked) {
-    //     printer.temps[0].tool0.target = temp;
-    //   }
-    // });
     delete $ctrl.tool;
   };
 
   this.setBedTemperature = function (temp) {
     Printer.setBedTemperature($ctrl.printers, temp);
-    // $ctrl.printers.forEach(printer => {
-    //   if (printer.checked) {
-    //     printer.state.temperature.bed.target = temp;
-    //   }
-    // });
     delete $ctrl.bed;
   };
 

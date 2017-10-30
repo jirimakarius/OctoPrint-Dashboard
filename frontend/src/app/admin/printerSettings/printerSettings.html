@@ -9,7 +9,7 @@
 </md-toolbar>
 <div class="md-dialog-content" layout="row" flex>
   <div flex="25" style="padding-right: 1.5em" layout="column">
-    <md-button ng-click="$ctrl.state = 1" ng-class="{'md-primary md-raised': $ctrl.state==1}" ng-disabled="($ctrl.printers | filter:{checked: true}).length!=1 || !$ctrl.isSuperAdmin()">General</md-button>
+    <md-button ng-click="$ctrl.state = 1" ng-class="{'md-primary md-raised': $ctrl.state==1}" ng-disabled="($ctrl.printers | filter:{checked: true}).length!=1 || !$ctrl.isSuperAdmin">General</md-button>
     <md-button ng-click="$ctrl.state = 2" ng-class="{'md-primary md-raised': $ctrl.state==2}">Temperature presets</md-button>
   </div>
   <md-content flex layout-padding>
